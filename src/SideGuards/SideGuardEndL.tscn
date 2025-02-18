@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://vrqch763taww"]
+
+[ext_resource type="ArrayMesh" uid="uid://c5qdgsij7hwi5" path="res://assets/3DModels/SideGuardsFix/Meshes/RCSideGuardEndL_RCSideGuardEndL.res" id="1_moxwq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o2vd4"]
+size = Vector3(0.249268, 0.401978, 0.0222168)
+
+[node name="SideGuardEndL" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_moxwq")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126099, 0.399597, -1.07092)
+shape = SubResource("BoxShape3D_o2vd4")

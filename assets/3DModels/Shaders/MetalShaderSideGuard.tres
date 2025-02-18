@@ -1,0 +1,110 @@
+[gd_resource type="VisualShader" load_steps=10 format=3 uid="uid://wtu5yyfpdcgl"]
+
+[ext_resource type="Texture2D" uid="uid://b4rg48iqr8l2g" path="res://assets/3DModels/Textures/Metal.png" id="1_asjns"]
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_06lb5"]
+default_input_values = [0, 1.0, 1, 1.0, 2, 0.0]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_f6exu"]
+function = 1
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_rpvl7"]
+function = 15
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_7i0qs"]
+parameter_name = "Scale"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_d1u8v"]
+parameter_name = "Metallic"
+default_value_enabled = true
+default_value = 0.94
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_xqcit"]
+parameter_name = "Roughness"
+default_value_enabled = true
+default_value = 0.5
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_b3ai5"]
+parameter_name = "Specular"
+default_value_enabled = true
+default_value = 0.5
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ycidp"]
+texture = ExtResource("1_asjns")
+texture_type = 1
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform float Scale;
+uniform sampler2D tex_frg_5 : source_color;
+uniform float Metallic = 0.93999999761581;
+uniform float Roughness = 0.5;
+uniform float Specular = 0.5;
+
+
+
+void fragment() {
+// FloatParameter:19
+	float n_out19p0 = Scale;
+
+
+// FloatFunc:14
+	float n_out14p0 = round(n_out19p0);
+
+
+// VectorCompose:11
+	float n_in11p0 = 1.00000;
+	vec2 n_out11p0 = vec2(n_in11p0, n_out14p0);
+
+
+// UVFunc:13
+	vec2 n_in13p2 = vec2(0.00000, 0.00000);
+	vec2 n_out13p0 = (UV - n_in13p2) * n_out11p0 + n_in13p2;
+
+
+// Texture2D:5
+	vec4 n_out5p0 = texture(tex_frg_5, n_out13p0);
+
+
+// FloatParameter:22
+	float n_out22p0 = Metallic;
+
+
+// FloatParameter:23
+	float n_out23p0 = Roughness;
+
+
+// FloatParameter:24
+	float n_out24p0 = Specular;
+
+
+// Output:0
+	ALBEDO = vec3(n_out5p0.xyz);
+	METALLIC = n_out22p0;
+	ROUGHNESS = n_out23p0;
+	SPECULAR = n_out24p0;
+
+
+}
+"
+nodes/fragment/0/position = Vector2(1020, 180)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_ycidp")
+nodes/fragment/5/position = Vector2(140, 60)
+nodes/fragment/11/node = SubResource("VisualShaderNodeVectorCompose_06lb5")
+nodes/fragment/11/position = Vector2(-440, 160)
+nodes/fragment/13/node = SubResource("VisualShaderNodeUVFunc_f6exu")
+nodes/fragment/13/position = Vector2(-160, 160)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatFunc_rpvl7")
+nodes/fragment/14/position = Vector2(-740, 240)
+nodes/fragment/19/node = SubResource("VisualShaderNodeFloatParameter_7i0qs")
+nodes/fragment/19/position = Vector2(-1140, 220)
+nodes/fragment/22/node = SubResource("VisualShaderNodeFloatParameter_d1u8v")
+nodes/fragment/22/position = Vector2(400, 380)
+nodes/fragment/23/node = SubResource("VisualShaderNodeFloatParameter_xqcit")
+nodes/fragment/23/position = Vector2(400, 600)
+nodes/fragment/24/node = SubResource("VisualShaderNodeFloatParameter_b3ai5")
+nodes/fragment/24/position = Vector2(400, 820)
+nodes/fragment/connections = PackedInt32Array(11, 0, 13, 1, 13, 0, 5, 0, 19, 0, 14, 0, 22, 0, 0, 2, 23, 0, 0, 3, 24, 0, 0, 4, 5, 0, 0, 0, 14, 0, 11, 1)

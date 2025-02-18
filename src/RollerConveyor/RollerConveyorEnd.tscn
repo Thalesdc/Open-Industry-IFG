@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmpev1pqmbmhb"]
+
+[ext_resource type="ArrayMesh" uid="uid://coiskou3emyq8" path="res://assets/3DModels/Meshes/ConveyorRollerEnd_Cube_006.res" id="1_w1b4d"]
+[ext_resource type="Script" path="res://src/RollerConveyor/RollerConveyorEnd.cs" id="2_dhet7"]
+[ext_resource type="PackedScene" uid="uid://d4bf4if1fpy0t" path="res://src/RollerConveyor/Roller.tscn" id="2_p44y0"]
+
+[node name="RollerConveyorEnd" type="Node3D"]
+process_mode = 1
+script = ExtResource("2_dhet7")
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_w1b4d")
+skeleton = NodePath("")
+
+[node name="Roller" parent="." instance=ExtResource("2_p44y0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0)

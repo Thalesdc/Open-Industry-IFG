@@ -1,0 +1,104 @@
+[gd_scene load_steps=15 format=3 uid="uid://c1mup2vown0ak"]
+
+[ext_resource type="Script" path="res://src/BladeStop/BladeStop.cs" id="1_rnn1m"]
+[ext_resource type="PhysicsMaterial" uid="uid://vthdgr7hg05m" path="res://src/BladeStop/BladePhysicMaterial.tres" id="2_ctgt5"]
+[ext_resource type="ArrayMesh" uid="uid://c8r03lnljj332" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_001.res" id="2_idi6q"]
+[ext_resource type="ArrayMesh" uid="uid://vn3vw4oquy0h" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_003.res" id="2_lenbf"]
+[ext_resource type="ArrayMesh" uid="uid://chrq43qr2vqlg" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_004.res" id="3_dm566"]
+[ext_resource type="ArrayMesh" uid="uid://df2lafsgpg2mo" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_005.res" id="3_phkgk"]
+[ext_resource type="ArrayMesh" uid="uid://2une7fol86jg" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_008.res" id="4_tinri"]
+[ext_resource type="ArrayMesh" uid="uid://cb7bmjeqc5qyn" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_007.res" id="5_qmqyj"]
+[ext_resource type="ArrayMesh" uid="uid://d0wo8iii57yak" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_009.res" id="6_y8bb3"]
+[ext_resource type="ArrayMesh" uid="uid://b44u4wpcej1l2" path="res://assets/3DModels/BladeStop/Meshes/BladeStop_Cube_006.res" id="9_vmhlq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hs4hh"]
+size = Vector3(0.052, 0.25, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eunin"]
+size = Vector3(0.198, 0.907, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_objeq"]
+size = Vector3(0.05, 0.25, 0.114)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pbd6i"]
+size = Vector3(0.20314, 0.911072, 0.198853)
+
+[node name="BladeStop" type="Node3D"]
+script = ExtResource("1_rnn1m")
+
+[node name="Blade" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blade"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.103607, 0.122727, 0)
+shape = SubResource("BoxShape3D_hs4hh")
+
+[node name="BladeMiddle" type="MeshInstance3D" parent="Blade"]
+mesh = ExtResource("2_lenbf")
+skeleton = NodePath("")
+
+[node name="Base" type="StaticBody3D" parent="."]
+physics_material_override = ExtResource("2_ctgt5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.297729, -0.198643, 0)
+shape = SubResource("BoxShape3D_eunin")
+
+[node name="BaseMiddle" type="MeshInstance3D" parent="Base"]
+mesh = ExtResource("3_phkgk")
+skeleton = NodePath("")
+
+[node name="Corners" type="Node3D" parent="."]
+
+[node name="AirPressureR" type="MeshInstance3D" parent="Corners"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = ExtResource("6_y8bb3")
+skeleton = NodePath("")
+
+[node name="BladeCornerR" type="MeshInstance3D" parent="Corners/AirPressureR"]
+mesh = ExtResource("3_dm566")
+skeleton = NodePath("")
+
+[node name="StaticBody" type="StaticBody3D" parent="Corners/AirPressureR/BladeCornerR"]
+physics_material_override = ExtResource("2_ctgt5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corners/AirPressureR/BladeCornerR/StaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104848, 0.123261, -0.056549)
+shape = SubResource("BoxShape3D_objeq")
+
+[node name="AirPressureL" type="MeshInstance3D" parent="Corners"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+mesh = ExtResource("4_tinri")
+skeleton = NodePath("")
+
+[node name="BladeCornerL" type="MeshInstance3D" parent="Corners/AirPressureL"]
+mesh = ExtResource("5_qmqyj")
+skeleton = NodePath("")
+
+[node name="StaticBody" type="StaticBody3D" parent="Corners/AirPressureL/BladeCornerL"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corners/AirPressureL/BladeCornerL/StaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105, 0.122836, 0.057)
+shape = SubResource("BoxShape3D_objeq")
+
+[node name="BaseCornerR" type="MeshInstance3D" parent="Corners"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = ExtResource("2_idi6q")
+skeleton = NodePath("")
+
+[node name="StaticBody" type="StaticBody3D" parent="Corners/BaseCornerR"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corners/BaseCornerR/StaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.300896, -0.20142, -0.0991821)
+shape = SubResource("BoxShape3D_pbd6i")
+
+[node name="BaseCornerL" type="MeshInstance3D" parent="Corners"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+mesh = ExtResource("9_vmhlq")
+skeleton = NodePath("")
+
+[node name="StaticBody" type="StaticBody3D" parent="Corners/BaseCornerL"]
+physics_material_override = ExtResource("2_ctgt5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corners/BaseCornerL/StaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.202, -0.201715, 0.099)
+shape = SubResource("BoxShape3D_pbd6i")

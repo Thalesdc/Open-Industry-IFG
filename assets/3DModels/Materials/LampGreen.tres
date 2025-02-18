@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://drutjsrr3ukoe"]
+
+[resource]
+resource_name = "LampGreen"
+cull_mode = 2
+albedo_color = Color(0.427485, 0.596067, 0.423515, 1)
+roughness = 0.612
+emission = Color(0, 1, 0.282353, 1)

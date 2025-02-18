@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ci8htgwdfnlwk"]
+
+[ext_resource type="Shader" uid="uid://d10y8mbk5y7mn" path="res://assets/3DModels/ChainTransfer/Shaders/ChainShader.tres" id="1_f2jpd"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_f2jpd")
+shader_parameter/Scale = 32.0
+shader_parameter/ChainPosition = null
+shader_parameter/Invert = null

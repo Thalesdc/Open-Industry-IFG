@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bfsf4xwub5tbk"]
+
+[resource]
+resource_name = "StopBladeBelt"
+cull_mode = 2
+albedo_color = Color(0.113118, 0.113118, 0.113118, 1)

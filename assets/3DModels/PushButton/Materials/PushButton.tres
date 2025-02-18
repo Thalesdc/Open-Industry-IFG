@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d1cb58k8bnviq"]
+
+[resource]
+resource_name = "PushButton"
+cull_mode = 2
+albedo_color = Color(0.905882, 0.239216, 0.188235, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.905882, 0.239216, 0.188235, 1)
+emission_energy_multiplier = 0.0

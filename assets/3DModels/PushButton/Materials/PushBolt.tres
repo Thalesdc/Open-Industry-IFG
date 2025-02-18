@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c12ouwuc58plg"]
+
+[resource]
+resource_name = "PushBolt"
+cull_mode = 2
+albedo_color = Color(0.859731, 0.859731, 0.859731, 1)
+metallic = 1.0
+roughness = 0.5

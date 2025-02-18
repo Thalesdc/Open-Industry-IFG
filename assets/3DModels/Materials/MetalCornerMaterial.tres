@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dkdn1asde0u65"]
+
+[ext_resource type="Shader" uid="uid://dxne1xcfurkp2" path="res://assets/3DModels/Shaders/MetalShaderCorner.tres" id="1_oi21q"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_oi21q")
+shader_parameter/BeltPosition = 0.0
+shader_parameter/Invert = false
+shader_parameter/Scale = 1.0
+shader_parameter/Color = Color(0.337255, 0.654902, 0.784314, 1)
+shader_parameter/Metallic = null
+shader_parameter/Roughness = null

@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx3tdqm2gwu4d"]
+
+[ext_resource type="ArrayMesh" uid="uid://cy6jt6h7civ2u" path="res://assets/3DModels/WallsAndRoof/Meshes/WallBig_WallBig.res" id="1_vunon"]
+[ext_resource type="ArrayMesh" uid="uid://1v7x8nimyn23" path="res://assets/3DModels/WallsAndRoof/Meshes/WallBottom_WallBottom.res" id="2_pjjqf"]
+[ext_resource type="ArrayMesh" uid="uid://dlhnk7ii61q62" path="res://assets/3DModels/WallsAndRoof/Meshes/WallCornerL_WallCornerL.res" id="3_3ryqm"]
+[ext_resource type="ArrayMesh" uid="uid://h16k1xsg1ga" path="res://assets/3DModels/WallsAndRoof/Meshes/WallCornerR_WallCornerR.res" id="4_2bkuq"]
+[ext_resource type="ArrayMesh" uid="uid://cbw48nv0pkcs8" path="res://assets/3DModels/WallsAndRoof/Meshes/WallMid_WallMid.res" id="5_d5xcc"]
+[ext_resource type="ArrayMesh" uid="uid://jkim7hdrtsnb" path="res://assets/3DModels/WallsAndRoof/Meshes/WallTop_WallTop.res" id="6_6ycaw"]
+
+[node name="Walls" type="Node3D"]
+
+[node name="WallBig" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_vunon")
+skeleton = NodePath("")
+
+[node name="WallBottom" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+mesh = ExtResource("2_pjjqf")
+skeleton = NodePath("")
+
+[node name="WallCornerL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+mesh = ExtResource("3_3ryqm")
+skeleton = NodePath("")
+
+[node name="WallCornerR" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, 16, 0, 0)
+mesh = ExtResource("4_2bkuq")
+skeleton = NodePath("")
+
+[node name="WallMid" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 8.5)
+mesh = ExtResource("5_d5xcc")
+skeleton = NodePath("")
+
+[node name="WallTop" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 0)
+mesh = ExtResource("6_6ycaw")
+skeleton = NodePath("")

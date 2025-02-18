@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://da0yfh5xbqtwi"]
+
+[resource]
+resource_name = "LegsStand_rubber.004"
+cull_mode = 2
+albedo_color = Color(0.0630039, 0.0630039, 0.0630039, 1)
+roughness = 0.5

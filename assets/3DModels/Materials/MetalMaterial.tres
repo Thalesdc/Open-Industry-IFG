@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://00bmdgt6cfmg"]
+
+[ext_resource type="Shader" uid="uid://lg3xcvqgjhjj" path="res://assets/3DModels/Shaders/MetalShader.tres" id="1_nmypk"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_nmypk")
+shader_parameter/BeltPosition = 0.0
+shader_parameter/Invert = false
+shader_parameter/Scale = 1.0
+shader_parameter/Color = Color(0.337255, 0.654902, 0.784314, 1)

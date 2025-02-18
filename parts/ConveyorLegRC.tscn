@@ -1,0 +1,105 @@
+[gd_scene load_steps=10 format=4 uid="uid://rv5ef61beh35"]
+
+[ext_resource type="PackedScene" uid="uid://cr8u3bta0skiy" path="res://parts/ConveyorLegBC.tscn" id="1_0pp1r"]
+[ext_resource type="Material" uid="uid://bhsy5iqi7rvp" path="res://assets/3DModels/Materials/LegsStandMaterial.tres" id="2_3i18h"]
+[ext_resource type="Shader" uid="uid://b6uso6bqiurpv" path="res://assets/3DModels/Shaders/MetalShaderLegsBar.tres" id="3_8poj4"]
+[ext_resource type="ArrayMesh" uid="uid://c63vgcp2qilm5" path="res://assets/3DModels/Meshes/LegsGrabRC_Top_002.res" id="4_4tjn2"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_lqk25"]
+_surfaces = [{
+"aabb": AABB(-0.098681, 0, -0.00262297, 0.197362, 1, 0.148674),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("DAAAAAEADAAIAAAADgAEAAUADgAKAAQADwAGAAcADwALAAYABwAJAA8ABwADAAkAAQAKAAwAAQAEAAoAAwANAAkAAwACAA0ABQALAA4ABQAGAAsAAgAIAA0AAgAAAAgA"),
+"name": "LegsStand_grayMetal",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AAAAAOwLAACDCwAAAAAAAAAAAAAS9AAAgwsAAP//AAB79AAAAAAAAP//AADsCwAA//8AABL0AAB79AAA//8AAAAA///sCwAAjgv///7/AABw9P//AAAAAP////8S9AAAjgv//wAAAAAAAP//EvQAAP/////sCwAAcPT///7/AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_m24d6"]
+resource_name = "LegsSide_Side"
+_surfaces = [{
+"aabb": AABB(-0.098681, 0, -0.00262297, 0.197362, 1, 0.148674),
+"attribute_data": PackedByteArray("JS+P+plL1v8lL4/6mUvW/6Etj/ooSdb/oS2P+ihJ1v/hQI/6z2jW/+FAj/rPaNb/ZUKP+j9r1v9lQo/6P2vW/yUVj/o/Itb/JRWP+j8i1v+gE4/6zh/W/6ATj/rOH9b/5AGP+pkC1f/kAY/6mQLV/+Faj/opktb/YACP+igA1f8lL5wvmUuuGSUvnC+ZS64ZZUKcL0Fr+RdlQpwvQWv5FyUVnC9CIvkXJRWcL0Ii+RfkAZwvmgKuGeQBnC+aAq4ZoS2cLyhJ+RehLZwvKEn5F+FAnC/PaK4Z4UCcL89orhmgE5wv0B+uGaATnC/QH64Z4VqcLyeS+RdgAJwvKAD5Fw=="),
+"format": 34896613431,
+"index_count": 48,
+"index_data": PackedByteArray("GAABAAIAGAARAAEAHAAJAAoAHAAVAAkAHwAMAA8AHwAWAAwADgATAB4ADgAHABMAAwAUABkAAwAIABQABgAbABIABgAFABsACwAXAB0ACwANABcABAAQABoABAAAABAA"),
+"material": ExtResource("2_3i18h"),
+"name": "LegsStand_grayMetal",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("AAAAAOwL/78AAAAA7AsK5YMLAAAAAArlgwsAAAAA//8AAAAAEvT/vwAAAAAS9PSagwsAAP//9JqDCwAA////f3v0AAAAAP//e/QAAAAACuX//wAA7AsK5f//AADsC/+///8AABL09Jr//wAAEvT/v3v0AAD///9/e/QAAP//9JoAAP//7Av/vwAA///sCwrljgv///7/9JqOC////v//f3D0//8AAP//cPT//wAACuX/////EvT0mv////8S9P+/jgv//wAACuWOC///AAD//wAA//8S9P+/AAD//xL09Jr/////7AsK5f/////sC/+/cPT///7//39w9P///v/0mv9/////f////3////9/////f/7//3////9/////f////3////9/AAD/fwAA/38AAP9/AAD/fwAA/3////9/AAD/f/7//3/+/wCA/v//f////3/+//9/AAD/fwAA/38AAP9//v//f/7//3/+/wCA/v//fwAA/38AAP9/////fwAA")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_lqk25")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ktx1g"]
+render_priority = 0
+shader = ExtResource("3_8poj4")
+shader_parameter/Scale = 1.0
+shader_parameter/Color = Color(0.733333, 0.733333, 0.733333, 1)
+shader_parameter/Metallic = 0.94
+shader_parameter/Roughness = 0.5
+shader_parameter/Specular = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_xr7le"]
+_surfaces = [{
+"aabb": AABB(-0.0740462, -0.0561336, -1, 0.148092, 0.112267, 2.00001),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("BQAOAA0ABQAGAA4ABwAKAA8ABwACAAoACgADAAsACgACAAMADAAFAA0ADAAEAAUABgAPAA4ABgAHAA8AAQAMAAkAAQAEAAwACAADAAAACAALAAMAAAAJAAgAAAABAAkA"),
+"name": "LegsStand_grayMetal.003",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AACtJ/7/AACtJwAA/v8AAK0n///+/wAAAABR2P7/AABR2AAA/v8AAP//rSf+/wAA//9R2P7/AABR2P///v8AAAAArScAAAAArScAAAAAAACtJ///AAAAAAAAUdgAAAAAUdgAAAAAAAD//60nAAAAAP//UdgAAAAAUdj//wAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_pxb4j"]
+resource_name = "LegsBar_Bar"
+_surfaces = [{
+"aabb": AABB(-0.0740462, -0.0561336, -1, 0.148092, 0.112267, 2.00001),
+"attribute_data": PackedByteArray("5oweBMQPIZfmjB4EhXY68AiRHgR1eTrwCJEeBHV5OvCpfR4EdXk68Kl9HgR1eTrwyoEeBMQPN43KgR4EhXY68K+fHgSJhjrwolseBImGOvDEXx4EeYk68MRfHgTEDyGX4GoeBHmJOvDgah4ExA83jQFvHgSJhjrwAW8eBImGOvDmjJ7/OvAhl+aMnv+FdsQPCJGe/3V5xA8IkZ7/dXnED6l9nv91ecQPqX2e/3V5xA/KgZ7/OvA3jcqBnv+FdsQPr5+e/4mGxA+iW57/iYbED8Rfnv95icQPxF+e/zrwIZfgap7/eYnED+Bqnv868DeNAW+e/4mGxA8Bb57/iYbEDw=="),
+"format": 34896613431,
+"index_count": 48,
+"index_data": PackedByteArray("CwAdABsACwANAB0ADgAVAB4ADgAFABUAFAAHABcAFAAEAAcAGQAKABoAGQAJAAoADAAfABwADAAPAB8AAwAYABMAAwAIABgAEAAGAAAAEAAWAAYAAQASABEAAQACABIA"),
+"material": SubResource("ShaderMaterial_ktx1g"),
+"name": "LegsStand_grayMetal.003",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("AACtJ/7/VNUAAK0n/v8kxK0nAAD+/yTErScAAP7//7+tJ////v957a0n///+////AABR2P7/VNUAAFHY/v957VHYAAD+//+/UdgAAP7/JMT//60n/v8kxP//rSf+/1TV//9R2P7/ee3//1HY/v9U1VHY///+////Udj///7/ee0AAK0nAABU1QAArScAACTErScAAAAAJMStJwAAAAD/v60n//8AAHntrSf//wAA//8AAFHYAABU1QAAUdgAAHntUdgAAAAA/79R2AAAAAAkxP//rScAACTE//+tJwAAVNX//1HYAAB57f//UdgAAFTVUdj//wAA//9R2P//AAB57VRVqqp2M7qZdjO6mQAA/3+Ubcm2/3//v1RVqqqUbcm2AAD/f7sZiUy7GYlMqiqqKso2axKqKqoq/3//v8o2axJUVaqqdjO6mXYzupkAAP9/lG3Jtv9//79UVaqqlG3JtgAA/3+7GYlMuxmJTKoqqirKNmsSqiqqKv9//7/KNmsS")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_xr7le")
+
+[node name="LegsStandRC" instance=ExtResource("1_0pp1r")]
+metadata/_edit_group_ = true
+
+[node name="LegsSide1" parent="Sides" index="0"]
+mesh = SubResource("ArrayMesh_m24d6")
+
+[node name="LegsSide2" parent="Sides" index="1"]
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 0, 1)
+mesh = SubResource("ArrayMesh_m24d6")
+
+[node name="LegsBar" parent="LegsBars" index="0"]
+mesh = SubResource("ArrayMesh_pxb4j")
+
+[node name="LegsGrab1" parent="Ends/LegsTop1" index="0"]
+mesh = ExtResource("4_4tjn2")
+
+[node name="LegsTop2" parent="Ends" index="1"]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 1, 1)
+
+[node name="LegsGrab2" parent="Ends/LegsTop2" index="0"]
+transform = Transform3D(1, 0, -6.3573e-08, 0, 1, 0, 6.3573e-08, 0, 1, 0, 0, 0)
+mesh = ExtResource("4_4tjn2")
+
+[node name="LegsBottom2" parent="Ends" index="3"]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 1)

@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dud4c5egkcn87"]
+
+[resource]
+resource_local_to_scene = true
+resource_name = "TripleStackLight"
+transparency = 1
+albedo_color = Color(0, 0.87451, 0, 0.501961)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0, 0.87451, 0, 0.501961)
+emission_energy_multiplier = 0.0

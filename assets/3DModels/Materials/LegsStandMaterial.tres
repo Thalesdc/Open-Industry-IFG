@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bhsy5iqi7rvp"]
+
+[ext_resource type="Shader" uid="uid://20ef3dj2qgr0" path="res://assets/3DModels/Shaders/MetalShaderLegsSide.tres" id="1_175iq"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_175iq")
+shader_parameter/Scale = 1.618
+shader_parameter/Color = Color(0.733333, 0.733333, 0.733333, 1)
+shader_parameter/Metallic = 0.94
+shader_parameter/Roughness = 0.5
+shader_parameter/Specular = 0.5

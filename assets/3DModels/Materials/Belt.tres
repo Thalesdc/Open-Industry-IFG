@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cewqkempcorps"]
+
+[ext_resource type="Texture2D" uid="uid://mf1dfywkqgol" path="res://assets/3DModels/Textures/ConveyorRollerRollerCorner_Simple_Metal.png" id="1_8c82x"]
+
+[resource]
+resource_name = "Belt"
+cull_mode = 2
+albedo_texture = ExtResource("1_8c82x")
+roughness = 0.5

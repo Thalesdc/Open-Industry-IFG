@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bl73u0rvt2orv"]
+
+[ext_resource type="Script" path="res://src/Despawner/Despawner.cs" id="1_mmvvy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l3eno"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k7woa"]
+transparency = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_u7rni"]
+material = SubResource("StandardMaterial3D_k7woa")
+
+[node name="Despawner" type="Node3D"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
+script = ExtResource("1_mmvvy")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 15
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_l3eno")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+transparency = 0.95
+mesh = SubResource("BoxMesh_u7rni")

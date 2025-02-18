@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b45i1qvjm1m0m"]
+
+[ext_resource type="Texture2D" uid="uid://57jnkmng206d" path="res://assets/3DModels/Textures/LegsBottom_WhiteMetal.png" id="1_7db3c"]
+
+[resource]
+resource_name = "LegsStand_whiteMetal"
+cull_mode = 2
+albedo_texture = ExtResource("1_7db3c")
+metallic = 0.940909
+roughness = 0.5

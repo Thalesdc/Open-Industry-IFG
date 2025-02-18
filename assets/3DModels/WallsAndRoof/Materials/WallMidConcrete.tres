@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ce2jmayaxp788"]
+
+[ext_resource type="Texture2D" uid="uid://ckbicxxtpvjoq" path="res://assets/3DModels/WallsAndRoof/WallMid_Texturelabs_Concrete_Seamles.jpg" id="1_74h2e"]
+
+[resource]
+resource_name = "WallMidConcrete"
+cull_mode = 2
+albedo_texture = ExtResource("1_74h2e")
+roughness = 0.5

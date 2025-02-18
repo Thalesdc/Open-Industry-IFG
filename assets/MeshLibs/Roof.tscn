@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cto2nhyq2qfj2"]
+
+[ext_resource type="ArrayMesh" uid="uid://d3047476s8hnf" path="res://assets/3DModels/WallsAndRoof/Meshes/RoofCurved_RoofCurved.res" id="1_3u5m2"]
+[ext_resource type="ArrayMesh" uid="uid://7tjsf44gj3g2" path="res://assets/3DModels/WallsAndRoof/Meshes/RoofStraight_RoofStraight.res" id="2_i6kap"]
+
+[node name="Roof" type="Node3D"]
+
+[node name="RoofCurved" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_3u5m2")
+skeleton = NodePath("")
+
+[node name="RoofStraight" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_i6kap")
+skeleton = NodePath("")

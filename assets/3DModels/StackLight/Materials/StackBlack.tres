@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cm8yagk1yhg3m"]
+
+[resource]
+resource_name = "TripleStackBlack"
+cull_mode = 2
+albedo_color = Color(0.104068, 0.104068, 0.104068, 1)
+roughness = 0.5

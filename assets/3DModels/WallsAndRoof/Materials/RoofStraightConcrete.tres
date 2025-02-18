@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cr2uq4iqccs64"]
+
+[ext_resource type="Texture2D" uid="uid://bj5wg0ai874u8" path="res://assets/3DModels/WallsAndRoof/RoofStraight_Texturelabs_Concrete_Seamles.jpg" id="1_vxfu2"]
+
+[resource]
+resource_name = "RoofStraightConcrete"
+cull_mode = 2
+albedo_texture = ExtResource("1_vxfu2")
+roughness = 0.5

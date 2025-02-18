@@ -1,0 +1,147 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcds53nhapmuf"]
+
+[ext_resource type="Script" path="res://src/CommsConfig/CommsConfig.cs" id="1_puw6f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pvegu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_woit2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4eja4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aob83"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bbl2p"]
+
+[node name="CommsConfig" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_puw6f")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.454902, 0.454902, 0.454902, 0.921569)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer1" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 24
+text = "Configurações OPC DA"
+fit_content = true
+autowrap_mode = 0
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_pvegu")
+
+[node name="btn_opc" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Buscar servidores OPC"
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_woit2")
+
+[node name="ServerList" type="ItemList" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+allow_reselect = true
+auto_height = true
+
+[node name="VSeparator4" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_4eja4")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Tags encontradas:"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="OpcServerTagList" type="ItemList" parent="MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+auto_height = true
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_aob83")
+
+[node name="VBoxContainerMap" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator3" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bbl2p")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+text = "Mapeamento de tags:"
+fit_content = true
+autowrap_mode = 0
+
+[node name="VSeparator4" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bbl2p")
+
+[node name="ScrollContainerTag" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="VBoxContainerTag" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTag"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+alignment = 1
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer1/btn_opc" to="." method="_on_btn_opc_pressed"]
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/VBoxContainer1/ServerList" to="." method="_on_server_selected"]
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer/VBoxContainer/OpcServerTagList" to="." method="_on_tag_selected"]

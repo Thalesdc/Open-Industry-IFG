@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4bf4if1fpy0t"]
+
+[ext_resource type="Script" path="res://src/RollerConveyor/Roller.cs" id="1_ay1m5"]
+[ext_resource type="ArrayMesh" uid="uid://tqapy4tuykn1" path="res://assets/3DModels/Meshes/ConveyorRollerRoller_Cylinder_001.res" id="1_wf4wt"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uhn3w"]
+rough = true
+absorbent = true
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hu0iq"]
+height = 1.87
+radius = 0.12
+
+[node name="Roller" type="Node3D"]
+process_mode = 1
+script = ExtResource("1_ay1m5")
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.956217, 0.292676, 0, -0.292676, -0.956217, 0, 0, 0, 1, 0, 0, 0)
+mesh = ExtResource("1_wf4wt")
+skeleton = NodePath("")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+collision_layer = 2
+collision_mask = 8
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+mass = 1000.0
+physics_material_override = SubResource("PhysicsMaterial_uhn3w")
+gravity_scale = 0.0
+can_sleep = false
+angular_velocity = Vector3(0, 0, 6.28319)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_hu0iq")

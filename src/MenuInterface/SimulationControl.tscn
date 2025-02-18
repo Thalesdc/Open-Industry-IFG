@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://bc71peokxkxdb"]
+
+[ext_resource type="Script" path="res://src/MenuInterface/SimulationControl.gd" id="1_30drp"]
+[ext_resource type="Texture2D" uid="uid://cqnbdea8nnd8y" path="res://src/MenuInterface/Icons/Play.png" id="1_ujh07"]
+[ext_resource type="Texture2D" uid="uid://dynl8o5s60tyc" path="res://src/MenuInterface/Icons/Pause.png" id="2_m4lop"]
+[ext_resource type="Texture2D" uid="uid://bnsp75yxkq34f" path="res://src/MenuInterface/Icons/Stop.png" id="3_wxgve"]
+
+[node name="RunBar" type="PanelContainer"]
+process_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -66.0
+offset_right = 154.0
+offset_bottom = 48.0
+grow_horizontal = 2
+script = ExtResource("1_30drp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Play" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Start
+"
+icon = ExtResource("1_ujh07")
+
+[node name="Pause" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+disabled = true
+toggle_mode = true
+text = "Pause"
+icon = ExtResource("2_m4lop")
+
+[node name="Stop" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Stop
+"
+icon = ExtResource("3_wxgve")

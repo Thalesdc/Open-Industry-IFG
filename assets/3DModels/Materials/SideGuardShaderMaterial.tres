@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cb600vegtmn2l"]
+
+[ext_resource type="Shader" uid="uid://wtu5yyfpdcgl" path="res://assets/3DModels/Shaders/MetalShaderSideGuard.tres" id="1_35k14"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_35k14")
+shader_parameter/Scale = 1.0
+shader_parameter/Metallic = 0.94
+shader_parameter/Roughness = 0.5
+shader_parameter/Specular = 0.5

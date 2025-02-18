@@ -1,0 +1,54 @@
+[gd_scene load_steps=11 format=3 uid="uid://drle8i15nwr68"]
+
+[ext_resource type="Script" path="res://src/StackLight/StackLightData.cs" id="2_cfk1k"]
+[ext_resource type="Script" path="res://src/StackLight/StackSegmentData.cs" id="3_0fbgy"]
+[ext_resource type="ArrayMesh" uid="uid://cxswic5dtpchm" path="res://assets/3DModels/StackLight/Meshes/StackBottom_StackBottom.res" id="4_31tda"]
+[ext_resource type="ArrayMesh" uid="uid://ddhxidtun1ygr" path="res://assets/3DModels/StackLight/Meshes/StackStem_StackStem.res" id="5_rxxuc"]
+[ext_resource type="ArrayMesh" uid="uid://bvfsnircubh7j" path="res://assets/3DModels/StackLight/Meshes/StackMid_StackMid.res" id="6_tq4eb"]
+[ext_resource type="PackedScene" uid="uid://dlm5s307lqs6b" path="res://src/StackLight/StackSegment.tscn" id="7_u0n62"]
+[ext_resource type="Script" path="res://src/StackLight/StackLight.cs" id="8_wf0ly"]
+[ext_resource type="ArrayMesh" uid="uid://b6ko36gue766v" path="res://assets/3DModels/StackLight/Meshes/StackTop_StackTop.res" id="9_hoqsd"]
+
+[sub_resource type="Resource" id="Resource_j24pq"]
+resource_local_to_scene = true
+script = ExtResource("3_0fbgy")
+Tag = ""
+Active = false
+SegmentColor = Color(0, 1, 0, 0.5)
+
+[sub_resource type="Resource" id="Resource_5ese3"]
+resource_local_to_scene = true
+script = ExtResource("2_cfk1k")
+segmentDatas = [SubResource("Resource_j24pq")]
+
+[node name="StackLight" type="Node3D"]
+transform = Transform3D(3, 0, 0, 0, 0.45, 0, 0, 0, 3, 0, 0, 0)
+script = ExtResource("8_wf0ly")
+EnableComms = false
+UpdateRate = 100
+Segments = 1
+data = SubResource("Resource_5ese3")
+"Light 1" = SubResource("Resource_j24pq")
+metadata/_edit_group_ = true
+
+[node name="Bottom" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 2.22222, 0, 0, 0, 1, 0, 0, 0)
+mesh = ExtResource("4_31tda")
+
+[node name="Stem" type="MeshInstance3D" parent="."]
+mesh = ExtResource("5_rxxuc")
+
+[node name="Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 6.66667, 0, 0, 0, 1, 0, 1, 0)
+mesh = ExtResource("6_tq4eb")
+
+[node name="Segments" type="Node3D" parent="Mid"]
+
+[node name="StackSegment" parent="Mid/Segments" instance=ExtResource("7_u0n62")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0385172, 0)
+SegmentData = SubResource("Resource_j24pq")
+
+[node name="Top" type="MeshInstance3D" parent="Mid"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.087, 0)
+mesh = ExtResource("9_hoqsd")
+skeleton = NodePath("../..")

@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b570vuk0qenl6"]
+
+[resource]
+resource_name = "PushGray"
+cull_mode = 2
+albedo_color = Color(0.787326, 0.744616, 0.741235, 1)
+metallic = 0.33945
+roughness = 0.5

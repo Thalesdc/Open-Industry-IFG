@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ciqf7hxr3obn2"]
+
+[ext_resource type="Texture2D" uid="uid://b3xkiq6kd4hyk" path="res://assets/3DModels/WallsAndRoof/RoofCurved_Texturelabs_Concrete_Seamles.jpg" id="1_w1jfc"]
+
+[resource]
+resource_name = "RoofCurvedConcrete"
+cull_mode = 2
+albedo_texture = ExtResource("1_w1jfc")
+roughness = 0.5

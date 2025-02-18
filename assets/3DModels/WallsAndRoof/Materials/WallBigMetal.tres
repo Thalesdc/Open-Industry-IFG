@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cb5xbtpwr7ci2"]
+
+[ext_resource type="Texture2D" uid="uid://cufs6tudq1bxq" path="res://assets/3DModels/WallsAndRoof/Metal030_4K-JPG_Color.jpg" id="1_dtud5"]
+
+[resource]
+resource_name = "WallBigMetal"
+cull_mode = 2
+albedo_texture = ExtResource("1_dtud5")
+roughness = 0.5

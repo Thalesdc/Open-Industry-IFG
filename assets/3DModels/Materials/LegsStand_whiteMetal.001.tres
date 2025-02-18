@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bfnj0dv63g3yg"]
+
+[ext_resource type="Texture2D" uid="uid://2tq738gncocn" path="res://assets/3DModels/TopCRC_WhiteMetal.png" id="1_mgugu"]
+
+[resource]
+resource_name = "LegsStand_whiteMetal.001"
+cull_mode = 2
+albedo_texture = ExtResource("1_mgugu")
+metallic = 0.940909
+roughness = 0.5

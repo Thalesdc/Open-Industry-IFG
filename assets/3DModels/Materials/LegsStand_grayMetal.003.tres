@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://i37bgvnsjxop"]
+
+[ext_resource type="Texture2D" uid="uid://bfoh4u2xut8f3" path="res://assets/3DModels/Textures/LegsBar_GrayMetal.png" id="1_06agw"]
+
+[resource]
+resource_name = "LegsStand_grayMetal.003"
+cull_mode = 2
+albedo_texture = ExtResource("1_06agw")
+metallic = 0.940909
+roughness = 0.5

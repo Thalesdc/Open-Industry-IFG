@@ -1,0 +1,106 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Thales\\Desktop\\FACULDADE\\TCC\\2 - Godot\\0_Projetos\\oi_ifg_4.3\\OI_IFG_4.3.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Thales\\Desktop\\FACULDADE\\TCC\\2 - Godot\\0_Projetos\\oi_ifg_4.3\\OI_IFG_4.3.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Thales\\Desktop\\FACULDADE\\TCC\\2 - Godot\\0_Projetos\\oi_ifg_4.3\\OI_IFG_4.3.csproj",
+        "projectName": "OI_IFG_4.3",
+        "projectPath": "C:\\Users\\Thales\\Desktop\\FACULDADE\\TCC\\2 - Godot\\0_Projetos\\oi_ifg_4.3\\OI_IFG_4.3.csproj",
+        "packagesPath": "C:\\Users\\Thales\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Thales\\Desktop\\FACULDADE\\TCC\\2 - Godot\\0_Projetos\\oi_ifg_4.3\\.godot\\mono\\temp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Thales\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Users\\Thales\\AppData\\Roaming\\NuGet": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Godot.SourceGenerators": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "GodotSharp": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "GodotSharpEditor": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "OPCFoundation.NetStandard.Opc.Ua.Client": {
+              "target": "Package",
+              "version": "[1.5.374.118, )"
+            },
+            "Quick.OpcNetApi": {
+              "target": "Package",
+              "version": "[2.1.108, )"
+            },
+            "Quick.OpcNetApi.Com": {
+              "target": "Package",
+              "version": "[2.1.108, )"
+            },
+            "libplctag": {
+              "target": "Package",
+              "version": "[1.5.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.26, 6.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.26, 6.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.26, 6.0.26]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

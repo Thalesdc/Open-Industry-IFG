@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dxmw4oalt1pe7"]
+
+[ext_resource type="Texture2D" uid="uid://b4rg48iqr8l2g" path="res://assets/3DModels/Textures/Metal.png" id="1_rmnfh"]
+
+[resource]
+resource_name = "SideGuards_metal"
+cull_mode = 2
+albedo_texture = ExtResource("1_rmnfh")
+metallic = 0.940909
+roughness = 0.5

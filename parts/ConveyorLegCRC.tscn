@@ -1,0 +1,102 @@
+[gd_scene load_steps=10 format=4 uid="uid://somtwmiih8bb"]
+
+[ext_resource type="PackedScene" uid="uid://rv5ef61beh35" path="res://parts/ConveyorLegRC.tscn" id="1_e265i"]
+[ext_resource type="Material" uid="uid://bhsy5iqi7rvp" path="res://assets/3DModels/Materials/LegsStandMaterial.tres" id="2_p150n"]
+[ext_resource type="Shader" uid="uid://b6uso6bqiurpv" path="res://assets/3DModels/Shaders/MetalShaderLegsBar.tres" id="3_7merx"]
+[ext_resource type="ArrayMesh" uid="uid://du25c8xqt8ada" path="res://assets/3DModels/Meshes/TopCRC_TopCRC.res" id="4_04qd1"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_cnayb"]
+_surfaces = [{
+"aabb": AABB(-0.098681, 0, -0.00262293, 0.197362, 1, 0.148674),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("CgAEAAUACgAOAAQACAAAAAEACAAMAAAACwAGAAcACwAPAAYAAgAMAAkAAgAAAAwABwANAAsABwADAA0AAQAOAAgAAQAEAA4ABQAPAAoABQAGAA8AAwAJAA0AAwACAAkA"),
+"name": "LegsStand_grayMetal",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AAAAAOwLAACDCwAAAAAAAAAAAAAS9AAAgwsAAP//AAB79AAAAAAAAP//AADsCwAA//8AABL0AAB79AAA//8AAIsL//8AAAAAAAD//xL0AAD/////7AsAAHP0///+/wAAAAD//+wLAACLC////v8AAHP0//8AAAAA/////xL0AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_nnukv"]
+resource_name = "LegsSide_Side"
+_surfaces = [{
+"aabb": AABB(-0.098681, 0, -0.00262293, 0.197362, 1, 0.148674),
+"attribute_data": PackedByteArray("JS+P+oP/Rv8lL4/6XXNG/6Etj/qAdEb/oS2P+oB0Rv/hQI/6Qe5G/+FAj/pdc0b/ZUKP+oB0Rv9lQo/6gHRG/yUVj/p+i0b/JRWP+n6LRv+gE4/6oYxG/6ATj/qD/0b/5AGP+qGMRv/kAY/6Qe5G/+Faj/p+i0b/YACP+n6LRv+hLS5ugXQ+caEtLm6BdD5x4UAubkHuPnHhQC5uXXM+caATLm6hjD5xoBMuboP/PnHhWi5ufYs+cWAALm59iz5xJS8uboP/PnElLy5uXXM+cWVCLm6BdD5xZUIuboF0PnElFS5ufYs+cSUVLm59iz5x5AEubqGMPnHkAS5uQe4+cQ=="),
+"format": 34896613431,
+"index_count": 48,
+"index_data": PackedByteArray("FAAJAAoAFAAdAAkAEAABAAIAEAAZAAEAFwAMAA8AFwAeAAwABAAYABIABAAAABgADgAbABYADgAHABsAAwAcABEAAwAIABwACwAfABUACwANAB8ABgATABoABgAFABMA"),
+"material": ExtResource("2_p150n"),
+"name": "LegsStand_grayMetal",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("AAAAAOwL/78AAAAA7AsH5YMLAAAAAAflgwsAAAAA//8AAAAAEvT/vwAAAAAS9PaagwsAAP//9pqDCwAA////f3v0AAAAAP//e/QAAAAAB+X//wAA7AsH5f//AADsC/+///8AABL09pr//wAAEvT/v3v0AAD///9/e/QAAP//9pqLC///AAAH5YsL//8AAP//AAD//xL0/78AAP//EvT2mv/////sCwfl/////+wL/79z9P///v//f3P0///+//aaAAD//+wL/78AAP//7AsH5YsL///+//aaiwv///7//39z9P//AAD//3P0//8AAAfl/////xL09pr/////EvT/v/9/////f////3////9/////f////3////9/////f////3////9/AAD/fwAA/38AAP9/AAD/fwAA/3////9/AAD/f////3/+//9/////f////38AAP9/AAD/f////38AAP9/////f////3////9/////f/7//38AAP9/AAD/fwAA")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_cnayb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4hdu3"]
+render_priority = 0
+shader = ExtResource("3_7merx")
+shader_parameter/Scale = 1.0
+shader_parameter/Color = Color(0.733333, 0.733333, 0.733333, 1)
+shader_parameter/Metallic = 0.94
+shader_parameter/Roughness = 0.5
+shader_parameter/Specular = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_xr7le"]
+_surfaces = [{
+"aabb": AABB(-0.0740462, -0.0561336, -1, 0.148092, 0.112267, 2.00001),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("BQAOAA0ABQAGAA4ABwAKAA8ABwACAAoACgADAAsACgACAAMADAAFAA0ADAAEAAUABgAPAA4ABgAHAA8AAQAMAAkAAQAEAAwACAADAAAACAALAAMAAAAJAAgAAAABAAkA"),
+"name": "LegsStand_grayMetal.003",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AACtJ/7/AACtJwAA/v8AAK0n///+/wAAAABR2P7/AABR2AAA/v8AAP//rSf+/wAA//9R2P7/AABR2P///v8AAAAArScAAAAArScAAAAAAACtJ///AAAAAAAAUdgAAAAAUdgAAAAAAAD//60nAAAAAP//UdgAAAAAUdj//wAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_t32bb"]
+resource_name = "LegsBar_Bar"
+_surfaces = [{
+"aabb": AABB(-0.0740462, -0.0561336, -1, 0.148092, 0.112267, 2.00001),
+"attribute_data": PackedByteArray("5oweBMQPIZfmjB4EhXY68AiRHgR1eTrwCJEeBHV5OvCpfR4EdXk68Kl9HgR1eTrwyoEeBMQPN43KgR4EhXY68K+fHgSJhjrwolseBImGOvDEXx4EeYk68MRfHgTEDyGX4GoeBHmJOvDgah4ExA83jQFvHgSJhjrwAW8eBImGOvDmjJ7/OvAhl+aMnv+FdsQPCJGe/3V5xA8IkZ7/dXnED6l9nv91ecQPqX2e/3V5xA/KgZ7/OvA3jcqBnv+FdsQPr5+e/4mGxA+iW57/iYbED8Rfnv95icQPxF+e/zrwIZfgap7/eYnED+Bqnv868DeNAW+e/4mGxA8Bb57/iYbEDw=="),
+"format": 34896613431,
+"index_count": 48,
+"index_data": PackedByteArray("CwAdABsACwANAB0ADgAVAB4ADgAFABUAFAAHABcAFAAEAAcAGQAKABoAGQAJAAoADAAfABwADAAPAB8AAwAYABMAAwAIABgAEAAGAAAAEAAWAAYAAQASABEAAQACABIA"),
+"material": SubResource("ShaderMaterial_4hdu3"),
+"name": "LegsStand_grayMetal.003",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("AACtJ/7/VNUAAK0n/v8kxK0nAAD+/yTErScAAP7//7+tJ////v957a0n///+////AABR2P7/VNUAAFHY/v957VHYAAD+//+/UdgAAP7/JMT//60n/v8kxP//rSf+/1TV//9R2P7/ee3//1HY/v9U1VHY///+////Udj///7/ee0AAK0nAABU1QAArScAACTErScAAAAAJMStJwAAAAD/v60n//8AAHntrSf//wAA//8AAFHYAABU1QAAUdgAAHntUdgAAAAA/79R2AAAAAAkxP//rScAACTE//+tJwAAVNX//1HYAAB57f//UdgAAFTVUdj//wAA//9R2P//AAB57VRVqqp2M7qZdjO6mQAA/3+Ubcm2/3//v1RVqqqUbcm2AAD/f7sZiUy7GYlMqiqqKso2axKqKqoq/3//v8o2axJUVaqqdjO6mXYzupkAAP9/lG3Jtv9//79UVaqqlG3JtgAA/3+7GYlMuxmJTKoqqirKNmsSqiqqKv9//7/KNmsS")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_xr7le")
+
+[node name="LegsStandCRC" instance=ExtResource("1_e265i")]
+
+[node name="LegsSide1" parent="Sides" index="0"]
+mesh = SubResource("ArrayMesh_nnukv")
+
+[node name="LegsSide2" parent="Sides" index="1"]
+mesh = SubResource("ArrayMesh_nnukv")
+
+[node name="LegsBar" parent="LegsBars" index="0"]
+mesh = SubResource("ArrayMesh_t32bb")
+
+[node name="LegsTop1" parent="Ends" index="0"]
+mesh = ExtResource("4_04qd1")
+
+[node name="LegsGrab1" parent="Ends/LegsTop1" index="0"]
+visible = false
+
+[node name="LegsTop2" parent="Ends" index="1"]
+mesh = ExtResource("4_04qd1")
+
+[node name="LegsGrab2" parent="Ends/LegsTop2" index="0"]
+visible = false

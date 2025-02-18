@@ -1,0 +1,15 @@
+<Project Sdk="Godot.NET.Sdk/4.3.0">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>OI_IFG_4.Empty</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="libplctag" Version="1.5.2" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Client" Version="1.5.374.118" />
+    <PackageReference Include="Quick.OpcNetApi" Version="2.1.108" />
+    <PackageReference Include="Quick.OpcNetApi.Com" Version="2.1.108" />
+  </ItemGroup>
+</Project>
