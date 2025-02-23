@@ -1,6 +1,6 @@
 using Godot;
 
-public interface IBeltConveyor: IConveyor, IComms
+public interface IBeltConveyor: IConveyor
 {
 	public enum ConvTexture
 	{

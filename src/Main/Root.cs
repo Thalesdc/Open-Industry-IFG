@@ -11,6 +11,19 @@ using Opc.Ua.Configuration;
 
 public partial class Root : Node3D
 {
+	public int cenaAtual;
+	[Export] int CenaAtual
+	{
+		get
+		{
+			return cenaAtual;
+		}
+		set
+		{
+			cenaAtual = value;
+		}
+	}
+
 	[Signal]
 	public delegate void SimulationStartedEventHandler();
 	[Signal]
@@ -46,34 +59,6 @@ public partial class Root : Node3D
 		}
 	}
 
-
-	private Protocols _protocol;
-
-	[Export]
-	private Protocols Protocol
-	{
-		get => _protocol;
-		set
-		{
-			_protocol = value;
-			NotifyPropertyListChanged();
-		}
-	}
-
-	[Export]
-	private string Gateway { get; set; }
-
-	[Export]
-	private string Path { get; set; }
-
-	[Export]
-
-	private PlcType PlcType { get; set; } = PlcType.ControlLogix;
-
-	[Export]
-
-	private string EndPoint { get; set; }
-
 	readonly List<Vector3> positions = new();
 	readonly List<Vector3> rotations = new();
 
@@ -83,109 +68,100 @@ public partial class Root : Node3D
 	readonly System.Collections.Generic.Dictionary<Guid, string> opc_tags = new();
 
 	public bool paused = false;
-
-	public Array<Godot.Node> selectedNodes;
-
-	public Session session;
-
-	public enum Protocols
-	{
-		opc_ua,
-	}
-
 	public enum DataType
 	{
 		Bool,
 		Int,
 		Float
 	}
+	RichTextLabel textoCommsState;
 
 	public override void _ValidateProperty(Godot.Collections.Dictionary property)
 	{
-		string propertyName = property["name"].AsStringName();
+		// string propertyName = property["name"].AsStringName();
 
-		if (propertyName == PropertyName.EndPoint)
-		{
-			property["usage"] = (int)(Protocol == Protocols.opc_ua ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
-		}
-		else if (propertyName == PropertyName.Gateway || propertyName == PropertyName.Path || propertyName == PropertyName.PlcType)
-		{
-			property["usage"] = (int)(Protocol == Protocols.opc_ua ? PropertyUsageFlags.NoEditor : PropertyUsageFlags.Default);
-		}
+		// if (propertyName == PropertyName.EndPoint)
+		// {
+		// 	property["usage"] = (int)(Protocol == Protocols.opc_ua ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
+		// }
+		// else if (propertyName == PropertyName.Gateway || propertyName == PropertyName.Path || propertyName == PropertyName.PlcType)
+		// {
+		// 	property["usage"] = (int)(Protocol == Protocols.opc_ua ? PropertyUsageFlags.NoEditor : PropertyUsageFlags.Default);
+		// }
 	}
 
 
-	private void OpcConnect()
-	{
-		var config = new ApplicationConfiguration()
-		{
-			ApplicationName = "Open Industry Project",
-			ApplicationUri = Utils.Format(@"urn:{0}:Open Industry Project", System.Net.Dns.GetHostName()),
-			ApplicationType = ApplicationType.Client,
-			SecurityConfiguration = new SecurityConfiguration
-			{
-				ApplicationCertificate = new CertificateIdentifier { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\MachineDefault", SubjectName = "Open Industry Project" },
-				TrustedIssuerCertificates = new CertificateTrustList { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\UA Certificate Authorities" },
-				TrustedPeerCertificates = new CertificateTrustList { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\UA Applications" },
-				RejectedCertificateStore = new CertificateTrustList { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\RejectedCertificates" },
-				AutoAcceptUntrustedCertificates = true
-			},
-			TransportConfigurations = new TransportConfigurationCollection(),
-			TransportQuotas = new TransportQuotas { OperationTimeout = 15000 },
-			ClientConfiguration = new ClientConfiguration { DefaultSessionTimeout = 60000 },
-			TraceConfiguration = new TraceConfiguration()
-		};
-		config.Validate(ApplicationType.Client).GetAwaiter().GetResult();
+	// private void OpcConnect()
+	// {
+	// 	var config = new ApplicationConfiguration()
+	// 	{
+	// 		ApplicationName = "Open Industry Project",
+	// 		ApplicationUri = Utils.Format(@"urn:{0}:Open Industry Project", System.Net.Dns.GetHostName()),
+	// 		ApplicationType = ApplicationType.Client,
+	// 		SecurityConfiguration = new SecurityConfiguration
+	// 		{
+	// 			ApplicationCertificate = new CertificateIdentifier { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\MachineDefault", SubjectName = "Open Industry Project" },
+	// 			TrustedIssuerCertificates = new CertificateTrustList { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\UA Certificate Authorities" },
+	// 			TrustedPeerCertificates = new CertificateTrustList { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\UA Applications" },
+	// 			RejectedCertificateStore = new CertificateTrustList { StoreType = @"Directory", StorePath = @"%CommonApplicationData%\OPC Foundation\CertificateStores\RejectedCertificates" },
+	// 			AutoAcceptUntrustedCertificates = true
+	// 		},
+	// 		TransportConfigurations = new TransportConfigurationCollection(),
+	// 		TransportQuotas = new TransportQuotas { OperationTimeout = 15000 },
+	// 		ClientConfiguration = new ClientConfiguration { DefaultSessionTimeout = 60000 },
+	// 		TraceConfiguration = new TraceConfiguration()
+	// 	};
+	// 	config.Validate(ApplicationType.Client).GetAwaiter().GetResult();
 
-		if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
-		{
-			config.CertificateValidator.CertificateValidation += (s, e) => { e.Accept = (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted); };
-		}
+	// 	if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
+	// 	{
+	// 		config.CertificateValidator.CertificateValidation += (s, e) => { e.Accept = (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted); };
+	// 	}
 
-		var application = new ApplicationInstance
-		{
-			ApplicationName = "Open Industry Project",
-			ApplicationType = ApplicationType.Client,
-			ApplicationConfiguration = config
-		};
+	// 	var application = new ApplicationInstance
+	// 	{
+	// 		ApplicationName = "Open Industry Project",
+	// 		ApplicationType = ApplicationType.Client,
+	// 		ApplicationConfiguration = config
+	// 	};
 
-		application.CheckApplicationInstanceCertificate(false, 2048).GetAwaiter().GetResult();
+	// 	application.CheckApplicationInstanceCertificate(false, 2048).GetAwaiter().GetResult();
 
-		EndpointDescription endpointDescription = CoreClientUtils.SelectEndpoint(EndPoint, false);
-		EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(config);
-		ConfiguredEndpoint endpoint = new(null, endpointDescription, endpointConfiguration);
+	// 	EndpointDescription endpointDescription = CoreClientUtils.SelectEndpoint(EndPoint, false);
+	// 	EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(config);
+	// 	ConfiguredEndpoint endpoint = new(null, endpointDescription, endpointConfiguration);
 
-		bool updateBeforeConnect = false;
+	// 	bool updateBeforeConnect = false;
 
-		bool checkDomain = false;
+	// 	bool checkDomain = false;
 
-		string sessionName = config.ApplicationName;
+	// 	string sessionName = config.ApplicationName;
 
-		uint sessionTimeout = 60000;
+	// 	uint sessionTimeout = 60000;
 
-		List<string> preferredLocales = null;
+	// 	List<string> preferredLocales = null;
 
-		session = Session.Create(
-					config,
-					endpoint,
-					updateBeforeConnect,
-					checkDomain,
-					sessionName,
-					sessionTimeout,
-					new UserIdentity(),
-					preferredLocales
-				).Result;
-	}
+	// 	session = Session.Create(
+	// 				config,
+	// 				endpoint,
+	// 				updateBeforeConnect,
+	// 				checkDomain,
+	// 				sessionName,
+	// 				sessionTimeout,
+	// 				new UserIdentity(),
+	// 				preferredLocales
+	// 			).Result;
+	// }
 
 
 	public void Connect(Guid guid, DataType dataType, string tagName)
 	{
+		GD.Print($"\n> [Root.cs] [Connect()])");
 		// Acesse o singleton pelo nome configurado no autoload
 		var simulationEvents = GetNodeOrNull("/root/GlobalVariables");
 
-		GD.Print($">\n [Root.cs] [Connect()] - Protocol:{Protocol})");
-		GD.Print($"- opc_da_comms_connected :{simulationEvents.Get("opc_da_comms_connected")}");
-		GD.Print($"- Tag adicionada (guid:{guid}, tagName:{tagName})");
+		// GD.Print($"- opc_da_comms_connected :{simulationEvents.Get("opc_da_comms_connected")}");
+		// GD.Print($"- Tag adicionada (guid:{guid}, tagName:{tagName})");
 		opc_tags.Add(guid, tagName);
 
 		// //OPC UA
@@ -266,60 +242,65 @@ public partial class Root : Node3D
 		// }
 	}
 
-	private T HandleOpcUaRead<T>(Guid guid)
-	{
-		GD.Print($"--- HandleOpcUaRead - Guid:{guid})");
-		var value = session.ReadValueAsync(opc_tags[guid]).Result.Value;
+	// private T HandleOpcUaRead<T>(Guid guid)
+	// {
+	// 	GD.Print($"--- HandleOpcUaRead - Guid:{guid})");
+	// 	var value = session.ReadValueAsync(opc_tags[guid]).Result.Value;
 
-		if (value is T typedValue)
-		{
-			return typedValue;
-		}
-		else
-		{
-			string errorMessage = $"Expected {typeof(T)} but received {value.GetType()} for nodeid: {opc_tags[guid]}";
-			GD.PrintErr(errorMessage);
-			throw new InvalidCastException(errorMessage);
-		}
-	}
+	// 	if (value is T typedValue)
+	// 	{
+	// 		return typedValue;
+	// 	}
+	// 	else
+	// 	{
+	// 		string errorMessage = $"Expected {typeof(T)} but received {value.GetType()} for nodeid: {opc_tags[guid]}";
+	// 		GD.PrintErr(errorMessage);
+	// 		throw new InvalidCastException(errorMessage);
+	// 	}
+	// }
 
 	public async Task<bool> ReadBool(Guid guid)
 	{
-		if (Protocol == Protocols.opc_ua)
-			return HandleOpcUaRead<bool>(guid);
-		else
-			return Convert.ToBoolean(await bool_tags[guid].ReadAsync());
+		// if (Protocol == Protocols.opc_ua)
+		// 	return HandleOpcUaRead<bool>(guid);
+		// else
+		return Convert.ToBoolean(await bool_tags[guid].ReadAsync());
 	}
 
 	public async Task<int> ReadInt(Guid guid)
 	{
-		if (Protocol == Protocols.opc_ua)
-			return HandleOpcUaRead<int>(guid);
-		else
-			return Convert.ToInt32(await bool_tags[guid].ReadAsync());
+		// if (Protocol == Protocols.opc_ua)
+		// 	return HandleOpcUaRead<int>(guid);
+		// else
+		return Convert.ToInt32(await bool_tags[guid].ReadAsync());
 	}
 
 	public async Task<float> LerFloat(string tagName)
 	{
-		GD.Print("\n> [Root.cs] [LerFloat()]");
-		GD.Print($"- tagName:{tagName}");
-		var valorVelocidade = CommsConfig.ReadOpcItem(tagName);
-		GD.Print($"- valorVelocidade:{valorVelocidade}");
-		string vel_string = valorVelocidade.ToString();
-		GD.Print($"valorVelocidade: {vel_string}");
-		return Convert.ToSingle(valorVelocidade);
+		// GD.Print("\n> [Root.cs] [LerFloat()]");
+		var floatValue = CommsConfig.ReadOpcItem(tagName);
+		// GD.Print($"- {tagName} : {floatValue}");
+		return Convert.ToSingle(floatValue);
 	}
+
+	public async Task<bool> LerBooleano(string tagName)
+	{
+		// GD.Print("\n> [Root.cs] [LerBooleano()]");
+		var boolValue = CommsConfig.ReadOpcItem(tagName);
+		// GD.Print($"- {tagName} : {boolValue}");
+		return Convert.ToBoolean(boolValue);
+	}
+
 
 	public async Task<float> ReadFloat(Guid guid)
 	{
-		GD.Print("\n> [Root.cs] [ReadFloat()]");
+		// GD.Print("\n> [Root.cs] [ReadFloat()]");
 		// Godot.Node commsConfig = GetTree().Root.GetNode("CommsConfigMenu");
 		var valorVelocidade = CommsConfig.ReadOpcItem("PLC_GW3.Application.LOGICA_ESTEIRA_LD.VELOCIDADE_INT");
 
 		string vel_string = valorVelocidade.ToString();
-		GD.Print($"valorVelocidade: {vel_string}");
-		return  Convert.ToSingle(valorVelocidade);
-		// TODO: Implementar leitura da TAG OPC_DA
+		// GD.Print($"valorVelocidade: {vel_string}");
+		return Convert.ToSingle(valorVelocidade);
 
 		// return HandleOpcUaRead<float>(guid);
 
@@ -328,109 +309,119 @@ public partial class Root : Node3D
 		// else
 		// 	return (float)(await float_tags[guid].ReadAsync());
 	}
-	public async Task Write(Guid guid, bool value)
+	public async Task Write(String tagName, bool value)
 	{
-		if (Protocol == Protocols.opc_ua)
+		try
 		{
-			RequestHeader requestHeader = new();
-
-			WriteValueCollection writeValues = new();
-
-			WriteValue writeValue = new()
-			{
-				NodeId = new NodeId(opc_tags[guid]),
-				AttributeId = Attributes.Value,
-				Value = new DataValue
-				{
-					Value = Convert.ToBoolean(value)
-				}
-			};
-
-			writeValues.Add(writeValue);
-
-			await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
+			CommsConfig.WriteOpcItem(tagName, value);
 		}
-		else
+		catch (Exception e)
 		{
-			bool_tags[guid].Value = value;
-
-			try
-			{
-				bool_tags[guid].Value = value;
-				await bool_tags[guid].WriteAsync();
-			}
-			catch (Exception e)
-			{
-				CallDeferred(nameof(PrintError), e.Message);
-			}
-
+			CallDeferred(nameof(PrintError), e.Message);
 		}
+
+
+		// if (Protocol == Protocols.opc_ua)
+		// {
+		// 	RequestHeader requestHeader = new();
+
+		// 	WriteValueCollection writeValues = new();
+
+		// 	WriteValue writeValue = new()
+		// 	{
+		// 		NodeId = new NodeId(opc_tags[guid]),
+		// 		AttributeId = Attributes.Value,
+		// 		Value = new DataValue
+		// 		{
+		// 			Value = Convert.ToBoolean(value)
+		// 		}
+		// 	};
+
+		// 	writeValues.Add(writeValue);
+
+		// 	await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
+		// }
+		// else
+		// {
+		// bool_tags[guid].Value = value;
+
+		// try
+		// {
+		// 	bool_tags[guid].Value = value;
+		// 	await bool_tags[guid].WriteAsync();
+		// }
+		// catch (Exception e)
+		// {
+		// 	CallDeferred(nameof(PrintError), e.Message);
+		// }
+
+		// }
 	}
 
 	public async Task Write(Guid guid, int value)
 	{
-		if (Protocol == Protocols.opc_ua)
-		{
-			RequestHeader requestHeader = new();
+		// if (Protocol == Protocols.opc_ua)
+		// {
+		// 	RequestHeader requestHeader = new();
 
-			WriteValueCollection writeValues = new();
+		// 	WriteValueCollection writeValues = new();
 
-			WriteValue writeValue = new()
-			{
-				NodeId = new NodeId(opc_tags[guid]),
-				AttributeId = Attributes.Value,
-				Value = new DataValue
-				{
-					Value = Convert.ToInt16(value)
-				}
-			};
+		// 	WriteValue writeValue = new()
+		// 	{
+		// 		NodeId = new NodeId(opc_tags[guid]),
+		// 		AttributeId = Attributes.Value,
+		// 		Value = new DataValue
+		// 		{
+		// 			Value = Convert.ToInt16(value)
+		// 		}
+		// 	};
 
-			writeValues.Add(writeValue);
+		// 	writeValues.Add(writeValue);
 
-			await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
-		}
-		else
-		{
-			int_tags[guid].Value = value;
-			await int_tags[guid].WriteAsync();
-		}
+		// 	await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
+		// }
+		// else
+		// {
+		int_tags[guid].Value = value;
+		await int_tags[guid].WriteAsync();
+		// }
 	}
 
 	public async Task Write(Guid guid, float value)
 	{
 		//OPC UA
-		if (Protocol == Protocols.opc_ua)
+		// if (Protocol == Protocols.opc_ua)
+		// {
+		// 	RequestHeader requestHeader = new();
+
+		// 	WriteValueCollection writeValues = new();
+
+		// 	WriteValue writeValue = new()
+		// 	{
+		// 		NodeId = new NodeId(opc_tags[guid]),
+		// 		AttributeId = Attributes.Value,
+		// 		Value = new DataValue
+		// 		{
+		// 			Value = value
+		// 		}
+		// 	};
+
+		// 	writeValues.Add(writeValue);
+
+		// 	await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
+		// }
+		// else
+		// {
+		try
 		{
-			RequestHeader requestHeader = new();
-
-			WriteValueCollection writeValues = new();
-
-			WriteValue writeValue = new()
-			{
-				NodeId = new NodeId(opc_tags[guid]),
-				AttributeId = Attributes.Value,
-				Value = new DataValue
-				{
-					Value = value
-				}
-			};
-
-			writeValues.Add(writeValue);
-
-			await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
+			float_tags[guid].Value = value;
+			await float_tags[guid].WriteAsync();
 		}
-		else
+		catch (Exception e)
 		{
-			try
-			{
-				float_tags[guid].Value = value;
-				await float_tags[guid].WriteAsync();
-			}
-			catch (Exception e)
-			{
-				CallDeferred(nameof(PrintError), e.Message);
-			}
+			CallDeferred(nameof(PrintError), e.Message);
 		}
+		// }
 	}
 
 	private static void PrintError(string error)
@@ -465,6 +456,9 @@ public partial class Root : Node3D
 	{
 		GD.Print("\n> [Root.cs] [_Ready()]");
 		GetNode<CanvasItem>("CommsConfigMenu").Visible = false;
+		textoCommsState = GetNode<RichTextLabel>("TextoCommsState");
+		textoCommsState.Visible = true;
+		DefinirTextStatusConexao();
 
 		var simulationEvents = GetNodeOrNull("/root/GlobalVariables");
 		if (simulationEvents != null)
@@ -477,6 +471,7 @@ public partial class Root : Node3D
 
 	void _on_bt_show_comms_config_menu_pressed()
 	{
+		DefinirTextStatusConexao();
 		GetNode<CanvasItem>("CommsConfigMenu").Visible = !GetNode<CanvasItem>("CommsConfigMenu").Visible;
 		GetNode<PanelContainer>("RunBar").Visible = !GetNode<PanelContainer>("RunBar").Visible;
 	}
@@ -526,5 +521,39 @@ public partial class Root : Node3D
 	{
 		GD.Print("\n> [Root.cs] [OnSimulationEnded()]");
 		Start = false;
+	}
+
+	void DefinirTextStatusConexao()
+	{
+		// GD.Print("\n> [Root.cs] [DefinirTextStatusConexao()]");
+
+		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
+		bool status = (bool)globalVariables.Get("opc_da_connected");
+		// GD.Print($"- status: {status}");
+
+
+		if (status)
+		{
+			// RGB: (102, 255, 102) Verde Claro
+			textoCommsState.Text = "Comunicação OPC DA - Conectado";
+			textoCommsState.AddThemeColorOverride("default_color", new Color(0.4f, 1.0f, 0.4f, 1.0f));
+			// StyleBoxFlat style = new StyleBoxFlat
+			// {
+			// 	BgColor = new Color(0.4f, 1.0f, 0.4f, 1.0f) // Define a cor do fundo
+			// };
+			// textoCommsState.AddThemeStyleboxOverride("normal", style);
+		}
+		else
+		{
+			// Cinza escuro
+			textoCommsState.Text = "Comunicação OPC DA - Inativa";
+			textoCommsState.AddThemeColorOverride("default_color", new Color(0.2f, 0.2f, 0.2f, 1.0f));
+			// StyleBoxFlat style = new StyleBoxFlat
+			// {
+			// 	BgColor = new Color(0.2f, 0.2f, 0.2f, 1.0f) // Define a cor do fundo
+			// };
+			// textoCommsState.AddThemeStyleboxOverride("normal", style);
+		}
+
 	}
 }

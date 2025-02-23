@@ -155,7 +155,7 @@ public partial class DiffuseSensor : Node3D
 	{
 		try
 		{
-			await Main.Write(id, blocked);
+			await Main.Write("id", blocked);
 		}
 		catch
 		{

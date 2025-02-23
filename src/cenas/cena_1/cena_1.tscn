@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bg1alnxlb2kud"]
+[gd_scene load_steps=10 format=3 uid="uid://bg1alnxlb2kud"]
 
 [ext_resource type="PackedScene" uid="uid://dyhvoundu2kqc" path="res://parts/Building.tscn" id="1_gpxwy"]
 [ext_resource type="Script" path="res://src/Main/Root.cs" id="1_hruep"]
@@ -7,15 +7,18 @@
 [ext_resource type="PackedScene" uid="uid://bl73u0rvt2orv" path="res://parts/Despawner.tscn" id="5_e4p6u"]
 [ext_resource type="PackedScene" uid="uid://bc71peokxkxdb" path="res://src/MenuInterface/SimulationControl.tscn" id="6_e2siq"]
 [ext_resource type="PackedScene" uid="uid://dm55h6ap605bw" path="res://parts/BeltConveyor.tscn" id="6_l1wu2"]
+[ext_resource type="PackedScene" uid="uid://nsio1mg8ru3w" path="res://parts/LaserSensor.tscn" id="6_uesq5"]
 [ext_resource type="PackedScene" uid="uid://bcds53nhapmuf" path="res://src/CommsConfig/comms_config.tscn" id="7_fsmbt"]
 
 [node name="Cena_1" type="Node3D"]
 script = ExtResource("1_hruep")
+CenaAtual = 1
 
 [node name="Building" parent="." instance=ExtResource("1_gpxwy")]
 
 [node name="Conveyor" parent="Building" instance=ExtResource("6_l1wu2")]
 transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 1, -0.1623, -0.0995719, -0.201971)
+updateRate = 1000
 Speed = 2.0
 
 [node name="BoxSpawner" parent="Building" instance=ExtResource("4_5s35r")]
@@ -23,6 +26,9 @@ transform = Transform3D(1, 2.30012e-09, -9.31322e-10, -2.30012e-09, 1, 8.84756e-
 
 [node name="Despawner" parent="Building" instance=ExtResource("5_e4p6u")]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 3.39139, -1.72563, -0.045296)
+
+[node name="LaserSensor" parent="Building" instance=ExtResource("6_uesq5")]
+transform = Transform3D(0.99984, 0, 0.0178711, 0, 1, 0, -0.0178711, 0, 0.99984, 1.15529, 0.31001, -2.71618)
 
 [node name="Player" parent="." instance=ExtResource("3_pak68")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00263357, 3.72765)
@@ -41,5 +47,16 @@ text = "Configurações"
 [node name="RunBar" parent="." instance=ExtResource("6_e2siq")]
 offset_left = -110.0
 offset_right = 110.0
+
+[node name="TextoCommsState" type="RichTextLabel" parent="."]
+offset_right = 168.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "Comunicação OPC DA - Teste"
+fit_content = true
+autowrap_mode = 0
 
 [connection signal="pressed" from="bt_show_comms_config_menu" to="." method="_on_bt_show_comms_config_menu_pressed"]

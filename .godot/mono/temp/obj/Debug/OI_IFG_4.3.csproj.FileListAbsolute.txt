@@ -27,3 +27,4 @@ C:\Users\Thales\Desktop\FACULDADE\TCC\2 - Godot\0_Projetos\OI_IFG_4.3\.godot\mon
 C:\Users\Thales\Desktop\FACULDADE\TCC\2 - Godot\0_Projetos\oi_ifg_4.3\.godot\mono\temp\bin\Debug\OpcComRcw.dll
 C:\Users\Thales\Desktop\FACULDADE\TCC\2 - Godot\0_Projetos\oi_ifg_4.3\.godot\mono\temp\bin\Debug\OpcNetApi.dll
 C:\Users\Thales\Desktop\FACULDADE\TCC\2 - Godot\0_Projetos\oi_ifg_4.3\.godot\mono\temp\bin\Debug\OpcNetApi.Com.dll
+C:\Users\Thales\Desktop\FACULDADE\TCC\2 - Godot\0_Projetos\oi_ifg_4.3\.godot\mono\temp\obj\Debug\OI_IFG_4.3.sourcelink.json

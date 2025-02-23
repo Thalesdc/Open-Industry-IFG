@@ -19,10 +19,9 @@ func _enable_buttons() -> void:
 	stop_button.disabled = stop
 
 
-func _ready() -> void:
+func _on_ready() -> void:
+	print("\n> [SimulationControl.gd] [_on_ready]")
 	get_tree().paused = false
-	var Main = get_tree().root.get_node("Cena_1")
-
 	
 	GlobalVariables.simulation_started.connect(func () -> void:
 		play_button.disabled = true
@@ -41,31 +40,62 @@ func _ready() -> void:
 		stop = true	
 	)
 	
-	play_button.pressed.connect(func () -> void:
-		print("\n play_button.pressed SimulationControl")
+	#play_button.pressed.connect(func () -> void:
+		#print("\n play_button.pressed SimulationControl")
+		#
+		#Main.SavePositions();
+		#
+		#pause_button.button_pressed = false
+		#play = false
+		#GlobalVariables.simulation_set_paused.emit(false)
+		#GlobalVariables.simulation_started.emit()
+		#if(EditorInterface.has_method("set_simulation_started")):
+			#EditorInterface.call("set_simulation_started",true)
+	#)
+	#pause_button.toggled.connect(func (pressed: bool) -> void:
+		#print("\n pause_button.pressed SimulationControl")
+		#GlobalVariables.simulation_set_paused.emit(pressed)
+	#)
+	#stop_button.pressed.connect(func () -> void:
+		#print("\n stop_button.pressed SimulationControl")
+		#
+		#Main.ResetPositions();
+		#
+		#pause_button.button_pressed = false
+		#pause = false
+		#GlobalVariables.simulation_set_paused.emit(false)
+		#GlobalVariables.simulation_ended.emit()
+		#if(EditorInterface.has_method("set_simulation_started")):
+			#EditorInterface.call("set_simulation_started",false)
+	#)
+
+
+func on_play_pressed() -> void:
+		print("\n> [SimulationControl.gd] [on_play_pressed]")
 		
-		Main.SavePositions();
+		get_tree().root.get_node("Cena_1").SavePositions();
 		
 		pause_button.button_pressed = false
 		play = false
 		GlobalVariables.simulation_set_paused.emit(false)
 		GlobalVariables.simulation_started.emit()
-		if(EditorInterface.has_method("set_simulation_started")):
-			EditorInterface.call("set_simulation_started",true)
-	)
-	pause_button.toggled.connect(func (pressed: bool) -> void:
-		print("\n pause_button.pressed SimulationControl")
-		GlobalVariables.simulation_set_paused.emit(pressed)
-	)
-	stop_button.pressed.connect(func () -> void:
-		print("\n stop_button.pressed SimulationControl")
+		#if(EditorInterface.has_method("set_simulation_started")):
+			#EditorInterface.call("set_simulation_started",true)
+
+
+func _on_pause_pressed() -> void:
+		print("\n> [SimulationControl.gd] [_on_pause_pressed]")
+		GlobalVariables.simulation_set_paused.emit(pause_button.button_pressed)
+
+
+func _on_stop_pressed() -> void:
+		print("\n> [SimulationControl.gd] [_on_stop_pressed]")
 		
-		Main.ResetPositions();
+		get_tree().root.get_node("Cena_1").ResetPositions();
 		
 		pause_button.button_pressed = false
 		pause = false
 		GlobalVariables.simulation_set_paused.emit(false)
 		GlobalVariables.simulation_ended.emit()
-		if(EditorInterface.has_method("set_simulation_started")):
-			EditorInterface.call("set_simulation_started",false)
-	)
+		#if(EditorInterface.has_method("set_simulation_started")):
+			#EditorInterface.call("set_simulation_started",false)

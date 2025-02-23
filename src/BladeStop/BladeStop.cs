@@ -120,22 +120,22 @@ public partial class BladeStop : Node3D
 
 		if (running)
 		{
-			if (Main != null)
-			{
-				if(Main.selectedNodes != null)
-				{
-					bool selected = Main.selectedNodes.Contains(this);
-					if (selected && Input.IsPhysicalKeyPressed(Key.G))
-					{
-						keyPressed = true;
-						if (!keyHeld)
-						{
-							keyHeld = true;
-							Active = !Active;
-						}
-					}
-				}
-			}
+			// if (Main != null)
+			// {
+			// 	if(Main.selectedNodes != null)
+			// 	{
+			// 		bool selected = Main.selectedNodes.Contains(this);
+			// 		if (selected && Input.IsPhysicalKeyPressed(Key.G))
+			// 		{
+			// 			keyPressed = true;
+			// 			if (!keyHeld)
+			// 			{
+			// 				keyHeld = true;
+			// 				Active = !Active;
+			// 			}
+			// 		}
+			// 	}
+			// }
 
 			if (blade != null && bladeCornerR != null && bladeCornerL != null)
 			{

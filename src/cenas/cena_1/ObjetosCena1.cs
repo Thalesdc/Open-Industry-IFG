@@ -30,7 +30,7 @@ public class ObjetosCena
 
     public static ObjetosCena ObterObjetoPorNome(string nome, int cena)
     {
-        if(cena == 1)
+        if (cena == 1)
         {
             return objetosFixosCena1.FirstOrDefault(f => f.Nome.ToLower() == nome.ToLower());
         }

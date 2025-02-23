@@ -2,3 +2,4 @@ res://src/cenas/cena_1/cena_1.tscn
 res://src/Player/player.tscn
 res://src/MenuInicial/menu_inicial.tscn
 res://src/MenuInterface/SimulationControl.tscn
+res://src/CommsConfig/comms_config.tscn

@@ -1,3 +1,4 @@
+RichTextLabel
 ColorRect
 MenuButton
 TextureRect
@@ -11,4 +12,3 @@ HSeparator
 Button
 ScrollContainer
 VScrollBar
-RichTextLabel

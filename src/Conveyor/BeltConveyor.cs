@@ -9,20 +9,6 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 	private bool enableComms;
 	private bool opc_da_connected;
 
-
-	[Export]
-	public bool EnableComms
-	{
-		get => enableComms;
-		set
-		{
-			enableComms = value;
-			NotifyPropertyListChanged();
-		}
-	}
-	[Export]
-	public string tag;
-	public string Tag { get => tag; set => tag = value; }
 	[Export]
 	int updateRate = 100;
 	public int UpdateRate { get => updateRate; set => updateRate = value; }
@@ -99,7 +85,7 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 		GD.Print("\n> [BeltConveyor.cs] [_ValidateProperty()]");
 		string propertyName = property["name"].AsStringName();
 
-		if (propertyName == PropertyName.updateRate || propertyName == PropertyName.tag)
+		if (propertyName == PropertyName.updateRate)
 		{
 			property["usage"] = (int)(isCommsConnected ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
 		}
@@ -193,22 +179,22 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 
 	void OnSimulationStarted()
 	{
-		tagEsteira = ObjetosCena.ObterObjetoPorNome("Esteira", CENA).Tag;
-
 		GD.Print("\n> [BeltConveyor.cs] [OnSimulationStarted()]");
-		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
-		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
-		GD.Print($"- BeltConveyor.cs OnSimulationStarted() isCommsConnected:{isCommsConnected}");
+
+		tagEsteira = ObjetosCena.ObterObjetoPorNome("Esteira", CENA).Tag;
+		// var globalVariables = GetNodeOrNull("/root/GlobalVariables");
+		// isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
+		// GD.Print($"- BeltConveyor.cs OnSimulationStarted() isCommsConnected:{isCommsConnected}");
 
 		if (Main == null) return;
+		running = true;
 
 		if (isCommsConnected)
 		{
-			GD.Print($"- BeltConveyor.cs OnSimulationStarted() tagEsteira:{tagEsteira}");
+			GD.Print($"- tagEsteira: {tagEsteira}");
 			Main.Connect(id, Root.DataType.Float, tagEsteira);
+			readSuccessful = true;
 		}
-		running = true;
-		readSuccessful = true;
 	}
 
 	void OnSimulationEnded()
@@ -233,14 +219,12 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 	{
 		try
 		{
-			GD.Print("\n> [BeltConveyor.cs] [ScanTag()]");
-			GD.Print($"- tagEsteira:{tagEsteira}");
+			// GD.Print("\n> [BeltConveyor.cs] [ScanTag()]");
 			Speed = await Main.LerFloat(tagEsteira);
-			GD.Print($"\n- Speed:{Speed}");
 		}
 		catch(Exception err)
 		{
-			GD.PrintErr($"\n> Failure to read: {tag} in Node: {Name}");
+			GD.PrintErr($"\n> Failure to read: {tagEsteira} in Node: {Name}");
 			GD.PrintErr(err);
 			readSuccessful = false;
 		}

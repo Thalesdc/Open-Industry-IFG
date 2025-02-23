@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Opc;
 using OpcRcw.Dx;
+using GodotPlugins.Game;
 
 public partial class CommsConfig : Control
 {
@@ -24,11 +25,11 @@ public partial class CommsConfig : Control
 	private VBoxContainer vBoxContainerTag; // Contêiner para os OptionButtons
 
 
-	Opc.Da.Item[] opc_da_tags;
+	List<string> opc_da_items_list = new List<string>();
 
 	static Opc.Da.Server opcServer;
-
-	readonly System.Collections.Generic.Dictionary<Guid, string> opc_tags = new();
+	static private Opc.Da.Subscription subscription;
+	static Opc.Da.Item[] opc_da_items_array;
 
 	// TODO: Mudar para atributo do objeto no godot
 	int CENA = 1;
@@ -90,6 +91,8 @@ public partial class CommsConfig : Control
 		{
 			//Find opc server on local machine
 			Opc.IDiscovery discovery = new OpcCom.ServerEnumerator();
+			il_opcServerList.Clear();
+			il_opcServerTagList.Clear();
 			Opc.Server[] opcServerList = discovery.GetAvailableServers(Opc.Specification.COM_DA_30);
 
 			foreach (Opc.Server item in opcServerList)
@@ -110,9 +113,10 @@ public partial class CommsConfig : Control
 	{
 		try
 		{
+			// GD.Print("\n> [CommsConfig.cs] [_on_server_selected()]");
+
 			// Obter o nome do item selecionado
 			string selectedItem = il_opcServerList.GetItemText(index);
-			// GD.Print($"Item selecionado: {selectedItem}");
 
 			// TODO: Validar se item já está na lista
 			opcServer = globalOpcServerList.FirstOrDefault(server =>
@@ -121,19 +125,60 @@ public partial class CommsConfig : Control
 			//Connect server
 			opcServer.Connect();
 
-			var globalVariables = GetNodeOrNull("/root/GlobalVariables");
-			// GD.Print($"CommsConfig.cs _Ready() globalVariables: {globalVariables.Get("opc_da_connected")}");
-			globalVariables.Set("opc_da_connected", true);
-			GD.Print($"CommsConfig.cs _Ready() globalVariables: {globalVariables.Get("opc_da_connected")}");
-
 			//Browse all items
 			BrowsAllElement("", ref opcServer);
+
+			Opc.Da.SubscriptionState state = new Opc.Da.SubscriptionState
+			{
+				Name = "OIIFG",
+				Active = true,  // Habilitar a leitura automática
+				UpdateRate = 1000,  // Tempo de atualização (1 segundo)
+				Deadband = 0,  // Sem filtro de variação mínima
+			};
+
+			subscription = (Opc.Da.Subscription)opcServer.CreateSubscription(state);
+
+			opc_da_items_array = new Opc.Da.Item[opc_da_items_list.Count];
+			for (int i = 0; i < opc_da_items_list.Count; i++) // Item initial assignment
+			{
+				opc_da_items_array[i] = new Opc.Da.Item();
+				opc_da_items_array[i].ClientHandle = Guid.NewGuid().ToString();
+				opc_da_items_array[i].ItemPath = null;
+				opc_da_items_array[i].ItemName = opc_da_items_list[i]; // The name of the data item in the server.
+			}
+
+			subscription.AddItems(opc_da_items_array);
+			subscription.DataChanged += new Opc.Da.DataChangedEventHandler(OnDataChange);
+
+			var globalVariables = GetNodeOrNull("/root/GlobalVariables");
+			globalVariables.Set("opc_da_connected", true);
+			GD.Print($"- globalVariables.opc_da_connected: {globalVariables.Get("opc_da_connected")}");
+
 		}
 		catch (Exception ex)
 		{
 			GD.Print(ex);
 		}
 	}
+
+	void OnDataChange(object subscriptionHandle, object requestHandle, Opc.Da.ItemValueResult[] values)
+	{
+		// GD.Print("\n> [CommsConfig.cs] [OnDataChange()]");
+		// foreach (var value in values)
+		// {
+			// GD.Print($"🔹 Tag: {value.ItemName}, Valor: {value.Value}, Qualidade: {value.Quality}");
+		// }
+	}
+
+	// public void UpdateOPCData(SensorData tItem)
+	// {
+	// 	GD.Print("\n> [CommsConfig.cs] [UpdateOPCData()]");
+	// 	Item OPC_WriteItem = Array.Find(mMonitoringSubscription.Items, x => x.ItemName.Equals(tItem.Name));
+	// 	ItemValue[] writeValues = new ItemValue[1];
+	// 	writeValues[0] = new ItemValue(OPC_WriteItem);
+	// 	writeValues[0].Value = tItem.Value;
+	// 	IdentifiedResult[] retValues = mMonitoringSubscription.Write(writeValues);
+	// }
 
 	private void BrowsAllElement(string itemName, ref Opc.Da.Server opcServer)
 	{
@@ -178,6 +223,7 @@ public partial class CommsConfig : Control
 	private void preencherListaTags(String name)
 	{
 		il_opcServerTagList.AddItem(name);
+		opc_da_items_list.Add(name);
 		int id = 0;
 		foreach (Node child in vBoxContainerTag.GetChildren())
 		{
@@ -197,8 +243,10 @@ public partial class CommsConfig : Control
 
 	private void _on_tag_selected(int index)
 	{
+		GD.Print("\n> [CommsConfig.cs] [_on_tag_selected()]");
 		// Obter o nome do item selecionado
-		GD.Print($"Item selecionado: {il_opcServerTagList.GetItemText(index)}");
+		GD.Print($"- Tag selecionada: {il_opcServerTagList.GetItemText(index)}");
+		GD.Print($"- Valor: {ReadOpcItem(il_opcServerTagList.GetItemText(index))}");
 	}
 
 	private void OnOptionSelected(OptionButton optButton, long index)
@@ -207,28 +255,32 @@ public partial class CommsConfig : Control
 		int optButtonId = optButton.GetSelectedId();
 		string selectedText = optButton.GetItemText((int)index);
 
-		object value = ReadOpcItem(selectedText);
+		// GD.Print($"- optButtonId: {optButtonId}");
+		// GD.Print($"- selectedText: {selectedText}");
 
-		switch (optButtonId)
-		{
-			case 0:
-				ObjetosCena.ObterObjetoPorId(0, CENA).Tag = selectedText;
-				break;
-			case 1:
-				ObjetosCena.ObterObjetoPorId(1, CENA).Tag = selectedText;
-				break;
-		}
+		ObjetosCena.ObterObjetoPorId(optButtonId, CENA).Tag = selectedText;
+		// switch (optButtonId)
+		// {
+		// 	case 0:
+		// 		ObjetosCena.ObterObjetoPorId(optButtonId, CENA).Tag = selectedText;
+		// 		break;
+		// 	case 1:
+		// 		ObjetosCena.ObterObjetoPorId(1, CENA).Tag = selectedText;
+		// 		break;
+		// 	case 2:
+		// 		ObjetosCena.ObterObjetoPorId(2, CENA).Tag = selectedText;
+		// 		break;
+		// }
 	}
-
-	// Lê um único item OPC DA
 	public static object ReadOpcItem(string tagName)
 	{
+		// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
 		try
 		{
-			GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
+			// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
 			if (opcServer == null || !opcServer.IsConnected)
 			{
-				GD.PrintErr("### CoomsConfig.cs - ReadOpcItem() - Servidor OPC não conectado!");
+				// GD.PrintErr("### CoomsConfig.cs - ReadOpcItem() - Servidor OPC não conectado!");
 				return null;
 			}
 			else
@@ -238,10 +290,19 @@ public partial class CommsConfig : Control
 
 				// Ler diretamente do servidor para evitar cache
 				Opc.Da.ItemValueResult[] results = opcServer.Read(new Opc.Da.Item[] { item });
-				GD.Print($"- tagName: {tagName}");
-				GD.Print($"- results: {results}");
-				GD.Print($"- results[0].Value: {results[0].Value}");
-				GD.Print($"- {tagName}\n>{results[0].Value.GetType()}\n>{results[0].Value}");
+				// GD.Print($"- tagName:{tagName}");
+				// GD.Print($"- results:{results}");
+				// GD.Print($"- results[0].Value:{results[0].Value}");
+				// GD.Print($"- results[0].Quality:{results[0].Quality}");
+				if (results[0].Value != null)
+				{
+					// GD.Print($"- results[0].Value.GetType():{results[0].Value.GetType()}");
+					// GD.Print($"- Tag:{tagName} | Valor:{results[0].Value} | Tipo:{results[0].Value.GetType()}");
+				}
+				else
+				{
+					GD.Print($"- {tagName} NULL");
+				}
 
 				return results[0].Value;
 			}
@@ -252,6 +313,34 @@ public partial class CommsConfig : Control
 			GD.PrintErr("### CoomsConfig.cs - ReadOpcItem() - Erro ao ler a TAG");
 			GD.PrintErr(err);
 			return null;
+		}
+	}
+	public static void WriteOpcItem(string tagName, bool value)
+	{
+		GD.Print("\n> [CommsConfig.cs] [WriteOpcItem()] Boolean");
+		GD.Print($"- tagName: {tagName}");
+		GD.Print($"- value: {value}");
+		try
+		{
+			// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
+			if (opcServer == null || !opcServer.IsConnected)
+			{
+				GD.PrintErr("### CoomsConfig.cs - ReadOpcItem() - Servidor OPC não conectado!");
+			}
+			else
+			{
+				Opc.Da.Item OPC_WriteItem = Array.Find(opc_da_items_array, x => x.ItemName.Equals(tagName));
+				GD.Print($"- OPC_WriteItem: {OPC_WriteItem}");
+				Opc.Da.ItemValue[] writeValues = new Opc.Da.ItemValue[1];
+				writeValues[0] = new Opc.Da.ItemValue(OPC_WriteItem);
+				writeValues[0].Value = value;
+				Opc.IdentifiedResult[] retValues = subscription.Write(writeValues);
+			}
+		}
+		catch (Exception err)
+		{
+			GD.PrintErr("### CoomsConfig.cs - ReadOpcItem() - Erro ao ler a TAG");
+			GD.PrintErr(err);
 		}
 	}
 }

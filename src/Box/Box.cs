@@ -5,15 +5,15 @@ public partial class Box : Node3D
 	RigidBody3D rigidBody;
 	Vector3 initialPos;
 	public bool instanced = false;
-	bool selected = false;
+	// bool selected = false;
 	bool keyHeld = false;
 
 	Root Main;
 	public override void _Ready()
 	{
-		GD.Print("\n> [Box.cs] [_Ready()]");
+		// GD.Print("\n> [Box.cs] [_Ready()]");
 		Main = GetTree().Root.GetNode("Cena_1") as Root;
-		GD.Print($"- Main:{Main}");
+		// GD.Print($"- Main:{Main}");
 
 		if (Main == null)
 		{
@@ -54,20 +54,20 @@ public partial class Box : Node3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		GD.Print("\n> [Box.cs] [_PhysicsProcess()]");
+		// GD.Print("\n> [Box.cs] [_PhysicsProcess()]");
 		if (Main == null) return;
 
-		GD.Print($"- Main.selectedNodes:{Main.selectedNodes}");
-		selected = Main.selectedNodes.Contains(this);
+		// GD.Print($"- Main.selectedNodes:{Main.selectedNodes}");
+		// selected = Main.selectedNodes.Contains(this);
 
-		if (selected && Input.IsPhysicalKeyPressed(Key.G) && !Main.paused)
-		{
-			if (!keyHeld)
-			{
-				keyHeld = true;
-				rigidBody.Freeze = !rigidBody.Freeze;
-			}
-		}
+		// if (selected && Input.IsPhysicalKeyPressed(Key.G) && !Main.paused)
+		// {
+		// 	if (!keyHeld)
+		// 	{
+		// 		keyHeld = true;
+		// 		rigidBody.Freeze = !rigidBody.Freeze;
+		// 	}
+		// }
 
 		if (!Input.IsPhysicalKeyPressed(Key.G))
 		{

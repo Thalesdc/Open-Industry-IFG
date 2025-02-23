@@ -14,10 +14,15 @@ config/name="OI_IFG_4.3"
 run/main_scene="res://src/MenuInicial/menu_inicial.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+config/windows_native_icon="res://oiifg.ico"
 
 [autoload]
 
 GlobalVariables="*res://GlobalVariables.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [dotnet]
 

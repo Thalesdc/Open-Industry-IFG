@@ -38,7 +38,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
+theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
@@ -47,6 +47,7 @@ layout_mode = 2
 
 [node name="VBoxContainer1" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
 layout_mode = 2
@@ -102,6 +103,7 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 allow_reselect = true
+max_text_lines = 2
 auto_height = true
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer"]

@@ -39,16 +39,16 @@ public partial class Pallet : Node3D
 	{
 		if (Main == null) return;
 
-		selected = Main.selectedNodes.Contains(this);
+		// selected = Main.selectedNodes.Contains(this);
 
-		if (selected && Input.IsPhysicalKeyPressed(Key.G) && !Main.paused)
-		{
-			if (!keyHeld)
-			{
-				keyHeld = true;
-                rigidBody.Freeze = !rigidBody.Freeze;
-            }
-		}
+		// if (selected && Input.IsPhysicalKeyPressed(Key.G) && !Main.paused)
+		// {
+		// 	if (!keyHeld)
+		// 	{
+		// 		keyHeld = true;
+        //         rigidBody.Freeze = !rigidBody.Freeze;
+        //     }
+		// }
 
 		if (!Input.IsPhysicalKeyPressed(Key.G))
 		{

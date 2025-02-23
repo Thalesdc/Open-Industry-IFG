@@ -192,27 +192,27 @@ public partial class PushButton : Node3D
 			Pushbutton = false;
 			return;
 		}
-		if (Main != null)
-		{
-			if(Main.selectedNodes != null)
-			{
-				bool selected = Main.selectedNodes.Contains(this);
+		// if (Main != null)
+		// {
+		// 	if(Main.selectedNodes != null)
+		// 	{
+		// 		bool selected = Main.selectedNodes.Contains(this);
 
-				if (selected && Input.IsPhysicalKeyPressed(Key.G))
-				{
-					keyPressed = true;
-					if (!keyHeld && Toggle)
-					{
-						keyHeld = true;
-						Pushbutton = !Pushbutton;
-					}
-					else if (!Toggle)
-					{
-						Pushbutton = true;
-					}
-				}
-			}
-		}
+		// 		if (selected && Input.IsPhysicalKeyPressed(Key.G))
+		// 		{
+		// 			keyPressed = true;
+		// 			if (!keyHeld && Toggle)
+		// 			{
+		// 				keyHeld = true;
+		// 				Pushbutton = !Pushbutton;
+		// 			}
+		// 			else if (!Toggle)
+		// 			{
+		// 				Pushbutton = true;
+		// 			}
+		// 		}
+		// 	}
+		// }
 		
 		if (!Input.IsPhysicalKeyPressed(Key.G))
 		{
@@ -242,7 +242,7 @@ public partial class PushButton : Node3D
 	{
 		if (PushbuttonTag != string.Empty)
 		{
-			await Main.Write(buttonId, Pushbutton);
+			await Main.Write("buttonId", Pushbutton);
 		}
 		
 		if (LampTag != string.Empty)

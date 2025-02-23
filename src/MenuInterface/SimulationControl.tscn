@@ -39,3 +39,8 @@ disabled = true
 text = "Stop
 "
 icon = ExtResource("3_wxgve")
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="pressed" from="HBoxContainer/Play" to="." method="on_play_pressed"]
+[connection signal="pressed" from="HBoxContainer/Pause" to="." method="_on_pause_pressed"]
+[connection signal="pressed" from="HBoxContainer/Stop" to="." method="_on_stop_pressed"]

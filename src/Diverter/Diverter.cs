@@ -80,19 +80,19 @@ public partial class Diverter : Node3D
 			return;
 		}
 
-		if (Main != null)
-		{
-			if (Main.selectedNodes != null)
-			{
-				bool selected = Main.selectedNodes.Contains(this);
+		// if (Main != null)
+		// {
+		// 	if (Main.selectedNodes != null)
+		// 	{
+		// 		bool selected = Main.selectedNodes.Contains(this);
 
-				if (selected && Input.IsPhysicalKeyPressed(Key.G))
-				{
-					keyPressed = true;
-					FireDivert = true;
-				}
-			}
-		}
+		// 		if (selected && Input.IsPhysicalKeyPressed(Key.G))
+		// 		{
+		// 			keyPressed = true;
+		// 			FireDivert = true;
+		// 		}
+		// 	}
+		// }
 
 		if (!Input.IsPhysicalKeyPressed(Key.G))
 		{
