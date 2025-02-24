@@ -4,33 +4,8 @@ using System.Threading.Tasks;
 
 public partial class DiffuseSensor : Node3D
 {
-	private bool enableComms;
-
-	[Export]
-	private bool EnableComms
-	{
-		get => enableComms;
-		set
-		{
-			enableComms = value;
-			NotifyPropertyListChanged();
-		}
-	}
-	[Export]
-	string tag;
-	[Export]
-	private int updateRate = 100;
 	[Export]
 	float distance = 6.0f;
-
-	readonly Guid id = Guid.NewGuid();
-	double scan_interval = 0;
-	bool readSuccessful = false;
-	bool running = false;
-
-	bool blocked = false;
-
-	bool debugBeam = true;
 	[Export]
 	bool DebugBeam
 	{
@@ -45,29 +20,32 @@ public partial class DiffuseSensor : Node3D
 				rayMarker.Visible = value;
 		}
 	}
-	
 	[Export]
 	Color collisionColor;
 	[Export]
+	private int updateRate = 100;
 	Color scanColor;
-	
+	private bool isCommsConnected;
+	string tagDiffuseSensor;
+
+	double scan_interval = 0;
+	bool readSuccessful = false;
+	bool running = false;
+
+	bool blocked = false;
+
+	bool debugBeam = true;
+
+
 	Marker3D rayMarker;
 	MeshInstance3D rayMesh;
 	CylinderMesh cylinderMesh;
 	StandardMaterial3D rayMaterial;
-	
-	Root Main;
-	public override void _ValidateProperty(Godot.Collections.Dictionary property)
-	{
-		string propertyName = property["name"].AsStringName();
 
-		if (propertyName == PropertyName.updateRate || propertyName == PropertyName.tag)
-		{
-			property["usage"] = (int)(EnableComms ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
-		}
-	}
+	Root Main;
 	public override void _Ready()
 	{
+		GD.Print("\n> [DiffuseSensor.cs] [_Ready()]");
 		rayMarker = GetNode<Marker3D>("RayMarker");
 		rayMesh = GetNode<MeshInstance3D>("RayMarker/MeshInstance3D");
 		cylinderMesh = rayMesh.Mesh.Duplicate() as CylinderMesh;
@@ -75,7 +53,7 @@ public partial class DiffuseSensor : Node3D
 		rayMaterial = cylinderMesh.Material.Duplicate() as StandardMaterial3D;
 		cylinderMesh.Material = rayMaterial;
 
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 
 		if (Main != null)
 		{
@@ -86,21 +64,21 @@ public partial class DiffuseSensor : Node3D
 		rayMarker.Visible = debugBeam;
 	}
 
-    public override void _ExitTree()
-    {
-        if (Main == null) return;
+	public override void _ExitTree()
+	{
+		if (Main == null) return;
 
-        Main.SimulationStarted -= OnSimulationStarted;
-        Main.SimulationEnded -= OnSimulationEnded;
-    }
+		Main.SimulationStarted -= OnSimulationStarted;
+		Main.SimulationEnded -= OnSimulationEnded;
+	}
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 		PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(rayMarker.GlobalPosition, rayMarker.GlobalPosition + GlobalTransform.Basis.Z * distance);
 		query.CollisionMask = 8;
 		var result = spaceState.IntersectRay(query);
-		
+
 		if (result.Count > 0)
 		{
 			blocked = true;
@@ -119,30 +97,47 @@ public partial class DiffuseSensor : Node3D
 				rayMaterial.AlbedoColor = scanColor;
 		}
 
-		if (enableComms && running && readSuccessful)
+		if (
+			isCommsConnected &&
+			running &&
+			readSuccessful &&
+			tagDiffuseSensor != null &&
+			tagDiffuseSensor != ""
+		)
 		{
-			scan_interval += delta;
-			if (scan_interval > (float)updateRate / 1000 && readSuccessful)
-			{
-				scan_interval = 0;
-				Task.Run(ScanTag);
-			}
+			Task.Run(WriteTag);
+			// scan_interval += delta;
+			// if (
+			// 	scan_interval > (float)updateRate / 1000 &&
+			// 	readSuccessful &&
+			// 	tagDiffuseSensor != null &&
+			// 	tagDiffuseSensor != ""
+			// )
+			// {
+			// 	scan_interval = 0;
+			// 	Task.Run(WriteTag);
+			// }
 		}
 
 
 		rayMesh.Position = new Vector3(0, 0, cylinderMesh.Height * 0.5f);
 	}
-	
+
 	void OnSimulationStarted()
 	{
+		GD.Print("\n> [DiffuseSensor.cs] [OnSimulationStarted()]");
+		tagDiffuseSensor = SceneComponents.GetComponentByName(Name, Main.currentScene).Tag;
+
+		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
+		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
+
 		running = true;
-		if (enableComms)
+		if (isCommsConnected)
 		{
-			Main.Connect(id, Root.DataType.Bool, tag);
+			readSuccessful = true;
 		}
-		readSuccessful = true;
 	}
-	
+
 	void OnSimulationEnded()
 	{
 		running = false;
@@ -151,15 +146,16 @@ public partial class DiffuseSensor : Node3D
 		rayMesh.Position = new Vector3(0, 0, cylinderMesh.Height * 0.5f);
 	}
 
-	async Task ScanTag()
+	async Task WriteTag()
 	{
 		try
 		{
-			await Main.Write("id", blocked);
+			await Main.Write(tagDiffuseSensor, blocked);
 		}
 		catch
 		{
-			GD.PrintErr("Failure to write: " + tag + " in Node: " + Name);
+			GD.PrintErr("Failure to write: " + tagDiffuseSensor + " in Node: " + Name);
+			readSuccessful = false;
 		}
 	}
 }

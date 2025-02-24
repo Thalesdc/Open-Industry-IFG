@@ -75,7 +75,7 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 	ConveyorEnd conveyorEnd2;
 
 	// TODO: Mudar para atributo do objeto no godot
-	static int CENA = 1;
+	static int currentScene;
 	string tagEsteira;
 
 	public Root Main { get; set; }
@@ -116,9 +116,8 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 		conveyorEnd1.beltMaterial.SetShaderParameter("ColorMix", beltColor);
 		conveyorEnd2.beltMaterial.SetShaderParameter("ColorMix", beltColor);
 
-		//Main = GetParent().GetTree().EditedSceneRoot as Root;
-		// TODO: Deixar de forma dinâmica
-		Main = GetTree().Root.GetNode("Cena_1") as Root;
+		Main = GetTree().CurrentScene as Root;
+		currentScene = Main.currentScene;
 
 		if (Main != null)
 		{
@@ -157,7 +156,7 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 			rb.Rotation = Vector3.Zero;
 			rb.Scale = new Vector3(1, 1, 1);
 
-			if (isCommsConnected && readSuccessful)
+			if (isCommsConnected && readSuccessful && tagEsteira != null && tagEsteira != "")
 			{
 				scan_interval += delta;
 				if (scan_interval > (float)updateRate / 1000 && readSuccessful)
@@ -181,10 +180,11 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 	{
 		GD.Print("\n> [BeltConveyor.cs] [OnSimulationStarted()]");
 
-		tagEsteira = ObjetosCena.ObterObjetoPorNome("Esteira", CENA).Tag;
-		// var globalVariables = GetNodeOrNull("/root/GlobalVariables");
-		// isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
-		// GD.Print($"- BeltConveyor.cs OnSimulationStarted() isCommsConnected:{isCommsConnected}");
+		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
+		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
+
+		// Name is the Node proprety to get current Node name		
+		tagEsteira = SceneComponents.GetComponentByName(Name.ToString(), currentScene).Tag;
 
 		if (Main == null) return;
 		running = true;

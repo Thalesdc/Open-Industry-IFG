@@ -26,15 +26,15 @@ public partial class BoxSpawner : Node3D
 	Root Main;
 
 	// TODO: Mudar para atributo do objeto no godot
-	static int CENA = 1;
+	static int currentScene;
 	string tagGeradorCaixa;
 
 	public override void _Ready()
 	{
 		GD.Print("\n> [BoxSpawner.cs] [_Ready()]");
 
-		Main = GetTree().Root.GetNode("Cena_1") as Root;
-
+		Main = GetTree().CurrentScene as Root;
+		currentScene = Main.currentScene;
 
 		if (Main != null)
 		{
@@ -67,7 +67,7 @@ public partial class BoxSpawner : Node3D
 				scan_interval = 0;
 				SpawnBox();
 
-				if (isCommsConnected && readSuccessful)
+				if (isCommsConnected && readSuccessful && tagGeradorCaixa != null && tagGeradorCaixa != "")
 				{
 					// scan_interval += (float)delta;
 					// if (scan_interval > (float)updateRate / 1000 && readSuccessful)
@@ -82,8 +82,8 @@ public partial class BoxSpawner : Node3D
 
 	private void SpawnBox()
 	{
-		GD.Print("\n> [BoxSpawner.cs] [SpawnBox()]");
-		GD.Print($"- canGenerateBox:{canGenerateBox}");
+		// GD.Print("\n> [BoxSpawner.cs] [SpawnBox()]");
+		// GD.Print($"- canGenerateBox:{canGenerateBox}");
 		if (canGenerateBox)
 		{
 			var box = (Box)scene.Instantiate();
@@ -110,7 +110,7 @@ public partial class BoxSpawner : Node3D
 
 		if (Main == null) return;
 
-		tagGeradorCaixa = ObjetosCena.ObterObjetoPorNome("GeradorCaixa", CENA).Tag;
+		tagGeradorCaixa = SceneComponents.GetComponentByName(Name, currentScene).Tag;
 
 		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
 		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");

@@ -11,16 +11,16 @@ using Opc.Ua.Configuration;
 
 public partial class Root : Node3D
 {
-	public int cenaAtual;
-	[Export] int CenaAtual
+	public int currentScene;
+	[Export] int CurrentScene
 	{
 		get
 		{
-			return cenaAtual;
+			return currentScene;
 		}
 		set
 		{
-			cenaAtual = value;
+			currentScene = value;
 		}
 	}
 
@@ -319,43 +319,6 @@ public partial class Root : Node3D
 		{
 			CallDeferred(nameof(PrintError), e.Message);
 		}
-
-
-		// if (Protocol == Protocols.opc_ua)
-		// {
-		// 	RequestHeader requestHeader = new();
-
-		// 	WriteValueCollection writeValues = new();
-
-		// 	WriteValue writeValue = new()
-		// 	{
-		// 		NodeId = new NodeId(opc_tags[guid]),
-		// 		AttributeId = Attributes.Value,
-		// 		Value = new DataValue
-		// 		{
-		// 			Value = Convert.ToBoolean(value)
-		// 		}
-		// 	};
-
-		// 	writeValues.Add(writeValue);
-
-		// 	await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
-		// }
-		// else
-		// {
-		// bool_tags[guid].Value = value;
-
-		// try
-		// {
-		// 	bool_tags[guid].Value = value;
-		// 	await bool_tags[guid].WriteAsync();
-		// }
-		// catch (Exception e)
-		// {
-		// 	CallDeferred(nameof(PrintError), e.Message);
-		// }
-
-		// }
 	}
 
 	public async Task Write(Guid guid, int value)
@@ -387,41 +350,16 @@ public partial class Root : Node3D
 		// }
 	}
 
-	public async Task Write(Guid guid, float value)
+	public async Task Write(String tagName, float value)
 	{
-		//OPC UA
-		// if (Protocol == Protocols.opc_ua)
-		// {
-		// 	RequestHeader requestHeader = new();
-
-		// 	WriteValueCollection writeValues = new();
-
-		// 	WriteValue writeValue = new()
-		// 	{
-		// 		NodeId = new NodeId(opc_tags[guid]),
-		// 		AttributeId = Attributes.Value,
-		// 		Value = new DataValue
-		// 		{
-		// 			Value = value
-		// 		}
-		// 	};
-
-		// 	writeValues.Add(writeValue);
-
-		// 	await session.WriteAsync(requestHeader, writeValues, new System.Threading.CancellationToken());
-		// }
-		// else
-		// {
 		try
 		{
-			float_tags[guid].Value = value;
-			await float_tags[guid].WriteAsync();
+			CommsConfig.WriteOpcItem(tagName, value);
 		}
 		catch (Exception e)
 		{
 			CallDeferred(nameof(PrintError), e.Message);
 		}
-		// }
 	}
 
 	private static void PrintError(string error)

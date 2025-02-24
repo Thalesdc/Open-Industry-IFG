@@ -73,7 +73,7 @@ func _on_ready() -> void:
 func on_play_pressed() -> void:
 		print("\n> [SimulationControl.gd] [on_play_pressed]")
 		
-		get_tree().root.get_node("Cena_1").SavePositions();
+		get_tree().current_scene.SavePositions();
 		
 		pause_button.button_pressed = false
 		play = false
@@ -91,7 +91,7 @@ func _on_pause_pressed() -> void:
 func _on_stop_pressed() -> void:
 		print("\n> [SimulationControl.gd] [_on_stop_pressed]")
 		
-		get_tree().root.get_node("Cena_1").ResetPositions();
+		get_tree().current_scene.ResetPositions();
 		
 		pause_button.button_pressed = false
 		pause = false

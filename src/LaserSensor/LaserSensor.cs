@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 public partial class LaserSensor : Node3D
 {
-
-	[Export]
 	private int updateRate = 1000;
 	[Export]
 	float distance = 10.0f;
@@ -45,23 +43,10 @@ public partial class LaserSensor : Node3D
 	StandardMaterial3D rayMaterial;
 
 	Root Main;
-	// public override void _ValidateProperty(Godot.Collections.Dictionary property)
-	// {
-	// 	// GD.Print("\n> [LaserSensor.cs] [_ValidateProperty()]");
-	// 	string propertyName = property["name"].AsStringName();
-
-	// 	if (propertyName == PropertyName.updateRate || propertyName == PropertyName.tag)
-	// 	{
-	// 		property["usage"] = (int)(EnableComms ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
-	// 	}
-	// }
 	public override void _Ready()
 	{
 		GD.Print("\n> [LaserSensor.cs] [_Ready()]");
-		// Main = GetParent().GetTree().EditedSceneRoot as Root;
-		// TODO: Deixar de forma dinâmica
-		Main = GetTree().Root.GetNode("Cena_1") as Root;
-		// GD.Print($"\n- Main: {Main}");
+		Main = GetTree().CurrentScene as Root;
 
 		if (Main != null)
 		{
@@ -107,14 +92,15 @@ public partial class LaserSensor : Node3D
 		}
 		rayMesh.Position = new Vector3(0, 0, cylinderMesh.Height * 0.5f);
 
-		if (isCommsConnected && running && readSuccessful)
+		if (
+			isCommsConnected &&
+			running &&
+			readSuccessful &&
+			tagSensor != null &&
+			tagSensor != ""
+		)
 		{
-			scan_interval += delta;
-			if (scan_interval > (float)updateRate / 1000 && readSuccessful)
-			{
-				scan_interval = 0;
-				Task.Run(WriteTag);
-			}
+			Task.Run(WriteTag);
 		}
 	}
 
@@ -123,8 +109,7 @@ public partial class LaserSensor : Node3D
 		try
 		{
 			GD.Print("\n> [LaserSensor.cs] [OnSimulationStarted()]");
-			GD.Print($"- Main.cenaAtual: {Main.cenaAtual}");
-			tagSensor = ObjetosCena.ObterObjetoPorNome("Sensor", Main.cenaAtual).Tag;
+			tagSensor = SceneComponents.GetComponentByName(Name, Main.currentScene).Tag;
 			GD.Print($"- tagSensor: {tagSensor}");
 			running = true;
 
@@ -160,16 +145,7 @@ public partial class LaserSensor : Node3D
 	{
 		try
 		{
-			GD.Print("\n> [LaserSensor.cs] [ScanTag()]");
-			GD.Print($"- {distanceToTarget} < {distance} : {distanceToTarget < distance}");
-			GD.Print($"- value: {value}");
-			bool tagertDetected = true;
-			if (distanceToTarget < distance)
-			{
-				tagertDetected = true;
-			}
-			GD.Print($"- tagertDetected: {tagertDetected}");
-			await Main.Write(tagSensor, tagertDetected);
+			await Main.Write(tagSensor, distanceToTarget);
 		}
 		catch
 		{

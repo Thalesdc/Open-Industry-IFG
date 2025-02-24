@@ -10,7 +10,7 @@ public partial class Pallet : Node3D
 	
 	public override void _Ready()
 	{
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 
 		if (Main == null)
 		{

@@ -1,0 +1,91 @@
+[gd_scene load_steps=12 format=3 uid="uid://bg1alnxlb2kud"]
+
+[ext_resource type="Script" path="res://src/Main/Root.cs" id="1_tn3cc"]
+[ext_resource type="PackedScene" uid="uid://dyhvoundu2kqc" path="res://parts/Building.tscn" id="2_dmgqa"]
+[ext_resource type="PackedScene" uid="uid://dm55h6ap605bw" path="res://parts/BeltConveyor.tscn" id="3_lplob"]
+[ext_resource type="PackedScene" uid="uid://co2mqmdwpn57w" path="res://parts/BoxSpawner.tscn" id="4_4ucul"]
+[ext_resource type="PackedScene" uid="uid://bl73u0rvt2orv" path="res://parts/Despawner.tscn" id="5_32og3"]
+[ext_resource type="PackedScene" uid="uid://ccnjj66g0dynu" path="res://parts/Pallet.tscn" id="7_8y5pb"]
+[ext_resource type="PackedScene" uid="uid://c3ave167868rd" path="res://src/Player/player.tscn" id="7_rl500"]
+[ext_resource type="PackedScene" uid="uid://bcds53nhapmuf" path="res://src/CommsConfig/comms_config.tscn" id="8_0oyxn"]
+[ext_resource type="PackedScene" uid="uid://cr8u3bta0skiy" path="res://parts/ConveyorLegBC.tscn" id="8_5m3os"]
+[ext_resource type="PackedScene" uid="uid://bc71peokxkxdb" path="res://src/MenuInterface/SimulationControl.tscn" id="9_uxyvy"]
+[ext_resource type="PackedScene" uid="uid://kdpe7o4ec1fa" path="res://parts/DiffuseSensor.tscn" id="12_bb330"]
+
+[node name="Scene_1" type="Node3D"]
+script = ExtResource("1_tn3cc")
+CurrentScene = 1
+
+[node name="Building" parent="." instance=ExtResource("2_dmgqa")]
+
+[node name="Conveyor" parent="Building" instance=ExtResource("3_lplob")]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 1, -0.1623, -0.0995719, -0.201971)
+updateRate = 1000
+Speed = 2.0
+
+[node name="Conveyor2" parent="Building" instance=ExtResource("3_lplob")]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 1, -4.19623, -0.0995719, -0.201971)
+updateRate = 1000
+Speed = 2.0
+
+[node name="BoxSpawner" parent="Building" instance=ExtResource("4_4ucul")]
+transform = Transform3D(1, 2.30012e-09, -9.31322e-10, -2.30012e-09, 1, 8.84756e-09, 9.31322e-10, -8.84756e-09, 1, -5.42831, 1.35567, 0)
+spawnInterval = 2.0
+
+[node name="Despawner" parent="Building" instance=ExtResource("5_32og3")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 3.69058, -1.72563, -0.045296)
+
+[node name="Pallet" parent="Building" instance=ExtResource("7_8y5pb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.82865, -1.995, -0.104405)
+
+[node name="LegsStandBC3" parent="Building" instance=ExtResource("8_5m3os")]
+transform = Transform3D(1, 0, 0, 0, 1.72755, 0, 0, 0, 1, -6.19495, -2.0159, -0.205001)
+
+[node name="LegsStandBC" parent="Building" instance=ExtResource("8_5m3os")]
+transform = Transform3D(1, 0, 0, 0, 1.72755, 0, 0, 0, 1, -2.17279, -2.00815, -0.187311)
+
+[node name="LegsStandBC2" parent="Building" instance=ExtResource("8_5m3os")]
+transform = Transform3D(1, 0, 0, 0, 1.72755, 0, 0, 0, 1, 1.82691, -2.00815, -0.217045)
+
+[node name="LegsStandDiffuseSensor2" parent="Building" instance=ExtResource("8_5m3os")]
+transform = Transform3D(-0.0107161, 0, -0.152079, 0, 2.11148, 0, 0.999943, 0, -0.0016298, 1.66769, -2.01327, -2.26259)
+
+[node name="DiffuseSensor2" parent="Building" instance=ExtResource("12_bb330")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 1.66706, 0.360477, -2.45643)
+
+[node name="LegsStandDiffuseSensor" parent="Building" instance=ExtResource("8_5m3os")]
+transform = Transform3D(-0.0107161, 0, -0.152079, 0, 2.11148, 0, 0.999943, 0, -0.0016298, -2.58984, -2.01327, -2.26259)
+
+[node name="DiffuseSensor" parent="Building" instance=ExtResource("12_bb330")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -2.59046, 0.360477, -2.45643)
+
+[node name="Player" parent="." instance=ExtResource("7_rl500")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.98488, 0.465961, 4.7465)
+
+[node name="CommsConfigMenu" parent="." instance=ExtResource("8_0oyxn")]
+
+[node name="bt_show_comms_config_menu" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -119.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Configurações"
+
+[node name="RunBar" parent="." instance=ExtResource("9_uxyvy")]
+offset_left = -110.0
+offset_right = 110.0
+
+[node name="TextoCommsState" type="RichTextLabel" parent="."]
+offset_right = 168.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "Comunicação OPC DA - Teste"
+fit_content = true
+autowrap_mode = 0
+
+[connection signal="pressed" from="bt_show_comms_config_menu" to="." method="_on_bt_show_comms_config_menu_pressed"]
