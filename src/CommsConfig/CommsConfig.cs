@@ -31,14 +31,17 @@ public partial class CommsConfig : Control
 	static private Opc.Da.Subscription subscription;
 	static Opc.Da.Item[] opc_da_items_array;
 
-	// TODO: Mudar para atributo do objeto no godot
-	int CENA = 1;
-	List<ObjetosCena> objetosCena;
+	public Root Main { get; set; }
+
+	int currentScene;
+	List<SceneComponents> sceneComponents;
 	public override void _Ready()
 	{
 		try
 		{
 			GD.Print("\n> [CommsConfig.cs] [_Ready()]");
+			Main = GetTree().CurrentScene as Root;
+			currentScene = Main.currentScene;
 
 			// Lista de servidores
 			il_opcServerList = GetNode<ItemList>("MarginContainer/HBoxContainer/VBoxContainer1/ServerList");
@@ -46,21 +49,17 @@ public partial class CommsConfig : Control
 			// Lista de tags do servidor OPC
 			il_opcServerTagList = GetNode<ItemList>("MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer/VBoxContainer/OpcServerTagList");
 
-			if (CENA == 1)
+			if (currentScene == 1)
 			{
-				objetosCena = ObjetosCena.objetosFixosCena1;
-
+				sceneComponents = SceneComponents.sceneOneComponents;
 			}
 
-			foreach (var objeto in objetosCena)
+			foreach (var component in sceneComponents)
 			{
-				// GD.Print($"objeto.Id: {objeto.Id}");
-				// GD.Print($"objeto.Nome: {objeto.Nome}");
-				// GD.Print($"objeto.Tag: {objeto.Tag}");
 				HBoxContainer hbox = new HBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, SizeFlagsVertical = Control.SizeFlags.ShrinkBegin };
 				hbox.AddChild(new Label
 				{
-					Text = objeto.Nome,
+					Text = component.Name,
 					SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
 					SizeFlagsVertical = Control.SizeFlags.ShrinkBegin
 				});
@@ -166,7 +165,7 @@ public partial class CommsConfig : Control
 		// GD.Print("\n> [CommsConfig.cs] [OnDataChange()]");
 		// foreach (var value in values)
 		// {
-			// GD.Print($"🔹 Tag: {value.ItemName}, Valor: {value.Value}, Qualidade: {value.Quality}");
+		// GD.Print($"🔹 Tag: {value.ItemName}, Valor: {value.Value}, Qualidade: {value.Quality}");
 		// }
 	}
 
@@ -234,6 +233,7 @@ public partial class CommsConfig : Control
 					if (childVbox is OptionButton optionButton)
 					{
 						optionButton.AddItem(name, id);
+						optionButton.Select(-1);
 						id += 1;
 					}
 				}
@@ -255,26 +255,11 @@ public partial class CommsConfig : Control
 		int optButtonId = optButton.GetSelectedId();
 		string selectedText = optButton.GetItemText((int)index);
 
-		// GD.Print($"- optButtonId: {optButtonId}");
-		// GD.Print($"- selectedText: {selectedText}");
-
-		ObjetosCena.ObterObjetoPorId(optButtonId, CENA).Tag = selectedText;
-		// switch (optButtonId)
-		// {
-		// 	case 0:
-		// 		ObjetosCena.ObterObjetoPorId(optButtonId, CENA).Tag = selectedText;
-		// 		break;
-		// 	case 1:
-		// 		ObjetosCena.ObterObjetoPorId(1, CENA).Tag = selectedText;
-		// 		break;
-		// 	case 2:
-		// 		ObjetosCena.ObterObjetoPorId(2, CENA).Tag = selectedText;
-		// 		break;
-		// }
+		SceneComponents.GetComponentById(optButtonId, currentScene).Tag = selectedText;
 	}
 	public static object ReadOpcItem(string tagName)
 	{
-		// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
+		GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
 		try
 		{
 			// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
@@ -297,7 +282,7 @@ public partial class CommsConfig : Control
 				if (results[0].Value != null)
 				{
 					// GD.Print($"- results[0].Value.GetType():{results[0].Value.GetType()}");
-					// GD.Print($"- Tag:{tagName} | Valor:{results[0].Value} | Tipo:{results[0].Value.GetType()}");
+					GD.Print($"- READ Tag:{tagName} | Valor:{results[0].Value} | Tipo:{results[0].Value.GetType()}");
 				}
 				else
 				{
@@ -317,29 +302,50 @@ public partial class CommsConfig : Control
 	}
 	public static void WriteOpcItem(string tagName, bool value)
 	{
-		GD.Print("\n> [CommsConfig.cs] [WriteOpcItem()] Boolean");
-		GD.Print($"- tagName: {tagName}");
-		GD.Print($"- value: {value}");
 		try
 		{
-			// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
-			if (opcServer == null || !opcServer.IsConnected)
+			// GD.Print($"\n> WRITE Tag:{tagName} | Valor:{value}");
+
+			Opc.Da.Item opcItem = Array.Find(opc_da_items_array, x => x.ItemName.Equals(tagName));
+			Opc.Da.ItemValue opcItemValue = new Opc.Da.ItemValue(opcItem)
 			{
-				GD.PrintErr("### CoomsConfig.cs - ReadOpcItem() - Servidor OPC não conectado!");
-			}
-			else
-			{
-				Opc.Da.Item OPC_WriteItem = Array.Find(opc_da_items_array, x => x.ItemName.Equals(tagName));
-				GD.Print($"- OPC_WriteItem: {OPC_WriteItem}");
-				Opc.Da.ItemValue[] writeValues = new Opc.Da.ItemValue[1];
-				writeValues[0] = new Opc.Da.ItemValue(OPC_WriteItem);
-				writeValues[0].Value = value;
-				Opc.IdentifiedResult[] retValues = subscription.Write(writeValues);
-			}
+				Value = value
+			};
+			Opc.IdentifiedResult[] results = opcServer.Write(new Opc.Da.ItemValue[] { opcItemValue });
+
+			// foreach (var result in results)
+			// {
+			// 	if (result.ResultID.Succeeded())
+			// 	{
+			// 		Console.WriteLine($"Tag {tagName} escrita com sucesso: {value}");
+			// 	}
+			// 	else
+			// 	{
+			// 		Console.WriteLine($"Erro ao escrever na tag {tagName}: {result.ResultID}");
+			// 	}
+			// }
 		}
 		catch (Exception err)
 		{
-			GD.PrintErr("### CoomsConfig.cs - ReadOpcItem() - Erro ao ler a TAG");
+			GD.PrintErr("### CoomsConfig.cs - WriteOpcItem() bool");
+			GD.PrintErr(err);
+		}
+	}
+
+	public static void WriteOpcItem(string tagName, float value)
+	{
+		try
+		{
+			Opc.Da.Item opcItem = Array.Find(opc_da_items_array, x => x.ItemName.Equals(tagName));
+			Opc.Da.ItemValue opcItemValue = new Opc.Da.ItemValue(opcItem)
+			{
+				Value = value
+			};
+			Opc.IdentifiedResult[] results = opcServer.Write(new Opc.Da.ItemValue[] { opcItemValue });
+		}
+		catch (Exception err)
+		{
+			GD.PrintErr("### CoomsConfig.cs - WriteOpcItem() float");
 			GD.PrintErr(err);
 		}
 	}

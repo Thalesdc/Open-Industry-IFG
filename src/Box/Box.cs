@@ -12,7 +12,7 @@ public partial class Box : Node3D
 	public override void _Ready()
 	{
 		// GD.Print("\n> [Box.cs] [_Ready()]");
-		Main = GetTree().Root.GetNode("Cena_1") as Root;
+		Main = GetTree().CurrentScene as Root;
 		// GD.Print($"- Main:{Main}");
 
 		if (Main == null)

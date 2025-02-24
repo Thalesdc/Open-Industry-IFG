@@ -14,7 +14,7 @@ var main : Node
 	#
 	#print("EditorInterface")
 	#
-	#main = get_node("cena_1")
+	#main = get_node("scene_1")
 	#print("is_instance_valid(main)")
 	#print(is_instance_valid(main))
 	#
@@ -23,4 +23,4 @@ var main : Node
 	#if is_instance_valid(owner):
 		#await owner.ready
 		#EditorInterface.set_main_screen_editor("3D")
-		#EditorInterface.open_scene_from_path("res://cena_1.tscn")
+		#EditorInterface.open_scene_from_path("res://scene_1.tscn")

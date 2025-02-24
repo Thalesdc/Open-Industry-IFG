@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OI_IFG_4.3")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+36ea2b71f060ebba10e0f4a9ec454623ad87f8ff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84effdadeeed7c17fb13df22e5634da99a401938")]
 [assembly: System.Reflection.AssemblyProductAttribute("OI_IFG_4.3")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OI_IFG_4.3")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
