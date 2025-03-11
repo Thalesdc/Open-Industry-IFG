@@ -22,12 +22,16 @@ theme_override_constants/separation = 8
 
 [node name="Play" type="Button" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
 text = "Start
 "
 icon = ExtResource("1_ujh07")
 
 [node name="Pause" type="Button" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
 disabled = true
 toggle_mode = true
 text = "Pause"
@@ -35,6 +39,8 @@ icon = ExtResource("2_m4lop")
 
 [node name="Stop" type="Button" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
 disabled = true
 text = "Stop
 "

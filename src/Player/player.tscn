@@ -1,40 +1,43 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3ave167868rd"]
+[gd_scene load_steps=7 format=3 uid="uid://c3ave167868rd"]
 
 [ext_resource type="Script" path="res://src/Player/Player.gd" id="1_igisc"]
-[ext_resource type="Script" path="res://src/Player/camera_controler.gd" id="2_2yq8t"]
+[ext_resource type="Script" path="res://src/Player/camera_spring_arm.gd" id="2_2yq8t"]
+[ext_resource type="Script" path="res://src/Player/camera_follow.gd" id="3_r6r8x"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_t045n"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_u4lej"]
 lightmap_size_hint = Vector2i(3, 2)
-radius = 0.05
-height = 0.1
+radius = 0.025
+height = 0.05
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_h6yts"]
-radius = 0.07
+[sub_resource type="SphereShape3D" id="SphereShape3D_poa4v"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera")]
+collision_layer = 2
 script = ExtResource("1_igisc")
+camera = NodePath("SprintArmPivot/Camera3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_t045n")
 
 [node name="MeshRoot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77, -0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -0.25)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshRoot"]
 mesh = SubResource("SphereMesh_u4lej")
 
-[node name="CamRoot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77, 0)
+[node name="SprintArmPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 script = ExtResource("2_2yq8t")
 
-[node name="CamYaw" type="Node3D" parent="CamRoot"]
+[node name="SpringArm3D" type="SpringArm3D" parent="SprintArmPivot"]
+shape = SubResource("SphereShape3D_poa4v")
+spring_length = 0.3
 
-[node name="CamPitch" type="Node3D" parent="CamRoot/CamYaw"]
+[node name="SpringPosition" type="Node3D" parent="SprintArmPivot/SpringArm3D"]
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CamRoot/CamYaw/CamPitch"]
-shape = SubResource("SphereShape3D_h6yts")
-spring_length = 1.5
-
-[node name="Camera3D" type="Camera3D" parent="CamRoot/CamYaw/CamPitch/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="SprintArmPivot" node_paths=PackedStringArray("spring_arm")]
+script = ExtResource("3_r6r8x")
+spring_arm = NodePath("../SpringArm3D/SpringPosition")
+lerp_power = 8.0

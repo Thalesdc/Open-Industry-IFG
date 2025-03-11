@@ -21,7 +21,7 @@ public partial class RollerCorner : Node3D
 
 	public override void _Process(double delta)
 	{
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 
 		if (Main == null)
 		{

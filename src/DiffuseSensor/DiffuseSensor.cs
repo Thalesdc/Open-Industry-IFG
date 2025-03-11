@@ -102,21 +102,10 @@ public partial class DiffuseSensor : Node3D
 			running &&
 			readSuccessful &&
 			tagDiffuseSensor != null &&
-			tagDiffuseSensor != ""
+			tagDiffuseSensor != string.Empty
 		)
 		{
 			Task.Run(WriteTag);
-			// scan_interval += delta;
-			// if (
-			// 	scan_interval > (float)updateRate / 1000 &&
-			// 	readSuccessful &&
-			// 	tagDiffuseSensor != null &&
-			// 	tagDiffuseSensor != ""
-			// )
-			// {
-			// 	scan_interval = 0;
-			// 	Task.Run(WriteTag);
-			// }
 		}
 
 
@@ -126,7 +115,7 @@ public partial class DiffuseSensor : Node3D
 	void OnSimulationStarted()
 	{
 		GD.Print("\n> [DiffuseSensor.cs] [OnSimulationStarted()]");
-		tagDiffuseSensor = SceneComponents.GetComponentByName(Name, Main.currentScene).Tag;
+		tagDiffuseSensor = SceneComponents.GetComponentByKey(Name, Main.currentScene).Tag;
 
 		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
 		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");

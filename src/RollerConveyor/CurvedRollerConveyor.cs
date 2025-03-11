@@ -105,7 +105,7 @@ public partial class CurvedRollerConveyor : Node3D, IRollerConveyor
 		SetRollersSpeed(rollersMid, Speed);
 		SetRollersSpeed(rollersHigh, Speed);
 
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 
 		if (Main != null)
 		{
@@ -183,11 +183,10 @@ public partial class CurvedRollerConveyor : Node3D, IRollerConveyor
 	{
 		if (enableComms)
 		{
-			Main.Connect(id, Root.DataType.Float, tag);
+			readSuccessful = true;
 		}
 
 		running = true;
-		readSuccessful = true;
 	}
 
 	void OnSimulationEnded()
@@ -199,7 +198,7 @@ public partial class CurvedRollerConveyor : Node3D, IRollerConveyor
 	{
 		try
 		{
-			Speed = await Main.ReadFloat(id);
+			Speed = await Main.ReadFloat("id");
 		}
 		catch
 		{

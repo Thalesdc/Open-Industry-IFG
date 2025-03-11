@@ -185,11 +185,10 @@ public partial class RollerConveyor : Node3D, IRollerConveyor
 	{
 		if (enableComms)
 		{
-			Main.Connect(id, Root.DataType.Float, tag);
+			readSuccessful = true;
 		}
 
 		running = true;
-		readSuccessful = true;
 	}
 
 	void OnSimulationEnded()
@@ -201,7 +200,7 @@ public partial class RollerConveyor : Node3D, IRollerConveyor
 	{
 		try
 		{
-			Speed = await Main.ReadFloat(id);
+			Speed = await Main.ReadFloat("id");
 		}
 		catch
 		{

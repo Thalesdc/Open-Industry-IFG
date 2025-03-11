@@ -83,7 +83,7 @@ public partial class BladeStop : Node3D
 	
 	public override void _Ready()
 	{
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 		if (Main != null)
 		{
 			Main.SimulationStarted += OnSimulationStarted;
@@ -191,11 +191,10 @@ public partial class BladeStop : Node3D
 		if (Main == null) return;
 		if (EnableComms)
 		{
-			Main.Connect(id, Root.DataType.Bool, tag);
+			readSuccessful = true;
 		}
 		
 		running = true;
-		readSuccessful = true;
 	}
 
 	void OnSimulationEnded()
@@ -207,7 +206,7 @@ public partial class BladeStop : Node3D
 	{
 		try
 		{
-			Active = await Main.ReadBool(id);
+			Active = await Main.ReadBool("id");
 		}
 		catch
 		{

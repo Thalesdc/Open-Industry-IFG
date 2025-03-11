@@ -56,7 +56,7 @@ public partial class Diverter : Node3D
 	{
 		diverterAnimator = GetNode<DiverterAnimator>("DiverterAnimator");
 
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 
 		if (Main != null)
 		{
@@ -142,10 +142,9 @@ public partial class Diverter : Node3D
 
 		if (enableComms)
 		{
-			Main.Connect(id, Root.DataType.Bool, tag);
+			readSuccessful = true;
 		}
 
-		readSuccessful = true;
 	}
 
 	void OnSimulationEnded()
@@ -158,7 +157,7 @@ public partial class Diverter : Node3D
 	{
 		try
 		{
-			FireDivert = await Main.ReadBool(id);
+			FireDivert = await Main.ReadBool("id");
 		}
 		catch
 		{

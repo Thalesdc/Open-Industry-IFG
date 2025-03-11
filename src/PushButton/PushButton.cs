@@ -4,27 +4,11 @@ using System.Threading.Tasks;
 
 public partial class PushButton : Node3D
 {
-	bool enableComms = false;
-	[Export]
-	bool EnableComms
-	{
-		get
-		{
-			return enableComms;
-		}
-		set
-		{
-			enableComms = value;
-			NotifyPropertyListChanged();
-		}
-	}
-
-	[Export] string PushbuttonTag = "";
-	[Export] string LampTag = "";
-	[Export] int updateRate = 100;
-	
+	private bool isCommsConnected;
+	[Export] int updateRate = 2000;
 	string text = "stop";
-	[Export] String Text
+	[Export]
+	String Text
 	{
 		get
 		{
@@ -33,16 +17,17 @@ public partial class PushButton : Node3D
 		set
 		{
 			text = value;
-			
+
 			if (textMesh != null)
 			{
 				textMesh.Text = text;
 			}
 		}
 	}
-	
+
 	bool toggle = false;
-	[Export] bool Toggle
+	[Export]
+	bool Toggle
 	{
 		get
 		{
@@ -52,49 +37,15 @@ public partial class PushButton : Node3D
 		{
 			toggle = value;
 			if (!toggle)
-				Pushbutton = false;
+				pushbutton = false;
 		}
 	}
-	
-	bool pushbutton = false;
-	[Export] bool Pushbutton 
-	{
-		get 
-		{
-			return pushbutton;
-		}
-		set
-		{
 
-			if (!running)
-			{
-				return;
-			}
-			pushbutton = value;
-			
-			if (!Toggle && pushbutton)
-			{
-				if (!Input.IsPhysicalKeyPressed(Key.G))
-				{
-					Task.Delay(updateRate * 3).ContinueWith(t => pushbutton = false);
-				}
-				Tween tween = GetTree().CreateTween();
-				tween.TweenProperty(buttonMesh, "position", new Vector3(0, 0, buttonPressedZPos), 0.035f);
-				tween.TweenInterval(0.2f);
-				tween.TweenProperty(buttonMesh, "position", Vector3.Zero, 0.02f);
-			}
-			else if (buttonMesh != null)
-			{
-				if (pushbutton)
-					buttonMesh.Position = new Vector3(0, 0, buttonPressedZPos);
-				else
-					buttonMesh.Position = Vector3.Zero;
-			}
-		}
-	}
-	
+	bool pushbutton = false;
+
 	bool lamp = false;
-	[Export] bool Lamp
+	[Export]
+	bool Lamp
 	{
 		get
 		{
@@ -106,9 +57,10 @@ public partial class PushButton : Node3D
 			SetActive(lamp);
 		}
 	}
-	
+
 	Color buttonColor = new("#e73d30");
-	[Export] Color ButtonColor
+	[Export]
+	Color ButtonColor
 	{
 		get
 		{
@@ -120,141 +72,141 @@ public partial class PushButton : Node3D
 			SetButtonColor(buttonColor);
 		}
 	}
-	
+
 	MeshInstance3D textMeshInstance;
 	TextMesh textMesh;
-	
+
 	MeshInstance3D buttonMesh;
 	StandardMaterial3D buttonMaterial;
 	float buttonPressedZPos = -0.04f;
 	bool keyHeld = false;
 	bool keyPressed = false;
-	
+
 	bool readSuccessful = false;
 	bool running = false;
-	double scan_interval = 0;
-	
-	readonly Guid buttonId = Guid.NewGuid();
+	double scan_interval = 2000;
+	string tagPushButton;
+
 	readonly Guid activeId = Guid.NewGuid();
-	
+
 	Root main;
 	public Root Main { get; set; }
-	
+
 	public override void _ValidateProperty(Godot.Collections.Dictionary property)
 	{
 		string propertyName = property["name"].AsStringName();
 
-		if (propertyName == PropertyName.updateRate || propertyName == PropertyName.PushbuttonTag || propertyName == PropertyName.LampTag)
+		if (propertyName == PropertyName.updateRate)
 		{
-			property["usage"] = (int)(EnableComms ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
+			property["usage"] = (int)(isCommsConnected ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
 		}
 	}
-	
+
 	public override void _Ready()
 	{
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
-		
+		GD.Print($"\n> [PushButton.cs] [{Name}] [_Ready()]");
+		Main = GetTree().CurrentScene as Root;
+
 		if (Main != null)
 		{
 			Main.SimulationStarted += OnSimulationStarted;
 			Main.SimulationEnded += OnSimulationEnded;
 		}
-		
+
 		// Assign 3D text
 		textMeshInstance = GetNode<MeshInstance3D>("TextMesh");
 		textMesh = textMeshInstance.Mesh.Duplicate() as TextMesh;
 		textMeshInstance.Mesh = textMesh;
 		textMesh.Text = text;
-		
+
 		// Assign button
 		buttonMesh = GetNode<MeshInstance3D>("Meshes/Button");
 		buttonMesh.Mesh = buttonMesh.Mesh.Duplicate() as Mesh;
 		buttonMaterial = buttonMesh.Mesh.SurfaceGetMaterial(0).Duplicate() as StandardMaterial3D;
 		buttonMesh.Mesh.SurfaceSetMaterial(0, buttonMaterial);
-		
+
 		// Initialize properties' states
 		SetButtonColor(ButtonColor);
 		SetActive(Lamp);
 	}
 
-    public override void _ExitTree()
-    {
-        if (Main == null) return;
-
-        Main.SimulationStarted -= OnSimulationStarted;
-        Main.SimulationEnded -= OnSimulationEnded;
-    }
-
-    public override void _PhysicsProcess(double delta)
+	private void _on_static_body_3d_input_event(Node camera, InputEvent inputEvent, Vector3 position, Vector3 normal, int shapeIdx)
 	{
-		if(!running)
+		if (inputEvent is InputEventMouseButton mouseEvent)
 		{
-			Pushbutton = false;
-			return;
-		}
-		// if (Main != null)
-		// {
-		// 	if(Main.selectedNodes != null)
-		// 	{
-		// 		bool selected = Main.selectedNodes.Contains(this);
-
-		// 		if (selected && Input.IsPhysicalKeyPressed(Key.G))
-		// 		{
-		// 			keyPressed = true;
-		// 			if (!keyHeld && Toggle)
-		// 			{
-		// 				keyHeld = true;
-		// 				Pushbutton = !Pushbutton;
-		// 			}
-		// 			else if (!Toggle)
-		// 			{
-		// 				Pushbutton = true;
-		// 			}
-		// 		}
-		// 	}
-		// }
-		
-		if (!Input.IsPhysicalKeyPressed(Key.G))
-		{
-			keyHeld = false;
-			if (keyPressed)
+			if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.Pressed)
 			{
-				keyPressed = false;
-				if(!Toggle)
+				GD.Print("\n>[PushButton.cs] [_on_static_body_3d_input_event]");
+
+				GD.Print($" - running: {running}");
+				if (!running)
 				{
-					Pushbutton = false;
+					pushbutton = false;
+					return;
+				}
+
+				// if (!Toggle && Input.IsPhysicalKeyPressed(Key.G))
+				// {
+				// 	Task.Delay(updateRate * 1).ContinueWith(t => pushbutton = false);
+				// 	Tween tween = GetTree().CreateTween();
+				// 	tween.TweenProperty(buttonMesh, "position", new Vector3(0, 0, buttonPressedZPos), 0.035f);
+				// 	tween.TweenInterval(0.2f);
+				// 	tween.TweenProperty(buttonMesh, "position", Vector3.Zero, 0.02f);
+				// }
+
+				pushbutton = !pushbutton;
+				GD.Print($" - pushbutton: {pushbutton}");
+
+				SetActive(pushbutton);
+
+				if (pushbutton)
+				{
+					buttonMesh.Position = new Vector3(0, 0, buttonPressedZPos);
+				}
+				else
+				{
+					buttonMesh.Position = Vector3.Zero;
+				}
+
+				if (
+					isCommsConnected &&
+					readSuccessful &&
+					tagPushButton != null &&
+					tagPushButton != string.Empty
+				)
+				{
+					Task.Run(WriteTag);
 				}
 			}
 		}
-		
-		if (enableComms && readSuccessful)
-		{
-			scan_interval += delta;
-			if (scan_interval > (float)updateRate / 1000 && readSuccessful)
-			{
-				scan_interval = 0;
-				Task.Run(ScanTag);
-			}
-		}
 	}
-	
-	async Task ScanTag()
+
+	public override void _ExitTree()
 	{
-		if (PushbuttonTag != string.Empty)
+		GD.Print($"\n> [PushButton.cs] [{Name}] [_ExitTree()]");
+		if (Main == null) return;
+
+		Main.SimulationStarted -= OnSimulationStarted;
+		Main.SimulationEnded -= OnSimulationEnded;
+	}
+
+	async Task WriteTag()
+	{
+		try
 		{
-			await Main.Write("buttonId", Pushbutton);
+			await Main.Write(tagPushButton, pushbutton);
 		}
-		
-		if (LampTag != string.Empty)
+		catch
 		{
-			Lamp = await Main.ReadBool(activeId);
+			GD.PrintErr("Failure to write: " + tagPushButton + " in Node: " + Name);
+			readSuccessful = false;
 		}
 	}
-	
+
 	void SetActive(bool newValue)
 	{
 		if (buttonMaterial == null) return;
-		
+
 		if (newValue)
 		{
 			buttonMaterial.EmissionEnergyMultiplier = 1.0f;
@@ -264,7 +216,7 @@ public partial class PushButton : Node3D
 			buttonMaterial.EmissionEnergyMultiplier = 0.0f;
 		}
 	}
-	
+
 	void SetButtonColor(Color newValue)
 	{
 		if (buttonMaterial != null)
@@ -273,19 +225,21 @@ public partial class PushButton : Node3D
 			buttonMaterial.Emission = newValue;
 		}
 	}
-	
+
 	void OnSimulationStarted()
 	{
-		if (enableComms)
+		GD.Print($"\n> [PushButton.cs] [{Name}] [OnSimulationStarted()]");
+		tagPushButton = SceneComponents.GetComponentByKey(Name, Main.currentScene).Tag;
+
+		if (isCommsConnected)
 		{
-			Main.Connect(buttonId, Root.DataType.Bool, PushbuttonTag);
-			Main.Connect(activeId, Root.DataType.Bool, LampTag);
+			readSuccessful = true;
 		}
-		
+
 		running = true;
-		readSuccessful = true;
+		GD.Print($"- running:{running}");
 	}
-	
+
 	void OnSimulationEnded()
 	{
 		running = false;

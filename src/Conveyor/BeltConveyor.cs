@@ -156,7 +156,12 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 			rb.Rotation = Vector3.Zero;
 			rb.Scale = new Vector3(1, 1, 1);
 
-			if (isCommsConnected && readSuccessful && tagEsteira != null && tagEsteira != "")
+			if (
+				isCommsConnected &&
+				readSuccessful &&
+				tagEsteira != null &&
+				tagEsteira != string.Empty
+			)
 			{
 				scan_interval += delta;
 				if (scan_interval > (float)updateRate / 1000 && readSuccessful)
@@ -184,15 +189,13 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
 
 		// Name is the Node proprety to get current Node name		
-		tagEsteira = SceneComponents.GetComponentByName(Name.ToString(), currentScene).Tag;
+		tagEsteira = SceneComponents.GetComponentByKey(Name.ToString(), currentScene).Tag;
 
 		if (Main == null) return;
 		running = true;
 
 		if (isCommsConnected)
 		{
-			GD.Print($"- tagEsteira: {tagEsteira}");
-			Main.Connect(id, Root.DataType.Float, tagEsteira);
 			readSuccessful = true;
 		}
 	}
@@ -220,7 +223,7 @@ public partial class BeltConveyor : Node3D, IBeltConveyor
 		try
 		{
 			// GD.Print("\n> [BeltConveyor.cs] [ScanTag()]");
-			Speed = await Main.LerFloat(tagEsteira);
+			Speed = await Main.ReadFloat(tagEsteira);
 		}
 		catch(Exception err)
 		{

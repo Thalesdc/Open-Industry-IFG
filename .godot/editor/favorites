@@ -1,5 +1,6 @@
-res://src/scenes/scene_1/scene_1.tscn
-res://src/Player/player.tscn
 res://src/MenuInicial/menu_inicial.tscn
-res://src/MenuInterface/SimulationControl.tscn
 res://src/CommsConfig/comms_config.tscn
+res://src/scenes/scene_1/scene_1.tscn
+res://src/scenes/scene_2/scene_2.tscn
+res://src/MenuInterface/SimulationControl.tscn
+res://src/Player/player.tscn

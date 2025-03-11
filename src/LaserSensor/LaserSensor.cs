@@ -97,7 +97,7 @@ public partial class LaserSensor : Node3D
 			running &&
 			readSuccessful &&
 			tagSensor != null &&
-			tagSensor != ""
+			tagSensor != string.Empty
 		)
 		{
 			Task.Run(WriteTag);
@@ -109,7 +109,7 @@ public partial class LaserSensor : Node3D
 		try
 		{
 			GD.Print("\n> [LaserSensor.cs] [OnSimulationStarted()]");
-			tagSensor = SceneComponents.GetComponentByName(Name, Main.currentScene).Tag;
+			tagSensor = SceneComponents.GetComponentByKey(Name, Main.currentScene).Tag;
 			GD.Print($"- tagSensor: {tagSensor}");
 			running = true;
 
