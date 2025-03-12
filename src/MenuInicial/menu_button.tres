@@ -2,5 +2,5 @@
 
 [resource]
 Button/colors/font_color = Color(1, 1, 1, 1)
-Button/constants/h_separation = 8
-Button/font_sizes/font_size = 24
+Button/constants/h_separation = 10
+Button/font_sizes/font_size = 32

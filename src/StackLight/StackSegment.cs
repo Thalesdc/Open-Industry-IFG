@@ -65,8 +65,8 @@ public partial class StackSegment : Node3D
 	StandardMaterial3D material;
 	public override void _Ready()
 	{
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
-		
+		Main = GetTree().CurrentScene as Root;
+
 		if (Main != null)
 		{
 			Main.SimulationStarted += OnSimulationStarted;
@@ -112,7 +112,7 @@ public partial class StackSegment : Node3D
 	{
 		if (segmentData.Tag != string.Empty)
 		{
-			segmentData.Active = await Main.ReadBool(segmentId);
+			segmentData.Active = await Main.ReadBool("segmentId");
 		}
 	}
 	
@@ -147,11 +147,10 @@ public partial class StackSegment : Node3D
 	{
 		if (enableComms)
 		{
-			Main.Connect(segmentId, Root.DataType.Bool, segmentData.Tag);
+			readSuccessful = true;
 		}
 		
 		running = true;
-		readSuccessful = true;
 	}
 	
 	void OnSimulationEnded()

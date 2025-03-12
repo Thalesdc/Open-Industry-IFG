@@ -1,0 +1,224 @@
+[gd_scene load_steps=20 format=3 uid="uid://ba0efwi0ug8l8"]
+
+[ext_resource type="PackedScene" uid="uid://dyhvoundu2kqc" path="res://parts/Building.tscn" id="1_dewph"]
+[ext_resource type="Script" path="res://src/Main/Root.cs" id="1_jm3vw"]
+[ext_resource type="PackedScene" uid="uid://i8xb8locnhi5" path="res://parts/assemblies/RollerConveyorAssembly.tscn" id="2_68veb"]
+[ext_resource type="PackedScene" uid="uid://dg47c07xr4ksu" path="res://parts/RollerConveyor.tscn" id="3_3lbju"]
+[ext_resource type="PackedScene" uid="uid://c3ave167868rd" path="res://src/Player/player.tscn" id="4_tl2j3"]
+[ext_resource type="PackedScene" uid="uid://gddgyvex6gdj" path="res://parts/PushButton.tscn" id="5_61nvy"]
+[ext_resource type="PackedScene" uid="uid://5pjmdoyiub35" path="res://parts/Diverter.tscn" id="6_abdje"]
+[ext_resource type="PackedScene" uid="uid://kdpe7o4ec1fa" path="res://parts/DiffuseSensor.tscn" id="6_wd3np"]
+[ext_resource type="PackedScene" uid="uid://ccnjj66g0dynu" path="res://parts/Pallet.tscn" id="7_oqyy7"]
+[ext_resource type="PackedScene" uid="uid://c1mup2vown0ak" path="res://parts/BladeStop.tscn" id="9_2dna0"]
+[ext_resource type="PackedScene" uid="uid://bdeaerf4lvemx" path="res://parts/assemblies/CurvedRollerConveyorAssembly.tscn" id="10_4tbej"]
+[ext_resource type="PackedScene" uid="uid://cr8u3bta0skiy" path="res://parts/ConveyorLegBC.tscn" id="11_sfxwi"]
+[ext_resource type="PackedScene" uid="uid://co2mqmdwpn57w" path="res://parts/BoxSpawner.tscn" id="12_ddpyk"]
+[ext_resource type="PackedScene" uid="uid://rv5ef61beh35" path="res://parts/ConveyorLegRC.tscn" id="14_qyjr8"]
+[ext_resource type="PackedScene" uid="uid://bl73u0rvt2orv" path="res://parts/Despawner.tscn" id="15_61p5f"]
+[ext_resource type="PackedScene" uid="uid://bcds53nhapmuf" path="res://src/CommsConfig/comms_config.tscn" id="16_frjb8"]
+[ext_resource type="PackedScene" uid="uid://bc71peokxkxdb" path="res://src/MenuInterface/SimulationControl.tscn" id="17_rixpw"]
+[ext_resource type="Texture2D" uid="uid://dwtde6suhu7db" path="res://src/CommsConfig/settings.png" id="18_087vx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7iy1t"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 1)
+
+[node name="Scene_2" type="Node3D"]
+script = ExtResource("1_jm3vw")
+CurrentScene = 2
+
+[node name="Building" parent="." instance=ExtResource("1_dewph")]
+
+[node name="DiffuseSensor" parent="Building" instance=ExtResource("6_wd3np")]
+transform = Transform3D(-4.37114e-08, 0, -0.701412, 0, 1, 0, 1, 0, -3.06597e-08, 6.20793, 0.43806, -0.754498)
+
+[node name="Diverter" parent="Building" instance=ExtResource("6_abdje")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.008, 0.349185, 0.0681071)
+divertDistance = 2.0
+
+[node name="LegsStandRCDiverter" parent="Building" instance=ExtResource("14_qyjr8")]
+transform = Transform3D(-6.13685e-08, 0, 1, 0, 1.80642, 0, -1.40395, 0, -4.37114e-08, 7.016, -1.995, 0.0644511)
+
+[node name="BladeStop" parent="Building" instance=ExtResource("9_2dna0")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.06962, -0.00973086, 1.15965)
+
+[node name="PushButton" parent="Building" instance=ExtResource("5_61nvy")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.24958, 0.513327, 1.71972)
+Text = "Saída 1"
+ButtonColor = Color(1.92523e-07, 0.775184, 0.863938, 1)
+
+[node name="LegsStandPushButton" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(0.5746, -0.00243597, 0, 0.000641595, 2.18161, 0.000138074, -4.22477e-07, -0.00143654, 0.209686, 1.17849, -2.00366, 1.71967)
+
+[node name="PushButton3" parent="Building" instance=ExtResource("5_61nvy")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.24958, 0.513327, -5.54251)
+Text = "DESLIGAR"
+
+[node name="LegsStandPushButton3" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(0.5746, -0.00243597, 0, 0.000641595, 2.18161, 0.000138074, -4.22477e-07, -0.00143654, 0.209686, 1.17849, -2.00366, -5.54256)
+
+[node name="PushButton4" parent="Building" instance=ExtResource("5_61nvy")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.24958, 0.513327, -4.34527)
+Text = "LIGAR"
+ButtonColor = Color(0.239216, 0.905882, 0.188235, 1)
+
+[node name="LegsStandPushButton4" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(0.5746, -0.00243597, 0, 0.000641595, 2.18161, 0.000138074, -4.22477e-07, -0.00143654, 0.209686, 1.17849, -2.00366, -4.34532)
+
+[node name="DiffuseSensor2" parent="Building" instance=ExtResource("6_wd3np")]
+transform = Transform3D(-4.37114e-08, 0, -0.701412, 0, 1, 0, 1, 0, -3.06597e-08, 6.20793, 0.43806, 8.09195)
+
+[node name="Diverter2" parent="Building" instance=ExtResource("6_abdje")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.008, 0.349185, 8.95772)
+divertDistance = 2.0
+
+[node name="BladeStop2" parent="Building" instance=ExtResource("9_2dna0")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.06962, -0.0221129, 10.1299)
+
+[node name="PushButton2" parent="Building" instance=ExtResource("5_61nvy")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.24958, 0.513327, 7.24603)
+Text = "Saída 2"
+ButtonColor = Color(0, 0.776471, 0.862745, 1)
+
+[node name="LegsStandPushButton2" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(0.5746, -0.00243597, 0, 0.000641595, 2.18161, 0.000138074, -4.22477e-07, -0.00143654, 0.209686, 1.17849, -2.00366, 7.24598)
+
+[node name="RollerConveyorAssembly" parent="Building" instance=ExtResource("2_68veb")]
+transform = Transform3D(-1.74846e-07, 0, 1, 0, 1, 0, -4, 0, -4.37114e-08, 5.01, -2, 4.91593)
+BeltConveyorSpeed = 2.0
+RollerConveyorSpeed = 2.0
+
+[node name="RollerConveyorAssembly2" parent="Building" instance=ExtResource("2_68veb")]
+transform = Transform3D(-1.74846e-07, 0, 1, 0, 1, 0, -4, 0, -4.37114e-08, 5.01, -2, -3.89108)
+BeltConveyorSpeed = 2.0
+RollerConveyorSpeed = 2.0
+
+[node name="RollerConveyor" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(-4.47985e-08, 0, 1, 0, 1, 0, -1.02487, 0, -4.37114e-08, 5.04464, -0.0309515, -1.02351)
+Speed = 2.0
+
+[node name="RollerConveyor2" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(-4.47985e-08, 0, 1, 0, 1, 0, -1.02487, 0, -4.37114e-08, 5.04464, -0.0309515, 0.415644)
+Speed = 2.0
+
+[node name="RollerConveyor13" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(-4.47985e-08, 0, 1, 0, 1, 0, -1.02487, 0, -4.37114e-08, 5.04464, -0.0309515, -6.81779)
+Speed = 2.0
+
+[node name="RollerConveyor4" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(-4.47985e-08, 0, 1, 0, 1, 0, -1.02487, 0, -4.37114e-08, 5.04464, -0.0309515, 7.93678)
+Speed = 2.0
+
+[node name="RollerConveyor5" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(-4.47985e-08, 0, 1, 0, 1, 0, -1.02487, 0, -4.37114e-08, 5.04464, -0.0309515, 9.42338)
+Speed = 2.0
+
+[node name="RollerConveyor10" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(-4.47985e-08, 0, 1, 0, 1, 0, -1.02487, 0, -4.37114e-08, 5.04464, -0.0309515, 11.1845)
+Speed = 2.0
+
+[node name="RollerConveyor6" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(0.918012, -0.444588, 0, 0.455645, 0.895735, 0, 0, 0, 1, 2.71141, -0.359836, 13.648)
+Speed = 2.0
+
+[node name="RollerConveyor7" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(0.918012, -0.444588, 0, 0.455645, 0.895735, 0, 0, 0, 1, 1.49297, -0.97112, 13.648)
+Speed = 2.0
+
+[node name="RollerConveyor8" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(0.918012, -0.444588, 0, 0.455645, 0.895735, 0, 0, 0, 1, 3.43295, -0.359836, 9.06301)
+Speed = 2.0
+
+[node name="RollerConveyor9" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(0.918012, -0.444588, 0, 0.455645, 0.895735, 0, 0, 0, 1, 2.09653, -1.01983, 9.06301)
+Speed = 2.0
+
+[node name="RollerConveyor11" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(0.918012, -0.444588, 0, 0.455645, 0.895735, 0, 0, 0, 1, 3.43295, -0.359836, 0.0718565)
+Speed = 2.0
+
+[node name="RollerConveyor12" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(0.918012, -0.444588, 0, 0.455645, 0.895735, 0, 0, 0, 1, 2.09653, -1.01983, 0.0718565)
+Speed = 2.0
+
+[node name="RollerConveyor3" parent="Building" instance=ExtResource("3_3lbju")]
+transform = Transform3D(-4.47985e-08, 0, 1, 0, 1, 0, -1.02487, 0, -4.37114e-08, 5.04531, -0.030951, 2.05384)
+Speed = 2.0
+
+[node name="Pallet2" parent="Building" instance=ExtResource("7_oqyy7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.519999, -1.995, 13.652)
+
+[node name="Pallet3" parent="Building" instance=ExtResource("7_oqyy7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.303432, -1.995, 9.06706)
+
+[node name="CurvedRollerConveyorAssembly" parent="Building" instance=ExtResource("10_4tbej")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.5306, -1.995, 12.117)
+BeltConveyorSpeed = 2.0
+RollerConveyorSpeed = 2.0
+
+[node name="LegsStandBC" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(1, 0, 0, 0, 0.827158, 0, 0, 0, 1.081, 1.63195, -1.995, 9.05861)
+
+[node name="Pallet4" parent="Building" instance=ExtResource("7_oqyy7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.303432, -1.995, 0.075901)
+
+[node name="LegsStandBC3" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(1, 0, 0, 0, 0.827158, 0, 0, 0, 1.081, 1.63195, -1.995, 0.0674515)
+
+[node name="LegsStandBC2" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(1, 0, 0, 0, 0.875193, 0, 0, 0, 1.081, 0.943517, -1.995, 13.6365)
+
+[node name="BoxSpawner" parent="Building" instance=ExtResource("12_ddpyk")]
+transform = Transform3D(1, 2.30012e-09, -9.31322e-10, -2.30012e-09, 1, 8.84756e-09, 9.31322e-10, -8.84756e-09, 1, 4.78238, 0.950062, -6.44563)
+spawnRandomSize = Vector2(0.75, 1.25)
+spawnInterval = 3.5
+
+[node name="LegsStandBC4" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(-3.95933e-08, 0, 1.20125, 0, 1.60387, 0, -0.90579, 0, -5.25083e-08, 5.07257, -1.995, 1.36307)
+
+[node name="LegsStandBC5" parent="Building" instance=ExtResource("11_sfxwi")]
+transform = Transform3D(-3.95933e-08, 0, 1.20125, 0, 1.60387, 0, -0.90579, 0, -5.25083e-08, 5.07257, -1.995, 10.3629)
+
+[node name="LegsStandRC" parent="Building" instance=ExtResource("14_qyjr8")]
+transform = Transform3D(-6.13685e-08, 0, 1, 0, 1.80642, 0, -1.40395, 0, -4.37114e-08, 7.016, -1.995, 8.96038)
+
+[node name="Despawner" parent="Building" instance=ExtResource("15_61p5f")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0.210553, -2.02117, 0.119908)
+
+[node name="Despawner2" parent="Building" instance=ExtResource("15_61p5f")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0.210553, -2.02117, 8.97001)
+
+[node name="Despawner3" parent="Building" instance=ExtResource("15_61p5f")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, -0.299286, -2.24564, 13.8265)
+
+[node name="Player" parent="." instance=ExtResource("4_tl2j3")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5.88438, 0, 3.46271)
+
+[node name="CommsConfigMenu" parent="." instance=ExtResource("16_frjb8")]
+
+[node name="RunBar" parent="." instance=ExtResource("17_rixpw")]
+offset_left = -110.0
+offset_right = 110.0
+
+[node name="TextoCommsState" type="RichTextLabel" parent="."]
+offset_right = 276.0
+offset_bottom = 28.0
+size_flags_horizontal = 8
+theme_override_font_sizes/normal_font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_7iy1t")
+text = "Status Comunicação OPC DA"
+fit_content = true
+autowrap_mode = 0
+
+[node name="bt_show_comms_config_menu" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -146.0
+offset_bottom = 36.0
+grow_horizontal = 0
+theme_override_colors/icon_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Configurações"
+icon = ExtResource("18_087vx")
+
+[connection signal="pressed" from="bt_show_comms_config_menu" to="." method="_on_bt_show_comms_config_menu_pressed"]

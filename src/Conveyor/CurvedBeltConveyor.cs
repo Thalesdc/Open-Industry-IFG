@@ -20,7 +20,7 @@ public partial class CurvedBeltConveyor : Node3D, IBeltConveyor
 	public string tag;
 	public string Tag { get => tag; set => tag = value; }
 	[Export]
-	private int updateRate = 100;
+	private int updateRate = 200;
 	public int UpdateRate { get => updateRate; set => updateRate = value; }
 
 	Color beltColor = new Color(1, 1, 1, 1);
@@ -129,7 +129,7 @@ public partial class CurvedBeltConveyor : Node3D, IBeltConveyor
 		conveyorEnd1.beltMaterial.SetShaderParameter("ColorMix", beltColor);
 		conveyorEnd2.beltMaterial.SetShaderParameter("ColorMix", beltColor);
 
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 
 		if (Main != null)
 		{
@@ -195,10 +195,9 @@ public partial class CurvedBeltConveyor : Node3D, IBeltConveyor
 
 		if (enableComms)
 		{
-			Main.Connect(id, Root.DataType.Float, tag);
+			readSuccessful = true;
 		}
 		running = true;
-		readSuccessful = true;
 	}
 
 	void OnSimulationEnded()
@@ -223,7 +222,7 @@ public partial class CurvedBeltConveyor : Node3D, IBeltConveyor
 	{
 		try
 		{
-			Speed = await Main.ReadFloat(id);
+			Speed = await Main.ReadFloat("id");
 		}
 		catch
 		{

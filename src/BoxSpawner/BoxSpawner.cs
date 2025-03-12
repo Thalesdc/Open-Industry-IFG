@@ -67,10 +67,12 @@ public partial class BoxSpawner : Node3D
 				scan_interval = 0;
 				SpawnBox();
 
-				if (isCommsConnected && readSuccessful && tagGeradorCaixa != null && tagGeradorCaixa != "")
+				if (
+					isCommsConnected &&
+					readSuccessful &&
+					tagGeradorCaixa != null &&
+					tagGeradorCaixa != string.Empty)
 				{
-					// scan_interval += (float)delta;
-					// if (scan_interval > (float)updateRate / 1000 && readSuccessful)
 					if (readSuccessful)
 					{
 						Task.Run(ScanTag);
@@ -110,7 +112,7 @@ public partial class BoxSpawner : Node3D
 
 		if (Main == null) return;
 
-		tagGeradorCaixa = SceneComponents.GetComponentByName(Name, currentScene).Tag;
+		tagGeradorCaixa = SceneComponents.GetComponentByKey(Name, currentScene).Tag;
 
 		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
 		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
@@ -132,7 +134,7 @@ public partial class BoxSpawner : Node3D
 		try
 		{
 			// GD.Print("\n> [BeltConveyor.cs] [ScanTag()]");
-			bool isActive = await Main.LerBooleano(tagGeradorCaixa);
+			bool isActive = await Main.ReadBool(tagGeradorCaixa);
 			if (isActive == false)
 			{
 				canGenerateBox = isActive;

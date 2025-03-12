@@ -13,7 +13,6 @@ public partial class Despawner : Node3D
 
 		origin = area.Position;
 
-		// Main = GetParent().GetTree().EditedSceneRoot as Root;
 		Main = GetTree().CurrentScene as Root;
 
 		if (Main != null)

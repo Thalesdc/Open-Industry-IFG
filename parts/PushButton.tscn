@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://gddgyvex6gdj"]
+[gd_scene load_steps=14 format=4 uid="uid://gddgyvex6gdj"]
 
 [ext_resource type="ArrayMesh" uid="uid://cigybp2vspbf8" path="res://assets/3DModels/PushButton/Meshes/PushButton_Plane_001.res" id="1_7mqik"]
 [ext_resource type="Script" path="res://src/PushButton/PushButton.cs" id="1_irpyy"]
@@ -53,16 +53,20 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_raix2")
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kphqc"]
+height = 0.1
+radius = 0.1
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yo721"]
-albedo_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+albedo_color = Color(0.988235, 0.658824, 0, 1)
 
 [sub_resource type="TextMesh" id="TextMesh_m738g"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_yo721")
 text = "STOP"
-font_size = 3
+font_size = 20
 uppercase = true
-depth = 0.004
+depth = 0.01
 
 [node name="PushButton" type="Node3D"]
 script = ExtResource("1_irpyy")
@@ -100,10 +104,18 @@ skeleton = NodePath("")
 mesh = SubResource("ArrayMesh_prykn")
 skeleton = NodePath("")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="Meshes/Button"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Meshes/Button/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.251485)
+shape = SubResource("CylinderShape3D_kphqc")
+
 [node name="PushButton" type="MeshInstance3D" parent="Meshes"]
 mesh = ExtResource("7_75p7m")
 skeleton = NodePath("")
 
 [node name="TextMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.145237, 0.228853)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.392783, 0.104109)
 mesh = SubResource("TextMesh_m738g")
+
+[connection signal="input_event" from="Meshes/Button/StaticBody3D" to="." method="_on_static_body_3d_input_event"]

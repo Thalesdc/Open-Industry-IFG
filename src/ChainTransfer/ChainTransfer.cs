@@ -22,7 +22,7 @@ public partial class ChainTransfer : Node3D
 	[Export]
 	public string popupTag;
 	[Export]
-	private int updateRate = 100;
+	private int updateRate = 300;
 	
 	readonly Guid speedId = Guid.NewGuid();
 	readonly Guid popupId = Guid.NewGuid();
@@ -112,7 +112,7 @@ public partial class ChainTransfer : Node3D
 	
 	public override void _Ready()
 	{
-		Main = GetParent().GetTree().EditedSceneRoot as Root;
+		Main = GetTree().CurrentScene as Root;
 		if (Main != null)
 		{
 			Main.SimulationStarted += OnSimulationStarted;
@@ -238,7 +238,7 @@ public partial class ChainTransfer : Node3D
 	{
 		try
 		{
-			Speed = await Main.ReadFloat(speedId);
+			Speed = await Main.ReadFloat("speedId");
 		}
 		catch
 		{
@@ -248,7 +248,7 @@ public partial class ChainTransfer : Node3D
 
 		try
 		{
-			PopupChains = await Main.ReadBool(popupId);
+			PopupChains = await Main.ReadBool("popupId");
 		}
 		catch
 		{
@@ -263,12 +263,10 @@ public partial class ChainTransfer : Node3D
 		
 		if (enableComms)
 		{
-			Main.Connect(speedId, Root.DataType.Float, speedTag);
-			Main.Connect(popupId, Root.DataType.Bool, popupTag);
+			readSuccessful = true;
 		}
 		
 		running = true;
-		readSuccessful = true;
 		TurnOnChains();
 	}
 	

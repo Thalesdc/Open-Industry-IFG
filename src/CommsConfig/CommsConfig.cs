@@ -22,7 +22,8 @@ public partial class CommsConfig : Control
 	private ItemList il_opcServerTagList;
 
 	// Container com lista de Tags e OptionButtons
-	private VBoxContainer vBoxContainerTag; // Contêiner para os OptionButtons
+	private VBoxContainer vBoxContainerTagsInput;
+	private VBoxContainer vBoxContainerTagsOutput;
 
 
 	List<string> opc_da_items_list = new List<string>();
@@ -43,16 +44,27 @@ public partial class CommsConfig : Control
 			Main = GetTree().CurrentScene as Root;
 			currentScene = Main.currentScene;
 
+			// Ocultando itens antes da conexão com o servidor OPC
+			GetNode<ScrollContainer>("MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer").Visible = false;
+			GetNode<RichTextLabel>("MarginContainer/HBoxContainer/VBoxContainer1/RichTextTagsFound").Visible = false;
+			GetNode<VBoxContainer>("MarginContainer/HBoxContainer/VBoxContainerMap").Visible = false;
+
 			// Lista de servidores
 			il_opcServerList = GetNode<ItemList>("MarginContainer/HBoxContainer/VBoxContainer1/ServerList");
+			il_opcServerList.Visible = false;
 
 			// Lista de tags do servidor OPC
 			il_opcServerTagList = GetNode<ItemList>("MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer/VBoxContainer/OpcServerTagList");
 
-			if (currentScene == 1)
+			switch (currentScene)
 			{
-				sceneComponents = SceneComponents.sceneOneComponents;
+				case 1: sceneComponents = SceneComponents.sceneOneComponents; break;
+				case 2: sceneComponents = SceneComponents.sceneTwoComponents; break;
+				default: sceneComponents = null; break;
 			}
+
+			vBoxContainerTagsInput = GetNode<VBoxContainer>("MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTagsInput/VBoxContainerTagsInput");
+			vBoxContainerTagsOutput = GetNode<VBoxContainer>("MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTagsOutputs/VBoxContainerTagsOutput");
 
 			foreach (var component in sceneComponents)
 			{
@@ -71,11 +83,14 @@ public partial class CommsConfig : Control
 				};
 				opt.ItemSelected += (index) => OnOptionSelected(opt, index);
 				hbox.AddChild(opt);
-				// GD.Print($"opt: {opt}");
 
-				vBoxContainerTag = GetNode<VBoxContainer>("MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTag/VBoxContainerTag");
-				// GD.Print($"vBoxContainerTag: {vBoxContainerTag}");
-				vBoxContainerTag.AddChild(hbox);
+				if(component.Type == "input")
+				{
+					vBoxContainerTagsInput.AddChild(hbox);
+				} else
+				{
+					vBoxContainerTagsOutput.AddChild(hbox);
+				}
 			}
 		}
 		catch (Exception e)
@@ -88,17 +103,26 @@ public partial class CommsConfig : Control
 	{
 		try
 		{
-			//Find opc server on local machine
-			Opc.IDiscovery discovery = new OpcCom.ServerEnumerator();
-			il_opcServerList.Clear();
-			il_opcServerTagList.Clear();
-			Opc.Server[] opcServerList = discovery.GetAvailableServers(Opc.Specification.COM_DA_30);
-
-			foreach (Opc.Server item in opcServerList)
+			if (opcServer == null || !opcServer.IsConnected)
 			{
-				// GD.Print($"Server: {item.Name}");
-				il_opcServerList.AddItem(item.Name);
-				globalOpcServerList.Add((Opc.Da.Server)item);
+				//Find opc server on local machine
+				Opc.IDiscovery discovery = new OpcCom.ServerEnumerator();
+				il_opcServerList.Clear();
+				il_opcServerTagList.Clear();
+				Opc.Server[] opcServerList = discovery.GetAvailableServers(Opc.Specification.COM_DA_30);
+
+				foreach (Opc.Server item in opcServerList)
+				{
+					il_opcServerList.AddItem(item.Name);
+					globalOpcServerList.Add((Opc.Da.Server)item);
+				}
+
+				il_opcServerList.Visible = true;
+
+			} else
+			{
+				GD.Print("\n> [CommsConfig.cs] [_on_btn_opc_pressed()]");
+				GD.PrintErr("> Servidor já conectado!");
 			}
 		}
 		catch (Exception e)
@@ -123,9 +147,13 @@ public partial class CommsConfig : Control
 
 			//Connect server
 			opcServer.Connect();
-
 			//Browse all items
 			BrowsAllElement("", ref opcServer);
+
+			// Exibindo itens antes da conexão com o servidor OPC
+			GetNode<ScrollContainer>("MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer").Visible = true;
+			GetNode<RichTextLabel>("MarginContainer/HBoxContainer/VBoxContainer1/RichTextTagsFound").Visible = true;
+			GetNode<VBoxContainer>("MarginContainer/HBoxContainer/VBoxContainerMap").Visible = true;
 
 			Opc.Da.SubscriptionState state = new Opc.Da.SubscriptionState
 			{
@@ -168,16 +196,6 @@ public partial class CommsConfig : Control
 		// GD.Print($"🔹 Tag: {value.ItemName}, Valor: {value.Value}, Qualidade: {value.Quality}");
 		// }
 	}
-
-	// public void UpdateOPCData(SensorData tItem)
-	// {
-	// 	GD.Print("\n> [CommsConfig.cs] [UpdateOPCData()]");
-	// 	Item OPC_WriteItem = Array.Find(mMonitoringSubscription.Items, x => x.ItemName.Equals(tItem.Name));
-	// 	ItemValue[] writeValues = new ItemValue[1];
-	// 	writeValues[0] = new ItemValue(OPC_WriteItem);
-	// 	writeValues[0].Value = tItem.Value;
-	// 	IdentifiedResult[] retValues = mMonitoringSubscription.Write(writeValues);
-	// }
 
 	private void BrowsAllElement(string itemName, ref Opc.Da.Server opcServer)
 	{
@@ -224,7 +242,7 @@ public partial class CommsConfig : Control
 		il_opcServerTagList.AddItem(name);
 		opc_da_items_list.Add(name);
 		int id = 0;
-		foreach (Node child in vBoxContainerTag.GetChildren())
+		foreach (Node child in vBoxContainerTagsInput.GetChildren())
 		{
 			if (child is HBoxContainer hBox)
 			{
@@ -232,8 +250,31 @@ public partial class CommsConfig : Control
 				{
 					if (childVbox is OptionButton optionButton)
 					{
+						if (optionButton.ItemCount == 0)
+						{
+							optionButton.AddItem(null, -1);
+							optionButton.Select(-1);
+						}
 						optionButton.AddItem(name, id);
-						optionButton.Select(-1);
+						id += 1;
+					}
+				}
+			}
+		}
+		foreach (Node child in vBoxContainerTagsOutput.GetChildren())
+		{
+			if (child is HBoxContainer hBox)
+			{
+				foreach (Node childVbox in hBox.GetChildren())
+				{
+					if (childVbox is OptionButton optionButton)
+					{
+						if (optionButton.ItemCount == 0)
+						{
+							optionButton.AddItem(null, -1);
+							optionButton.Select(-1);
+						}
+						optionButton.AddItem(name, id);
 						id += 1;
 					}
 				}
@@ -243,10 +284,9 @@ public partial class CommsConfig : Control
 
 	private void _on_tag_selected(int index)
 	{
-		GD.Print("\n> [CommsConfig.cs] [_on_tag_selected()]");
-		// Obter o nome do item selecionado
-		GD.Print($"- Tag selecionada: {il_opcServerTagList.GetItemText(index)}");
-		GD.Print($"- Valor: {ReadOpcItem(il_opcServerTagList.GetItemText(index))}");
+		// GD.Print("\n> [CommsConfig.cs] [_on_tag_selected()]");
+		// GD.Print($"- Tag selecionada: {il_opcServerTagList.GetItemText(index)}");
+		// GD.Print($"- Valor: {ReadOpcItem(il_opcServerTagList.GetItemText(index))}");
 	}
 
 	private void OnOptionSelected(OptionButton optButton, long index)
@@ -259,7 +299,7 @@ public partial class CommsConfig : Control
 	}
 	public static object ReadOpcItem(string tagName)
 	{
-		GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
+		// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
 		try
 		{
 			// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
@@ -275,14 +315,11 @@ public partial class CommsConfig : Control
 
 				// Ler diretamente do servidor para evitar cache
 				Opc.Da.ItemValueResult[] results = opcServer.Read(new Opc.Da.Item[] { item });
-				// GD.Print($"- tagName:{tagName}");
-				// GD.Print($"- results:{results}");
-				// GD.Print($"- results[0].Value:{results[0].Value}");
-				// GD.Print($"- results[0].Quality:{results[0].Quality}");
+
 				if (results[0].Value != null)
 				{
 					// GD.Print($"- results[0].Value.GetType():{results[0].Value.GetType()}");
-					GD.Print($"- READ Tag:{tagName} | Valor:{results[0].Value} | Tipo:{results[0].Value.GetType()}");
+					// GD.Print($"- READ Tag:{tagName} | Valor:{results[0].Value} | Tipo:{results[0].Value.GetType()}");
 				}
 				else
 				{
@@ -304,6 +341,7 @@ public partial class CommsConfig : Control
 	{
 		try
 		{
+			// GD.Print("\n> [CommsConfig.cs] [WriteOpcItem()]");
 			// GD.Print($"\n> WRITE Tag:{tagName} | Valor:{value}");
 
 			Opc.Da.Item opcItem = Array.Find(opc_da_items_array, x => x.ItemName.Equals(tagName));
@@ -312,18 +350,6 @@ public partial class CommsConfig : Control
 				Value = value
 			};
 			Opc.IdentifiedResult[] results = opcServer.Write(new Opc.Da.ItemValue[] { opcItemValue });
-
-			// foreach (var result in results)
-			// {
-			// 	if (result.ResultID.Succeeded())
-			// 	{
-			// 		Console.WriteLine($"Tag {tagName} escrita com sucesso: {value}");
-			// 	}
-			// 	else
-			// 	{
-			// 		Console.WriteLine($"Erro ao escrever na tag {tagName}: {result.ResultID}");
-			// 	}
-			// }
 		}
 		catch (Exception err)
 		{

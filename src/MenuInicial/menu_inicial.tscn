@@ -1,16 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://cn4xpwuewvd7r"]
+[gd_scene load_steps=10 format=3 uid="uid://cn4xpwuewvd7r"]
 
 [ext_resource type="Script" path="res://src/MenuInicial/menu_inicial.gd" id="1_66ttl"]
 [ext_resource type="Theme" uid="uid://ckhurxhqnuuna" path="res://src/MenuInicial/menu_button.tres" id="2_gmpvg"]
-[ext_resource type="Texture2D" uid="uid://c82tb8gebd0mf" path="res://src/MenuInicial/menu_logoIFG.jpg" id="3_2di8n"]
+[ext_resource type="Texture2D" uid="uid://bek8hs1tiv8g4" path="res://src/MenuInicial/menu_logoIFG_600.jpg" id="3_fk7uo"]
+[ext_resource type="Texture2D" uid="uid://cwhio2p2hmb12" path="res://src/MenuInicial/oi-ifg-cena-1-imagem.png" id="4_0lpjs"]
+[ext_resource type="Texture2D" uid="uid://blhperhkon11s" path="res://src/MenuInicial/oi-ifg-cena-2-imagem.png" id="5_ym5rw"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wy31b"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x8t7r"]
 
 [sub_resource type="Theme" id="Theme_jk3vg"]
 RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
 RichTextLabel/font_sizes/normal_font_size = 70
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rvbr2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ivqi1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_msmej"]
 
 [node name="MenuInicial" type="Control"]
 layout_mode = 3
@@ -30,75 +34,109 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_bottom = 20
+columns = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="VSeparator2" type="VSeparator" parent="GridContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_x8t7r")
 
-[node name="VSeparator2" type="VSeparator" parent="MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GridContainer"]
 layout_mode = 2
-theme_override_constants/separation = 50
-theme_override_styles/separator = SubResource("StyleBoxEmpty_wy31b")
+size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="LogoIFG" type="TextureRect" parent="GridContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_fk7uo")
+expand_mode = 3
+stretch_mode = 5
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GridContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GridContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 0
 theme = SubResource("Theme_jk3vg")
 text = "Open Industry"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="RichTextLabel2" type="RichTextLabel" parent="GridContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 0
 theme = SubResource("Theme_jk3vg")
 text = "IFG"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Cenario1_btn" type="Button" parent="GridContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_rvbr2")
-
-[node name="Cenario1_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme = ExtResource("2_gmpvg")
 text = "Cena 1 - Esteiras"
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Cenario2_btn" type="Button" parent="GridContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_rvbr2")
-
-[node name="Cenario2_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
 theme = ExtResource("2_gmpvg")
-text = "Cena 2 - Em Construção"
+text = "Cena 2 - Separador"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="GridContainer"]
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
-theme_override_constants/separation = 50
-theme_override_styles/separator = SubResource("StyleBoxEmpty_wy31b")
+size_flags_horizontal = 0
 
-[node name="LogoIFG" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="GridContainer"]
 layout_mode = 2
-size_flags_horizontal = 6
-texture = ExtResource("3_2di8n")
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="GridContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ivqi1")
+
+[node name="ImagemCena1" type="TextureRect" parent="GridContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_0lpjs")
 expand_mode = 3
+stretch_mode = 5
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Cenario1_btn" to="." method="_on_cenario_1_btn_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Cenario2_btn" to="." method="_on_cenario_2_btn_pressed"]
+[node name="ImagemCena2" type="TextureRect" parent="GridContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("5_ym5rw")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="HSeparator2" type="HSeparator" parent="GridContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_msmej")
+
+[connection signal="pressed" from="GridContainer/VBoxContainer/VBoxContainer/Cenario1_btn" to="." method="_on_cenario_1_btn_pressed"]
+[connection signal="pressed" from="GridContainer/VBoxContainer/VBoxContainer/Cenario2_btn" to="." method="_on_cenario_2_btn_pressed"]

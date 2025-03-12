@@ -30,6 +30,11 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.454902, 0.454902, 0.454902, 0.921569)
 
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -37,10 +42,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -53,7 +58,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/normal_font_size = 26
 text = "Configurações OPC DA"
 fit_content = true
 autowrap_mode = 0
@@ -65,6 +70,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_pvegu")
 [node name="btn_opc" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_font_sizes/font_size = 16
 text = "Buscar servidores OPC"
 
 [node name="VSeparator2" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
@@ -73,17 +79,18 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_woit2")
 
 [node name="ServerList" type="ItemList" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
 layout_mode = 2
-allow_reselect = true
+allow_search = false
 auto_height = true
 
 [node name="VSeparator4" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_4eja4")
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
+[node name="RichTextTagsFound" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 24
 text = "Tags encontradas:"
 fit_content = true
 autowrap_mode = 0
@@ -103,11 +110,9 @@ alignment = 1
 [node name="OpcServerTagList" type="ItemList" parent="MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-allow_reselect = true
-max_text_lines = 2
+allow_search = false
 auto_height = true
-text_overrun_behavior = 4
-max_columns = 2
+text_overrun_behavior = 0
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
@@ -127,6 +132,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_bbl2p")
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 24
 text = "Mapeamento de tags:"
 fit_content = true
 autowrap_mode = 0
@@ -136,12 +142,52 @@ custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_bbl2p")
 
-[node name="ScrollContainerTag" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+[node name="RichTextLabelInputs" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 20
+text = "Entradas
+"
+fit_content = true
+autowrap_mode = 0
+
+[node name="VSeparator5" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bbl2p")
+
+[node name="ScrollContainerTagsInput" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 
-[node name="VBoxContainerTag" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTag"]
+[node name="VBoxContainerTagsInput" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTagsInput"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+alignment = 1
+
+[node name="RichTextLabelOutputs" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 20
+text = "Saídas"
+fit_content = true
+autowrap_mode = 0
+
+[node name="VSeparator6" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bbl2p")
+
+[node name="ScrollContainerTagsOutputs" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="VBoxContainerTagsOutput" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTagsOutputs"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
