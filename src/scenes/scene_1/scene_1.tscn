@@ -40,7 +40,8 @@ Speed = 2.0
 
 [node name="BoxSpawner" parent="Building" instance=ExtResource("4_4ucul")]
 transform = Transform3D(1, 2.30012e-09, -9.31322e-10, -2.30012e-09, 1, 8.84756e-09, 9.31322e-10, -8.84756e-09, 1, -5.42831, 1.35567, 0)
-spawnInterval = 2.0
+spawnRandomSize = Vector2(0.7, 1.2)
+spawnInterval = 2.5
 
 [node name="Despawner" parent="Building" instance=ExtResource("5_32og3")]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 3.69058, -1.72563, -0.045296)
@@ -58,23 +59,23 @@ transform = Transform3D(1, -7.23333e-11, 0, -1.66267e-12, 1.72755, -1.45519e-11,
 transform = Transform3D(1, -7.23333e-11, 0, -1.66267e-12, 1.72755, -1.45519e-11, 0, 2.91038e-11, 1, 1.82781, -2.96525, -0.217243)
 
 [node name="DiffuseSensor" parent="Building" instance=ExtResource("12_bb330")]
-transform = Transform3D(1, -7.51044e-11, 1.74157e-07, -2.38671e-11, 1, -8.73115e-11, -1.74623e-07, 2.91038e-11, 1, -2.59046, 0.360476, -2.45643)
+transform = Transform3D(1.00058, -4.36415e-11, 1.73692e-07, -9.06738e-10, 0.383253, -3.7835e-10, -1.73983e-07, 2.18279e-11, 0.999873, -2.19141, 0.276172, -2.45668)
 
 [node name="LegsStandDiffuseSensor" parent="Building" instance=ExtResource("8_5m3os")]
-transform = Transform3D(-0.0107161, -7.89839e-11, -0.152079, -5.82077e-11, 2.11148, -3.63798e-11, 0.999943, 0, -0.0016298, -2.58984, -2.01327, -2.26259)
+transform = Transform3D(-0.010716, -2.28169e-10, -0.152072, -1.74623e-10, 2.01058, -9.60654e-11, 0.999933, 5.82077e-11, -0.00162973, -2.19088, -2.01289, -2.26282)
 
 [node name="DiffuseSensor2" parent="Building" instance=ExtResource("12_bb330")]
-transform = Transform3D(1, -1.69038e-11, 1.74856e-07, -2.38387e-11, 1, -8.73115e-11, -1.74798e-07, 1.45519e-11, 1, 1.6678, -0.426788, -2.45659)
+transform = Transform3D(1.00054, 6.37712e-12, 1.74798e-07, -1.45455e-10, 0.42424, -1.60071e-10, -1.74681e-07, 2.91038e-11, 0.999881, 1.66793, -0.56483, -2.45662)
 
 [node name="LegsStandDiffuseSensor2" parent="Building" instance=ExtResource("8_5m3os")]
-transform = Transform3D(-0.0107157, 1.90994e-11, -0.152056, 0, 1.77339, -1.6712e-11, 0.999908, -2.91038e-11, -0.00162956, 1.66769, -2.01327, -2.26259)
+transform = Transform3D(-0.0107152, -5.79803e-12, -0.152028, -5.82077e-11, 1.44131, -7.3328e-12, 0.999866, 2.91038e-11, -0.00162926, 1.66769, -2.01327, -2.26259)
 
 [node name="PushButton" parent="Building" instance=ExtResource("12_1hgjq")]
-transform = Transform3D(1, -1.68399e-11, 0, -1.71951e-12, 1, -2.18279e-10, 2.91038e-10, 1.01863e-10, 1, -7.74147, 0.993595, 1.14769)
+transform = Transform3D(1, -1.68328e-11, 0, -1.72662e-12, 1, -2.47383e-10, 3.49246e-10, 1.16415e-10, 1, -8.0556, 0.9933, 1.14787)
 Text = "Pausar"
 
 [node name="LegsStandPushButton" parent="Building" instance=ExtResource("8_5m3os")]
-transform = Transform3D(-0.00532013, -0.00166708, 0.20907, 0.000641705, 2.5722, 0.000153841, -0.574673, 0.00288768, -0.0163353, -7.74061, -1.99995, 1.24884)
+transform = Transform3D(-0.00532013, -0.00166708, 0.20907, 0.000641705, 2.5722, 0.000153841, -0.574673, 0.00288768, -0.0163353, -8.05474, -2.00024, 1.24902)
 
 [node name="PushButton2" parent="Building" instance=ExtResource("12_1hgjq")]
 transform = Transform3D(1, -1.68185e-11, 0, -1.72662e-12, 1, -3.0559e-10, 4.65661e-10, 1.45519e-10, 1, -7.09529, 0.994201, 1.14732)

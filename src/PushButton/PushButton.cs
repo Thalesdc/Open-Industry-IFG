@@ -86,21 +86,8 @@ public partial class PushButton : Node3D
 	bool running = false;
 	double scan_interval = 2000;
 	string tagPushButton;
-
-	readonly Guid activeId = Guid.NewGuid();
-
 	Root main;
 	public Root Main { get; set; }
-
-	public override void _ValidateProperty(Godot.Collections.Dictionary property)
-	{
-		string propertyName = property["name"].AsStringName();
-
-		if (propertyName == PropertyName.updateRate)
-		{
-			property["usage"] = (int)(isCommsConnected ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
-		}
-	}
 
 	public override void _Ready()
 	{
@@ -145,15 +132,6 @@ public partial class PushButton : Node3D
 					return;
 				}
 
-				// if (!Toggle && Input.IsPhysicalKeyPressed(Key.G))
-				// {
-				// 	Task.Delay(updateRate * 1).ContinueWith(t => pushbutton = false);
-				// 	Tween tween = GetTree().CreateTween();
-				// 	tween.TweenProperty(buttonMesh, "position", new Vector3(0, 0, buttonPressedZPos), 0.035f);
-				// 	tween.TweenInterval(0.2f);
-				// 	tween.TweenProperty(buttonMesh, "position", Vector3.Zero, 0.02f);
-				// }
-
 				pushbutton = !pushbutton;
 				GD.Print($" - pushbutton: {pushbutton}");
 
@@ -194,7 +172,7 @@ public partial class PushButton : Node3D
 	{
 		try
 		{
-			await Main.Write(tagPushButton, pushbutton);
+			Main.Write(tagPushButton, pushbutton);
 		}
 		catch
 		{
@@ -230,6 +208,9 @@ public partial class PushButton : Node3D
 	{
 		GD.Print($"\n> [PushButton.cs] [{Name}] [OnSimulationStarted()]");
 		tagPushButton = SceneComponents.GetComponentByKey(Name, Main.currentScene).Tag;
+
+		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
+		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
 
 		if (isCommsConnected)
 		{

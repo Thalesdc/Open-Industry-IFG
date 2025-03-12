@@ -1,6 +1,4 @@
 using Godot;
-using libplctag;
-using libplctag.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

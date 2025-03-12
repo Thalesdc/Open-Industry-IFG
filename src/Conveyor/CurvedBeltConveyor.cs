@@ -20,7 +20,7 @@ public partial class CurvedBeltConveyor : Node3D, IBeltConveyor
 	public string tag;
 	public string Tag { get => tag; set => tag = value; }
 	[Export]
-	private int updateRate = 100;
+	private int updateRate = 200;
 	public int UpdateRate { get => updateRate; set => updateRate = value; }
 
 	Color beltColor = new Color(1, 1, 1, 1);

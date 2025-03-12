@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ca38ojc0bsujm"
-path="res://.godot/imported/oi-ifg-cena-1-imagem.png-8030404418bde9bbdb7f66d95e510e5e.ctex"
+uid="uid://blhperhkon11s"
+path="res://.godot/imported/oi-ifg-cena-2-imagem.png-4463efbf90008a299b8f99b95bbd630d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/scenes/scene_1/oi-ifg-cena-1-imagem.png"
-dest_files=["res://.godot/imported/oi-ifg-cena-1-imagem.png-8030404418bde9bbdb7f66d95e510e5e.ctex"]
+source_file="res://src/MenuInicial/oi-ifg-cena-2-imagem.png"
+dest_files=["res://.godot/imported/oi-ifg-cena-2-imagem.png-4463efbf90008a299b8f99b95bbd630d.ctex"]
 
 [params]
 

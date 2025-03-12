@@ -51,13 +51,16 @@ public partial class CommsConfig : Control
 
 			// Lista de servidores
 			il_opcServerList = GetNode<ItemList>("MarginContainer/HBoxContainer/VBoxContainer1/ServerList");
+			il_opcServerList.Visible = false;
 
 			// Lista de tags do servidor OPC
 			il_opcServerTagList = GetNode<ItemList>("MarginContainer/HBoxContainer/VBoxContainer1/ScrollContainer/VBoxContainer/OpcServerTagList");
 
-			if (currentScene == 1)
+			switch (currentScene)
 			{
-				sceneComponents = SceneComponents.sceneOneComponents;
+				case 1: sceneComponents = SceneComponents.sceneOneComponents; break;
+				case 2: sceneComponents = SceneComponents.sceneTwoComponents; break;
+				default: sceneComponents = null; break;
 			}
 
 			vBoxContainerTagsInput = GetNode<VBoxContainer>("MarginContainer/HBoxContainer/VBoxContainerMap/ScrollContainerTagsInput/VBoxContainerTagsInput");
@@ -113,6 +116,9 @@ public partial class CommsConfig : Control
 					il_opcServerList.AddItem(item.Name);
 					globalOpcServerList.Add((Opc.Da.Server)item);
 				}
+
+				il_opcServerList.Visible = true;
+
 			} else
 			{
 				GD.Print("\n> [CommsConfig.cs] [_on_btn_opc_pressed()]");
@@ -293,7 +299,7 @@ public partial class CommsConfig : Control
 	}
 	public static object ReadOpcItem(string tagName)
 	{
-		GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
+		// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
 		try
 		{
 			// GD.Print("\n> [CommsConfig.cs] [ReadOpcItem()]");
@@ -313,7 +319,7 @@ public partial class CommsConfig : Control
 				if (results[0].Value != null)
 				{
 					// GD.Print($"- results[0].Value.GetType():{results[0].Value.GetType()}");
-					GD.Print($"- READ Tag:{tagName} | Valor:{results[0].Value} | Tipo:{results[0].Value.GetType()}");
+					// GD.Print($"- READ Tag:{tagName} | Valor:{results[0].Value} | Tipo:{results[0].Value.GetType()}");
 				}
 				else
 				{

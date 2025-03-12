@@ -64,7 +64,7 @@ albedo_color = Color(0.988235, 0.658824, 0, 1)
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_yo721")
 text = "STOP"
-font_size = 13
+font_size = 20
 uppercase = true
 depth = 0.01
 
@@ -115,7 +115,7 @@ mesh = ExtResource("7_75p7m")
 skeleton = NodePath("")
 
 [node name="TextMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.140332, 0.236731)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.392783, 0.104109)
 mesh = SubResource("TextMesh_m738g")
 
 [connection signal="input_event" from="Meshes/Button/StaticBody3D" to="." method="_on_static_body_3d_input_event"]

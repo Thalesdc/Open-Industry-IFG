@@ -145,7 +145,7 @@ public partial class LaserSensor : Node3D
 	{
 		try
 		{
-			await Main.Write(tagSensor, distanceToTarget);
+			Main.Write(tagSensor, distanceToTarget);
 		}
 		catch
 		{

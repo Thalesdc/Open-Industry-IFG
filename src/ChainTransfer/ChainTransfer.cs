@@ -22,7 +22,7 @@ public partial class ChainTransfer : Node3D
 	[Export]
 	public string popupTag;
 	[Export]
-	private int updateRate = 100;
+	private int updateRate = 300;
 	
 	readonly Guid speedId = Guid.NewGuid();
 	readonly Guid popupId = Guid.NewGuid();

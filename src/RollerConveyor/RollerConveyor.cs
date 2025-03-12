@@ -20,7 +20,7 @@ public partial class RollerConveyor : Node3D, IRollerConveyor
 	private string tag;
 	public string Tag { get => tag; set => tag = value; }
 	[Export]
-	private int updateRate = 100;
+	private int updateRate = 300;
 	public int UpdateRate { get => updateRate; set => updateRate = value; }
 	[Export]
 	public float Speed { get; set; } = 1.0f;

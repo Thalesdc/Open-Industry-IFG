@@ -23,7 +23,7 @@ public partial class DiffuseSensor : Node3D
 	[Export]
 	Color collisionColor;
 	[Export]
-	private int updateRate = 100;
+	private int updateRate = 300;
 	Color scanColor;
 	private bool isCommsConnected;
 	string tagDiffuseSensor;
@@ -74,42 +74,50 @@ public partial class DiffuseSensor : Node3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-		PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(rayMarker.GlobalPosition, rayMarker.GlobalPosition + GlobalTransform.Basis.Z * distance);
-		query.CollisionMask = 8;
-		var result = spaceState.IntersectRay(query);
-
-		if (result.Count > 0)
+		// GD.Print("\n> [DiffuseSensor.cs] [_PhysicsProcess()]");
+		scan_interval += delta;
+		if (scan_interval > (float)updateRate / 1000 && readSuccessful)
 		{
-			blocked = true;
-			float resultDistance = rayMarker.GlobalPosition.DistanceTo((Vector3)result["position"]);
-			if (cylinderMesh.Height != resultDistance)
-				cylinderMesh.Height = resultDistance;
-			if (rayMaterial.AlbedoColor != collisionColor)
-				rayMaterial.AlbedoColor = collisionColor;
-		}
-		else
-		{
-			blocked = false;
-			if (cylinderMesh.Height != distance)
-				cylinderMesh.Height = distance;
-			if (rayMaterial.AlbedoColor != scanColor)
-				rayMaterial.AlbedoColor = scanColor;
-		}
+			// GD.Print("\n> [DiffuseSensor.cs] scan_interval");
+			PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+			PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(rayMarker.GlobalPosition, rayMarker.GlobalPosition + GlobalTransform.Basis.Z * distance);
+			query.CollisionMask = 8;
+			var result = spaceState.IntersectRay(query);
 
-		if (
-			isCommsConnected &&
-			running &&
-			readSuccessful &&
-			tagDiffuseSensor != null &&
-			tagDiffuseSensor != string.Empty
-		)
-		{
-			Task.Run(WriteTag);
+			if (result.Count > 0)
+			{
+				// GD.Print("- [DiffuseSensor.cs] TRUE");
+				blocked = true;
+				float resultDistance = rayMarker.GlobalPosition.DistanceTo((Vector3)result["position"]);
+				if (cylinderMesh.Height != resultDistance)
+					cylinderMesh.Height = resultDistance;
+				if (rayMaterial.AlbedoColor != collisionColor)
+					rayMaterial.AlbedoColor = collisionColor;
+			}
+			else
+			{
+				// GD.Print("- [DiffuseSensor.cs] FALSE");
+				blocked = false;
+				if (cylinderMesh.Height != distance)
+					cylinderMesh.Height = distance;
+				if (rayMaterial.AlbedoColor != scanColor)
+					rayMaterial.AlbedoColor = scanColor;
+			}
+
+			rayMesh.Position = new Vector3(0, 0, cylinderMesh.Height * 0.5f);
+			if (
+				isCommsConnected &&
+				running &&
+				readSuccessful &&
+				tagDiffuseSensor != null &&
+				tagDiffuseSensor != string.Empty
+			)
+			{
+				// GD.Print("- [DiffuseSensor.cs] WRITE");
+				Task.Run(WriteTag);
+			}
+			scan_interval = 0;
 		}
-
-
-		rayMesh.Position = new Vector3(0, 0, cylinderMesh.Height * 0.5f);
 	}
 
 	void OnSimulationStarted()
@@ -139,7 +147,7 @@ public partial class DiffuseSensor : Node3D
 	{
 		try
 		{
-			await Main.Write(tagDiffuseSensor, blocked);
+			Main.Write(tagDiffuseSensor, blocked);
 		}
 		catch
 		{

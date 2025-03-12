@@ -4,24 +4,11 @@ using System.Threading.Tasks;
 
 public partial class Diverter : Node3D
 {
-	private bool enableComms;
+	private bool isCommsConnected;
 
 	[Export]
-	private bool EnableComms
-	{
-		get => enableComms;
-		set
-		{
-			enableComms = value;
-			NotifyPropertyListChanged();
-		}
-	}
-	[Export]
-	public string tag;
-	[Export]
-	private int updateRate = 100;
-	[Export]
-	bool FireDivert = false;
+	private int updateRate = 300;
+	bool fireDivert = false;
 	[Export]
 	float divertTime = 0.5f;
 	[Export]
@@ -37,21 +24,9 @@ public partial class Diverter : Node3D
 	bool cycled = false;
 	bool divert = false;
 	private bool previousFireDivertState = false;
-
-	readonly Guid id = Guid.NewGuid();
 	DiverterAnimator diverterAnimator;
 	Root Main;
-
-	public override void _ValidateProperty(Godot.Collections.Dictionary property)
-	{
-		string propertyName = property["name"].AsStringName();
-
-		if (propertyName == PropertyName.updateRate || propertyName == PropertyName.tag)
-		{
-			property["usage"] = (int)(EnableComms ? PropertyUsageFlags.Default : PropertyUsageFlags.NoEditor);
-		}
-	}
-
+	string tagDiverter;
 	public override void _Ready()
 	{
 		diverterAnimator = GetNode<DiverterAnimator>("DiverterAnimator");
@@ -65,66 +40,43 @@ public partial class Diverter : Node3D
 		}
 	}
 
-    public override void _ExitTree()
-    {
-        if (Main == null) return;
+	public override void _ExitTree()
+	{
+		if (Main == null) return;
 
-        Main.SimulationStarted -= OnSimulationStarted;
-        Main.SimulationEnded -= OnSimulationEnded;
-    }
-    public override void _PhysicsProcess(double delta)
+		Main.SimulationStarted -= OnSimulationStarted;
+		Main.SimulationEnded -= OnSimulationEnded;
+	}
+	public override void _PhysicsProcess(double delta)
 	{
 		if (!running)
 		{
-			FireDivert = false;
+			fireDivert = false;
 			return;
 		}
 
-		// if (Main != null)
-		// {
-		// 	if (Main.selectedNodes != null)
-		// 	{
-		// 		bool selected = Main.selectedNodes.Contains(this);
-
-		// 		if (selected && Input.IsPhysicalKeyPressed(Key.G))
-		// 		{
-		// 			keyPressed = true;
-		// 			FireDivert = true;
-		// 		}
-		// 	}
-		// }
-
-		if (!Input.IsPhysicalKeyPressed(Key.G))
-		{
-			keyHeld = false;
-			if (keyPressed)
-			{
-				keyPressed = false;
-				FireDivert = false;
-			}
-
-			if(FireDivert && !enableComms)
-			{
-				Task.Delay(updateRate * 3).ContinueWith(t => FireDivert = false);
-			}
-		}
-
-		if (FireDivert && !previousFireDivertState)
+		if (fireDivert && !previousFireDivertState)
 		{
 			divert = true;
-			cycled = false;  
+			cycled = false;
 		}
 
 		if (divert && !cycled)
 		{
 			diverterAnimator.Fire(divertTime, divertDistance);
 			divert = false;
-			cycled = true;  
+			cycled = true;
 		}
 
-		previousFireDivertState = FireDivert;
+		previousFireDivertState = fireDivert;
 
-		if (enableComms && readSuccessful)
+		if (
+			isCommsConnected &&
+			running &&
+			readSuccessful &&
+			tagDiverter != null &&
+			tagDiverter != string.Empty
+		)
 		{
 			scan_interval += delta;
 			if (scan_interval > (float)updateRate / 1000 && readSuccessful)
@@ -137,10 +89,13 @@ public partial class Diverter : Node3D
 	void OnSimulationStarted()
 	{
 		if (Main == null) return;
+		tagDiverter = SceneComponents.GetComponentByKey(Name, Main.currentScene).Tag;
+
+		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
+		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
 
 		running = true;
-
-		if (enableComms)
+		if (isCommsConnected)
 		{
 			readSuccessful = true;
 		}
@@ -157,11 +112,11 @@ public partial class Diverter : Node3D
 	{
 		try
 		{
-			FireDivert = await Main.ReadBool("id");
+			fireDivert = await Main.ReadBool(tagDiverter);
 		}
 		catch
 		{
-			GD.PrintErr("Failure to read: " + tag + " in Node: " + Name);
+			GD.PrintErr("Failure to read: " + tagDiverter + " in Node: " + Name);
 			readSuccessful = false;
 		}
 	}

@@ -23,6 +23,7 @@ shape = SubResource("SphereShape3D_t045n")
 
 [node name="MeshRoot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -0.25)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshRoot"]
 mesh = SubResource("SphereMesh_u4lej")
