@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dyhvoundu2kqc"]
+[gd_scene load_steps=8 format=3 uid="uid://dyhvoundu2kqc"]
 
 [ext_resource type="MeshLibrary" uid="uid://qe567y4r5nfd" path="res://assets/MeshLibs/Floor.meshlib" id="3_wtaol"]
 [ext_resource type="MeshLibrary" uid="uid://ts85f4i6j21q" path="res://assets/MeshLibs/Walls.meshlib" id="4_pxyuu"]
 [ext_resource type="MeshLibrary" uid="uid://ywavdt3n2yvt" path="res://assets/MeshLibs/Roof.meshlib" id="5_tibu8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1i5f0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cx60r"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rm06n"]
 transparency = 1
@@ -12,6 +16,25 @@ albedo_color = Color(1, 1, 1, 0)
 material = SubResource("StandardMaterial3D_rm06n")
 
 [node name="Building" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_1i5f0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1.01721, 0, 0, 0, 18.062, 0, 0, 0, 39.921, 31.8978, 6.86402, 3.91207)
+shape = SubResource("BoxShape3D_cx60r")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1.01721, 0, 0, 0, 18.062, 0, 0, 0, 39.921, -31.9629, 6.86402, 3.91207)
+shape = SubResource("BoxShape3D_cx60r")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(-4.44635e-08, 0, 64.5375, 0, 18.062, 0, -1.01721, 0, -2.82102e-06, 0, 6.864, 23.9208)
+shape = SubResource("BoxShape3D_cx60r")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(-4.44635e-08, 0, 64.5375, 0, 18.062, 0, -1.01721, 0, -2.82102e-06, 0, 6.864, -15.613)
+shape = SubResource("BoxShape3D_cx60r")
 
 [node name="Floor" type="GridMap" parent="."]
 mesh_library = ExtResource("3_wtaol")

@@ -8,32 +8,40 @@ public class SceneComponents
 
     public static List<SceneComponents> sceneOneComponents { get; } = new List<SceneComponents>
     {
-        new SceneComponents(0, "Conveyor", "Esteira 1", "", "input"),
-        new SceneComponents(1, "Conveyor2", "Esteira 2", "", "input"),
-        new SceneComponents(2, "BoxSpawner", "Gerador Caixas", "", "input"),
-        new SceneComponents(3, "PushButton", "Botão Desligar", "", "input"),
-        new SceneComponents(4, "PushButton2", "Botão Ligar", "", "input"),
         // This order is inportant to link wich tag was selected for each component
         // In the screen, first is listed inputs, then outputs
-        new SceneComponents(5, "DiffuseSensor", "Sensor 1", "", "output"),
-        new SceneComponents(6, "DiffuseSensor2", "Sensor 2", "", "output"),
+
+        // INPUTS
+        new SceneComponents(0, "DiffuseSensor", "Sensor 1", "", "input"),
+        new SceneComponents(1, "DiffuseSensor2", "Sensor 2", "", "input"),
+        new SceneComponents(2, "PushButton", "Botão Desligar", "", "input"),
+        new SceneComponents(3, "PushButton2", "Botão Ligar", "", "input"),
+
+        // OUTPUTS
+        new SceneComponents(4, "Conveyor", "Esteira 1", "", "output"),
+        new SceneComponents(5, "Conveyor2", "Esteira 2", "", "output"),
+        new SceneComponents(6, "BoxSpawner", "Gerador Caixas", "", "output"),
     };
 
     public static List<SceneComponents> sceneTwoComponents { get; } = new List<SceneComponents>
     {
-        new SceneComponents(0, "Diverter", "Pistão 1", "", "input"),
-        new SceneComponents(1, "PushButton", "Botão Saída 1", "", "input"),
-        new SceneComponents(2, "BladeStop", "Obstáculo 1", "", "input"),
-        new SceneComponents(3, "Diverter2", "Pistão 2", "", "input"),
-        new SceneComponents(4, "PushButton2", "Botão Saída 2", "", "input"),
-        new SceneComponents(5, "BladeStop2", "Obstáculo 2", "", "input"),
-        new SceneComponents(6, "BoxSpawner", "Gerador Caixas", "", "input"),
-        new SceneComponents(7, "PushButton4", "Botão Ligar", "", "input"),
-        new SceneComponents(8, "PushButton3", "Botão Desligar", "", "input"),
         // This order is inportant to link wich tag was selected for each component
         // In the screen, first is listed inputs, then outputs
-        new SceneComponents(9, "DiffuseSensor", "Sensor 1", "", "output"),
-        new SceneComponents(10, "DiffuseSensor2", "Sensor 2", "", "output"),
+
+        // INPUTS
+        new SceneComponents(0, "DiffuseSensor", "Sensor 1", "", "input"),
+        new SceneComponents(1, "DiffuseSensor2", "Sensor 2", "", "input"),
+        new SceneComponents(2, "PushButton", "Botão Saída 1", "", "input"),
+        new SceneComponents(3, "PushButton2", "Botão Saída 2", "", "input"),
+        new SceneComponents(4, "PushButton3", "Botão Desligar", "", "input"),
+        new SceneComponents(5, "PushButton4", "Botão Ligar", "", "input"),
+        
+        // OUTPUTS
+        new SceneComponents(6, "Diverter", "Pistão 1", "", "output"),
+        new SceneComponents(7, "BladeStop", "Obstáculo 1", "", "output"),
+        new SceneComponents(8, "Diverter2", "Pistão 2", "", "output"),
+        new SceneComponents(9, "BladeStop2", "Obstáculo 2", "", "output"),
+        new SceneComponents(10, "BoxSpawner", "Gerador Caixas", "", "output"),
     };
 
     // Propriedades da classe
