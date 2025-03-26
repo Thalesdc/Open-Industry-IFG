@@ -44,6 +44,29 @@ public class SceneComponents
         new SceneComponents(10, "BoxSpawner", "Gerador Caixas", "", "output"),
     };
 
+    public static List<SceneComponents> sceneThreeComponents { get; } = new List<SceneComponents>
+    {
+        // This order is inportant to link wich tag was selected for each component
+        // In the screen, first is listed inputs, then outputs
+
+        // INPUTS
+        new SceneComponents(0, "DiffuseSensor1", "Sensor 1", "", "input"),
+        new SceneComponents(1, "DiffuseSensor2", "Sensor 2", "", "input"),
+        new SceneComponents(2, "DiffuseSensor3", "Sensor 3", "", "input"),
+        new SceneComponents(3, "DiffuseSensor4", "Sensor 4", "", "input"),
+        new SceneComponents(4, "DiffuseSensor5", "Sensor 5", "", "input"),
+        new SceneComponents(5, "PushButton1", "Botão Ligar", "", "input"),
+        new SceneComponents(6, "PushButton2", "Botão Desligar", "", "input"),
+        
+        // OUTPUTS
+        new SceneComponents(7, "BoxSpawner", "Gerador Caixas", "", "output"),
+        new SceneComponents(8, "Conveyor1", "Esteira 1", "", "output"),
+        new SceneComponents(9, "Conveyor2", "Esteira 2", "", "output"),
+        new SceneComponents(10, "Conveyor3", "Esteira 3", "", "output"),
+        new SceneComponents(11, "Conveyor4", "Esteira 4", "", "output"),
+        new SceneComponents(12, "Conveyor5", "Esteira 5", "", "output"),
+    };
+
     // Propriedades da classe
     public int Id { get; set; }
     public string Key { get; set; }
@@ -86,6 +109,14 @@ public class SceneComponents
             else
                 return new SceneComponents(99, "", "", "", "");
         }
+        if (scene == 3)
+        {
+            SceneComponents component = sceneThreeComponents.FirstOrDefault(f => f.Key.ToLower() == key.ToLower());
+            if (component != null)
+                return component;
+            else
+                return new SceneComponents(99, "", "", "", "");
+        }
         return new SceneComponents(99, "", "", "", "");
     }
 
@@ -95,6 +126,7 @@ public class SceneComponents
         {
             case 1: return sceneOneComponents.FirstOrDefault(f => f.Id == id);
             case 2: return sceneTwoComponents.FirstOrDefault(f => f.Id == id);
+            case 3: return sceneThreeComponents.FirstOrDefault(f => f.Id == id);
             default: return null;
         }
     }
