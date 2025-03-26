@@ -100,7 +100,15 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource("2_gmpvg")
-text = "Cena 2 - Separador"
+text = "Cena 2 - Sequência Esteiras"
+
+[node name="Cenario3_btn" type="Button" parent="GridContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("2_gmpvg")
+text = "Cena 3 - Separador"
 
 [node name="VSeparator" type="VSeparator" parent="GridContainer"]
 custom_minimum_size = Vector2(10, 0)
@@ -140,3 +148,4 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_msmej")
 
 [connection signal="pressed" from="GridContainer/VBoxContainer/VBoxContainer/Cenario1_btn" to="." method="_on_cenario_1_btn_pressed"]
 [connection signal="pressed" from="GridContainer/VBoxContainer/VBoxContainer/Cenario2_btn" to="." method="_on_cenario_2_btn_pressed"]
+[connection signal="pressed" from="GridContainer/VBoxContainer/VBoxContainer/Cenario3_btn" to="." method="_on_cenario_3_btn_pressed"]

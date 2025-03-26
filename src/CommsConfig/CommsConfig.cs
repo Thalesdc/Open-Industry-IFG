@@ -60,6 +60,7 @@ public partial class CommsConfig : Control
 			{
 				case 1: sceneComponents = SceneComponents.sceneOneComponents; break;
 				case 2: sceneComponents = SceneComponents.sceneTwoComponents; break;
+				case 3: sceneComponents = SceneComponents.sceneThreeComponents; break;
 				default: sceneComponents = null; break;
 			}
 
