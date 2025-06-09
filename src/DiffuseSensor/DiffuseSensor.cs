@@ -23,7 +23,7 @@ public partial class DiffuseSensor : Node3D
 	[Export]
 	Color collisionColor;
 	[Export]
-	private int updateRate = 300;
+	private int updateRate = 100;
 	Color scanColor;
 	private bool isCommsConnected;
 	string tagDiffuseSensor;

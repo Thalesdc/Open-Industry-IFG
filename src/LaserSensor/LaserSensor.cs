@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 public partial class LaserSensor : Node3D
 {
-	private int updateRate = 1000;
+	private int updateRate = 600;
 	[Export]
 	float distance = 10.0f;
 	[Export]

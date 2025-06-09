@@ -7,7 +7,7 @@ public partial class Diverter : Node3D
 	private bool isCommsConnected;
 
 	[Export]
-	private int updateRate = 300;
+	private int updateRate = 100;
 	bool fireDivert = false;
 	[Export]
 	float divertTime = 0.5f;

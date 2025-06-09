@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public partial class PushButton : Node3D
 {
 	private bool isCommsConnected;
-	[Export] int updateRate = 2000;
+	[Export] int updateRate = 1500;
 	string text = "stop";
 	[Export]
 	String Text
@@ -84,7 +84,7 @@ public partial class PushButton : Node3D
 
 	bool readSuccessful = false;
 	bool running = false;
-	double scan_interval = 2000;
+	double scan_interval = 1500;
 	string tagPushButton;
 	Root main;
 	public Root Main { get; set; }
@@ -131,6 +131,7 @@ public partial class PushButton : Node3D
 					pushbutton = false;
 					return;
 				}
+				SetObjectTag();
 
 				pushbutton = !pushbutton;
 				GD.Print($" - pushbutton: {pushbutton}");
@@ -153,6 +154,7 @@ public partial class PushButton : Node3D
 					tagPushButton != string.Empty
 				)
 				{
+					GD.Print($" - tagPushButton: {tagPushButton}" + " in Node: " + Name);
 					Task.Run(WriteTag);
 				}
 			}
@@ -207,7 +209,7 @@ public partial class PushButton : Node3D
 	void OnSimulationStarted()
 	{
 		GD.Print($"\n> [PushButton.cs] [{Name}] [OnSimulationStarted()]");
-		tagPushButton = SceneComponents.GetComponentByKey(Name, Main.currentScene).Tag;
+		SetObjectTag();
 
 		var globalVariables = GetNodeOrNull("/root/GlobalVariables");
 		isCommsConnected = (bool)globalVariables.Get("opc_da_connected");
@@ -225,5 +227,10 @@ public partial class PushButton : Node3D
 	{
 		running = false;
 		Lamp = false;
+	}
+
+	void SetObjectTag()
+	{
+		tagPushButton = SceneComponents.GetComponentByKey(Name, Main.currentScene).Tag;
 	}
 }

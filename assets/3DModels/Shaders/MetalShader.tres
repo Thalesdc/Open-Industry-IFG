@@ -73,7 +73,7 @@ void fragment() {
 
 // MultiplyAdd:17
 	float n_in17p2 = 0.00000;
-	float n_out17p0 = fma(n_out8p0, n_out16p0, n_in17p2);
+	float n_out17p0 = (n_out8p0 * n_out16p0) + n_in17p2;
 
 
 // VectorCompose:7
